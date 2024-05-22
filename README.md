@@ -1,4 +1,4 @@
-# School Transport and Vehicle Allocation System
+# StrathPort: A School Transport and Vehicle Allocation System
 
 ## About Project
 
