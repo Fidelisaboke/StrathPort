@@ -14,7 +14,6 @@
 
         <form method="POST" action="{{ route('login') }}">
             @csrf
-
             <div>
                 <x-label for="email" value="{{ __('Email') }}" />
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
@@ -42,6 +41,12 @@
                 <x-button class="ms-4">
                     {{ __('Log in') }}
                 </x-button>
+            </div>
+            <div class="flex items-center justify-center mt-4">
+                <span>New user?</span>
+                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('register') }}">
+                        {{ __('Register') }}
+                </a>
             </div>
         </form>
     </x-authentication-card>
