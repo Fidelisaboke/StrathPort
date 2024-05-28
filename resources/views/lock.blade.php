@@ -6,11 +6,12 @@
 
         @vite(['resources/js/app.js'])
         <h1><b>Website Locked</b></h1>
+        <hr>
         <form method="post" action="{{ route('unlock') }}">
             @csrf
             <div class="px-4 py-5 bg-white sm:p-6">
                 <label for="password">Please enter your password to unlock:</label>
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" class="mt-1 block w-full rounded" required>
                 @error('password')
                     <div class="text-red-500">{{ $message }}</div>
                 @enderror
