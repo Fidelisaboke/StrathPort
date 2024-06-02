@@ -11,16 +11,27 @@
             @csrf
             <div class="px-4 py-5 bg-white sm:p-6">
                 <label for="password">Please enter your password to unlock:</label>
-                <input type="password" id="password" name="password" class="mt-1 block w-full rounded focus:border-fuchsia-600 focus:ring-fuchsia-600" required>
+                <input type="password" id="password" name="password" class="block w-full mt-1 rounded focus:border-fuchsia-600 focus:ring-fuchsia-600" required>
                 @error('password')
                     <div class="text-red-500">{{ $message }}</div>
                 @enderror
             </div>
 
-            <div class="flex items-center justify-end px-4 py-3 bg-gray-50 text-right sm:px-6">
-                <button type="submit" class="inline-flex items-center px-4 py-2 bg-fuchsia-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-fuchsia-700 active:fuchsia-900 focus:outline-none focus:border-blue-900 focus:shadow-outline-fuchsia disabled:opacity-25 transition ease-in-out duration-150">
+            <div class="flex items-center px-4 py-3 sm:px-6">
+                <button type="submit" class="inline-flex items-center justify-center w-full px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md text-cente bg-fuchsia-800 hover:bg-fuchsia-700 active:fuchsia-900 focus:outline-none focus:border-blue-900 focus:shadow-outline-fuchsia disabled:opacity-25">
                     Unlock
                 </button>
+            </div>
+        </form>
+
+        <form method="POST" action="{{ route('logout') }}" x-data>
+            @csrf
+            <!-- Want to log out? -->
+            <div class="flex items-center justify-end px-4 py-3 sm:px-6">
+                <label for="logout" class="block text-sm font-medium text-gray-700">Want to log out?</label>
+                <x-button class="ms-4" x-on:click.prevent="$root.submit();">
+                    {{ __('Log Out') }}
+                </x-button>
             </div>
         </form>
     </x-authentication-card>
