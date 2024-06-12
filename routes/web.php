@@ -7,7 +7,7 @@ use App\Http\Controllers\TransportRequestController;
 use App\Http\Controllers\TransportScheduleController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::middleware([
