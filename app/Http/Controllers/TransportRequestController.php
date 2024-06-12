@@ -11,7 +11,7 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        //
+        return view('transport_requests.index');
     }
 
     /**
