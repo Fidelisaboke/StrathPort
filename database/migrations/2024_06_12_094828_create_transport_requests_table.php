@@ -13,12 +13,13 @@ return new class extends Migration
     {
         Schema::create('transport_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('request_title');
-            $table->string('request_status');
-            $table->string('request_description');
-            $table->string('event_location');
-            $table->time('event_time');
+            $table->string('title');
+            $table->string('description');
             $table->date('event_date');
+            $table->time('event_time');
+            $table->string('event_location');
+            $table->integer('no_of_people')->unsigned();
+            $table->enum('status', ['Pending', 'Approved', 'Declined'])->default('Pending');
             $table->timestamps();
         });
     }
