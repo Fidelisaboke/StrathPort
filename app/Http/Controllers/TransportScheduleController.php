@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\TransportSchedule;
 
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class TransportScheduleController extends Controller
      */
     public function index()
     {
-        return view('transport_schedules.index');
+        $transport_schedules = TransportSchedule::all();
+        return view('transport_schedules.index', compact('transport_schedules'));
     }
 
     /**
@@ -35,7 +37,8 @@ class TransportScheduleController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $transport_schedule = TransportSchedule::find($id);
+        return view('transport_schedules.show', compact('transport_schedule'));
     }
 
     /**

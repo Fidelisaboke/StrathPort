@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transport_schedules', function (Blueprint $table) {
             $table->id();
+            $table->string('description');
             $table->date('schedule_date');
             $table->time('schedule_time');
             $table->string('starting_point');
