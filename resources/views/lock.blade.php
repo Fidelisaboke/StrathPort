@@ -17,8 +17,8 @@
                 @enderror
             </div>
 
-            <div class="flex items-center px-4 py-3 sm:px-6">
-                <button type="submit" class="inline-flex items-center justify-center w-full px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md text-cente bg-fuchsia-800 hover:bg-fuchsia-700 active:fuchsia-900 focus:outline-none focus:border-blue-900 focus:shadow-outline-fuchsia disabled:opacity-25">
+            <div class="flex items-center px-4 sm:px-6">
+                <button type="submit" class="inline-flex items-center justify-center w-full px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-fuchsia-800 hover:bg-fuchsia-700 active:fuchsia-900 focus:outline-none focus:border-blue-900 focus:shadow-outline-fuchsia disabled:opacity-25">
                     Unlock
                 </button>
             </div>
