@@ -62,4 +62,26 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * RELATIONSHIP DEFINITION
+     */
+
+     // One-to-One relationship between User and Student
+    public function student()
+    {
+        return $this->belongsTo(Student::class);
+    }
+
+    // One-to-One relationship between User and Staff
+    public function staff()
+    {
+        return $this->belongsTo(Staff::class);
+    }
+
+    // One-to-Many relationship between User and UserRole
+    public function userRole()
+    {
+        return $this->belongsTo(UserRole::class);
+    }
 }
