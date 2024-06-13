@@ -34,7 +34,7 @@
                             <label for="event_date" class="block text-sm font-medium text-gray-700">Event Date</label>
                             <input type="date" name="event_date" id="event_date" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
                                    value="{{ old('event_date', '') }}" />
-                            @error('event_location')
+                            @error('event_date')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
