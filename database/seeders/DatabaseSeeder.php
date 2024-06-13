@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TransportScheduleSeeder::class,
             TransportRequestSeeder::class,
+            UserSeeder::class,
+            RoleSeeder::class,
+            UserRoleSeeder::class
         ]);
     }
 }
