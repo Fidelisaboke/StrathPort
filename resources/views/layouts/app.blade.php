@@ -41,5 +41,6 @@
         @stack('modals')
 
         @livewireScripts
+        <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
     </body>
 </html>

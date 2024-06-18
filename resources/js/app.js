@@ -1,5 +1,8 @@
 import './bootstrap';
 
+/*
+* Lock screen functionality - lock.blade.php
+*/
 // Locks the screen until the page is loaded
 document.addEventListener('DOMContentLoaded', function () {
     // Check for inactivity - no mouse movement, keyboard input, touch input, page reload

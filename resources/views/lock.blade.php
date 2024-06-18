@@ -29,11 +29,14 @@
             <!-- Want to log out? -->
             <div class="flex items-center justify-end px-4 py-3 sm:px-6">
                 <label for="logout" class="block text-sm font-medium text-gray-700">Want to log out?</label>
-                <x-button class="ms-4" x-on:click.prevent="$root.submit();">
+                <x-button class="ms-4" @click.prevent="$dispatch('logout');">
                     {{ __('Log Out') }}
                 </x-button>
             </div>
         </form>
+
+        <!-- Logout Confirmation Modal -->
+        @livewire('logout-confirmation-modal')
     </x-authentication-card>
 </x-guest-layout>
 

@@ -56,7 +56,7 @@
             </div>
             <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
                 <img src="{{asset('images/school_bus_3d.png')}}" alt="School bus" title="School bus">
-                <a href='https://pngtree.com/freepng/3d-school-bus-isolated-on-transparent-background-education-concept_7401457.html'>png image from pngtree.com/</a>
+                {{-- <a href='https://pngtree.com/freepng/3d-school-bus-isolated-on-transparent-background-education-concept_7401457.html'>png image from pngtree.com/</a> --}}
             </div>
         </div>
     </section>
