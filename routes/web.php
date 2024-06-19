@@ -10,6 +10,10 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/about', function(){
+    return view('about');
+})->name('about');
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -23,7 +27,7 @@ Route::middleware([
             Route::resource('transport_schedules', TransportScheduleController::class);
 
             Route::get('/personal_info', function () {
-                return view('personal-info');
+                return view('user.personal-info');
             })->name('personal_info');
         });
 
