@@ -25,10 +25,6 @@ Route::middleware([
             })->name('dashboard');
             Route::resource('transport_requests', TransportRequestController::class);
             Route::resource('transport_schedules', TransportScheduleController::class);
-
-            Route::get('/personal_info', function () {
-                return view('user.personal-info');
-            })->name('personal_info');
         });
 
 

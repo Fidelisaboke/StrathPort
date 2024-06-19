@@ -21,9 +21,6 @@
                     <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
                         {{ __('Transport Requests') }}
                     </x-nav-link>
-                    <x-nav-link href="{{ route('personal_info') }}" :active="request()->routeIs('personal_info')">
-                        {{ __('Personal Information') }}
-                    </x-nav-link>
                 </div>
             </div>
 
