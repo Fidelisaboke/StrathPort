@@ -23,7 +23,7 @@ class LogoutConfirmationModal extends Component
         Session::regenerateToken();
         Auth::guard('web')->logout();
 
-        return redirect()->route('login');
+        return redirect()->route('home');
     }
 
     public function render()

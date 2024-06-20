@@ -1,234 +1,229 @@
 <!-- component -->
 <!DOCTYPE html>
- <html lang="en" class="">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    @vite('resources/css/app.css')
-  </head>
-<body class="font-montserrat">
-    <header>
-        <nav class="bg-white border-gray-200 px-4 lg:px-6 py-2.5 dark:bg-gray-800">
-            <div class="flex flex-wrap items-center justify-between max-w-screen-xl mx-auto">
-                <a href="{{url('/')}}" class="flex items-center">
-                    <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">StrathPort</span>
-                </a>
-                @if(Route::has('login'))
-                    <div class="items-center justify-end hidden w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
-                        <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
-                            <li>
-                                <a href="{{ route('about') }}" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">About</a>
-                            </li>
-                            @auth
-                                <li>
-                                    <a href="{{ url('/dashboard') }}" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Dashboard</a>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs"></script>
+    </head>
+    <body class="font-montserrat">
+        <!-- Navbar -->
+        <header>
+            @livewire('home-nav-menu')
+        </header>
+
+        <!-- Headline -->
+        <section class="flex flex-col items-center bg-white dark:bg-gray-900">
+            <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
+                <div class="flex flex-col items-center mr-auto place-self-center lg:col-span-7">
+                    <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">StrathPort</h1>
+                    <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Sign up now to take a step towards a smoother, safer, journey!</p>
+                    <a href="{{route('register')}}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white transition ease-in-out delay-150 rounded-lg hover:-translate-y-1 hover:scale-125 bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-pink-300 dark:focus:ring-fuchsia-900">
+                        Register to begin
+                        <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </a>
+                </div>
+                <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+                    <img src="{{asset('images/school_bus_3d.png')}}" alt="School bus" title="School bus">
+                    {{-- <a href='https://pngtree.com/freepng/3d-school-bus-isolated-on-transparent-background-education-concept_7401457.html'>png image from pngtree.com/</a> --}}
+                </div>
+            </div>
+        </section>
+
+        <!-- Benefits -->
+        <section class="flex flex-col items-center justify-center py-8 bg-white dark:bg-gray-950">
+            <div class="w-4/5 lg:mb-16">
+                <h2 class="py-4 mb-4 text-4xl font-extrabold text-center text-gray-900 dark:text-white">Unlock the Future of Transportation</h2>
+                <p class="text-center text-gray-500 sm:text-xl dark:text-gray-400">Why should you use StrathPort?</p>
+            </div>
+            <div class="max-w-screen-xl px-4 py-4 mx-auto sm:pb-16 sm:pt-4 lg:px-6">
+                <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
+                    <div>
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-100 lg:h-12 lg:w-12 dark:bg-fuchsia-900">
+                            <svg class="w-5 h-5 text-fuchsia-600 lg:w-6 lg:h-6 dark:text-fuchsia-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5.365V3m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175 0 .593 0 1.193-.538 1.193H5.538c-.538 0-.538-.6-.538-1.193 0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 12 5.365Zm-8.134 5.368a8.458 8.458 0 0 1 2.252-5.714m14.016 5.714a8.458 8.458 0 0 0-2.252-5.714M8.54 17.901a3.48 3.48 0 0 0 6.92 0H8.54Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Real-Time Alerts</h3>
+                        <p class="text-gray-500 dark:text-gray-400">On changes or delays in transport schedules</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-100 lg:h-12 lg:w-12 dark:bg-fuchsia-900">
+                            <svg class="w-5 h-5 text-fuchsia-600 lg:w-6 lg:h-6 dark:text-fuchsia-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">User-Friendly Interface</h3>
+                        <p class="text-gray-500 dark:text-gray-400">For simple navigation throughout the system</p>
+                    </div>
+                    <div>
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-100 lg:h-12 lg:w-12 dark:bg-fuchsia-900">
+                            <svg class="w-5 h-5 text-fuchsia-600 lg:w-6 lg:h-6 dark:text-fuchsia-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold dark:text-white">Compliance and Safety</h3>
+                        <p class="text-gray-500 dark:text-gray-400">By providing regular updates on availability of vehicles and drivers</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="flex flex-col items-center justify-center py-8 md:flex-row bg-gray-50 dark:bg-gray-900">
+            <div class="flex-grow px-8 md:w-1/5 md:flex-col md:items-center md:flex lg:px-12">
+                <h2 class="py-4 mb-4 text-4xl font-extrabold text-center text-gray-900 dark:text-white">Features</h2>
+                <p class="text-center text-gray-500 sm:text-xl dark:text-gray-400">What does StrathPort offer?</p>
+            </div>
+            <div class="flex flex-grow md:w-4/5">
+                <div class="px-4 py-4 space-y-8 md:grid md:grid-cols-2 lg:px-6 md:gap-12 md:space-y-0">
+                    <div class="flex-grow md:items-center md:flex md:flex-col">
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
+                            <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
+                            </svg> 
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Booking</h3>
+                        <p class="text-gray-500 md:text-center dark:text-gray-400">To make requests and arrangements for transport</p>
+                    </div>
+                    <div class="flex-grow md:flex-col md:items-center md:flex">
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
+                            <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17H16M8 17C8 18.1046 7.10457 19 6 19C4.89543 19 4 18.1046 4 17M8 17C8 15.8954 7.10457 15 6 15C4.89543 15 4 15.8954 4 17M16 17C16 18.1046 16.8954 19 18 19C19.1046 19 20 18.1046 20 17M16 17C16 15.8954 16.8954 15 18 15C19.1046 15 20 15.8954 20 17M10 5V11M4 11L4.33152 9.01088C4.56901 7.58593 4.68776 6.87345 5.0433 6.3388C5.35671 5.8675 5.79705 5.49447 6.31346 5.26281C6.8993 5 7.6216 5 9.06621 5H12.4311C13.3703 5 13.8399 5 14.2662 5.12945C14.6436 5.24406 14.9946 5.43194 15.2993 5.68236C15.6435 5.96523 15.904 6.35597 16.425 7.13744L19 11M4 17H3.6C3.03995 17 2.75992 17 2.54601 16.891C2.35785 16.7951 2.20487 16.6422 2.10899 16.454C2 16.2401 2 15.9601 2 15.4V14.2C2 13.0799 2 12.5198 2.21799 12.092C2.40973 11.7157 2.71569 11.4097 3.09202 11.218C3.51984 11 4.0799 11 5.2 11H17.2C17.9432 11 18.3148 11 18.6257 11.0492C20.3373 11.3203 21.6797 12.6627 21.9508 14.3743C22 14.6852 22 15.0568 22 15.8C22 15.9858 22 16.0787 21.9877 16.1564C21.9199 16.5843 21.5843 16.9199 21.1564 16.9877C21.0787 17 20.9858 17 20.8 17H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Carpooling Module</h3>
+                        <p class="text-gray-500 md:text-center dark:text-gray-400">An alternative to transport booking. Search for and contact available drivers!</p>
+                    </div>
+                    <div class="md:items-center md:flex-col md:flex">
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
+                            <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
+                            </svg>                        
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Schedules</h3>
+                        <p class="text-gray-500 md:text-center dark:text-gray-400">Check out school transport schedules on the go</p>
+                    </div>
+                    <div class="md:items-center md:flex-col md:flex">
+                        <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
+                            <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                            </svg>
+                        </div>
+                        <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Notifications</h3>
+                        <p class="text-gray-500 md:text-center dark:text-gray-400">Get notified of updated requests and transport schedules!</p>
+                    </div> 
+                </div>
+            </div>
+        </section>
+
+        <!-- User Testimonials -->
+        <section class="bg-white dark:bg-gray-950">
+            <div class="items-center max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
+                <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
+                    <h2 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">User Testimonials</h2>
+                    <p class="mb-4">Thoughts from our users...</p>
+                </div>
+                <!-- User quotes -->
+                <div class="mt-10 space-y-8 md:gap-8 md:grid-cols-3 md:grid md:space-y-0">
+                    <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
+                        <p class="mb-8 text-gray-500 dark:text-gray-800">"User Quote 1"</p>
+                        <div class="flex">
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                                <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
+                                </svg>                   
+                            </div>
+                            <div class="flex flex-col ml-8">
+                                <h3 class="mb-2 font-bold dark:text-back">User 1</h3>
+                                <p class="text-gray-500 dark:text-gray-700">Student</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
+                        <p class="mb-8 text-gray-500 dark:text-gray-800">"User Quote 2"</p>
+                        <div class="flex">
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                                <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
+                                </svg>                   
+                            </div>
+                            <div class="flex flex-col ml-8">
+                                <h3 class="mb-2 font-bold dark:text-back">User 2</h3>
+                                <p class="text-gray-500 dark:text-gray-700">Staff Member</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
+                        <p class="mb-8 text-gray-800">"User Quote 3"</p>
+                        <div class="flex">
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                                <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
+                                </svg>                   
+                            </div>
+                            <div class="flex flex-col ml-8">
+                                <h3 class="mb-2 font-bold dark:text-back">User 3</h3>
+                                <p class="text-gray-500 dark:text-gray-700">Student</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home page footer -->
+        <footer class="p-4 bg-gray-50 sm:p-6 dark:bg-gray-800">
+            <div class="max-w-screen-xl mx-auto">
+                <div class="md:flex md:justify-between">
+                    <div class="mb-6 md:mb-0">
+                        <p class="mb-2 text-gray-400">Template provided by:</p>
+                        <a href="https://flowbite.com" class="flex items-center">
+                            <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
+                            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                        </a>
+                    </div>
+                    <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+                        <div>
+                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Project Info</h2>
+                            <ul class="text-gray-600 dark:text-gray-400">
+                                <li class="mb-4">
+                                    <a href="{{route('about')}}" class="hover:underline">About</a>
                                 </li>
-                            @else
                                 <li>
-                                    <a href="{{ route('login') }}" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Login</a>
+                                    <a href="https://github.com/Fidelisaboke/StrathPort" class="hover:underline">GitHub Repo</a>
                                 </li>
-                                @if(Route::has('register'))
-                                    <li>
-                                        <a href="{{ route('register') }}" class="block py-2 pl-3 pr-4 text-gray-700 border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-blue-700 lg:p-0 dark:text-gray-400 lg:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700">Register</a>
-                                    </li>
-                                @endif
-                            @endauth
-                        </ul>
+                            </ul>
+                        </div>
+                        <div>
+                            <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Collaborators</h2>
+                            <ul class="text-gray-600 dark:text-gray-400">
+                                <li class="mb-4">
+                                    <a href="https://github.com/Fidelisaboke" class="hover:underline ">Fidel Isaboke</a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/Lynn-Wahito" class="hover:underline">Lynn Githinji</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                @endif
-            </div>
-        </nav>
-    </header>
-
-    <section class="flex flex-col justify-center bg-white dark:bg-gray-900">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class="flex flex-col items-center mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">StrathPort</h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Sign up now to take a step towards a smoother, safer, journey!</p>
-                <a href="{{route('register')}}" class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-pink-300 dark:focus:ring-fuchsia-900">
-                    Register to begin
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </a>
-            </div>
-            <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="{{asset('images/school_bus_3d.png')}}" alt="School bus" title="School bus">
-                {{-- <a href='https://pngtree.com/freepng/3d-school-bus-isolated-on-transparent-background-education-concept_7401457.html'>png image from pngtree.com/</a> --}}
-            </div>
-        </div>
-    </section>
-
-    <section class="bg-white dark:bg-gray-900">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto ustify-center items lg:py-16">
-            <h2 class="mb-8 text-3xl font-extrabold leading-tight tracking-tight text-center text-gray-900 lg:mb-16 dark:text-white md:text-4xl">Unlock the Future of Transportation</h2>
-            <p class="mb-6 font-light text-center text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">Why should you use StrathPort?</p>
-        </div>
-    </section>
-
-    <section class="bg-gray-50 dark:bg-gray-800">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto sm:py-16 lg:px-6">
-            <div class="max-w-screen-md mb-8 lg:mb-16">
-                <h2 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">Designed for business teams like yours</h2>
-                <p class="text-gray-500 sm:text-xl dark:text-gray-400">Here at Flowbite we focus on markets where technology, innovation, and capital can unlock long-term value and drive economic growth.</p>
-            </div>
-            <div class="space-y-8 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-12 md:space-y-0">
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Marketing</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Plan it, create it, launch it. Collaborate seamlessly with all  the organization and hit your marketing goals every month with our marketing plan.</p>
                 </div>
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Legal</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Protect your organization, devices and stay compliant with our structured workflows and custom permissions made for you.</p>
-                </div>
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"></path><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15c-2.796 0-5.487-.46-8-1.308z"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Business Automation</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Auto-assign tasks, send Slack messages, and much more. Now power up with hundreds of new templates to help you get started.</p>
-                </div>
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Finance</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Audit-proof software built for critical financial operations like month-end close and quarterly budgeting.</p>
-                </div>
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7 3a1 1 0 000 2h6a1 1 0 100-2H7zM4 7a1 1 0 011-1h10a1 1 0 110 2H5a1 1 0 01-1-1zM2 11a2 2 0 012-2h12a2 2 0 012 2v4a2 2 0 01-2 2H4a2 2 0 01-2-2v-4z"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Enterprise Design</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Craft beautiful, delightful experiences for both marketing and product with real cross-company collaboration.</p>
-                </div>
-                <div>
-                    <div class="flex items-center justify-center w-10 h-10 mb-4 bg-blue-100 rounded-full lg:h-12 lg:w-12 dark:bg-blue-900">
-                        <svg class="w-5 h-5 text-blue-600 lg:w-6 lg:h-6 dark:text-blue-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"></path></svg>
-                    </div>
-                    <h3 class="mb-2 text-xl font-bold dark:text-white">Operations</h3>
-                    <p class="text-gray-500 dark:text-gray-400">Keep your company’s lights on with customizable, iterative, and structured workflows built for all efficient teams and individual.</p>
-                </div>
-            </div>
-        </div>
-      </section>
-
-      <section class="bg-white dark:bg-gray-900">
-        <div class="items-center max-w-screen-xl gap-16 px-4 py-8 mx-auto lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
-            <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 class="mb-4 text-4xl font-extrabold text-gray-900 dark:text-white">We didn't reinvent the wheel</h2>
-                <p class="mb-4">We are strategists, designers and developers. Innovators and problem solvers. Small enough to be simple and quick, but big enough to deliver the scope you want at the pace you need. Small enough to be simple and quick, but big enough to deliver the scope you want at the pace you need.</p>
-                <p>We are strategists, designers and developers. Innovators and problem solvers. Small enough to be simple and quick.</p>
-            </div>
-            <div class="grid grid-cols-2 gap-4 mt-8">
-                <img class="w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png" alt="office content 1">
-                <img class="w-full mt-4 rounded-lg lg:mt-10" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png" alt="office content 2">
-            </div>
-        </div>
-    </section>
-
-    <section class="bg-gray-50 dark:bg-gray-800">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto lg:py-16 lg:px-6">
-            <div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
-                <h2 class="mb-4 text-4xl font-bold text-gray-900 dark:text-white">Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide</h2>
-                <p class="mb-4 font-light">Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.</p>
-                <p class="mb-4 font-medium">Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work, eliminate toil, and deploy changes with ease.</p>
-                <a href="#" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
-                    Learn more
-                    <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
-                </a>
-            </div>
-        </div>
-      </section>
-
-      <section class="bg-white dark:bg-gray-900">
-        <div class="max-w-screen-xl px-4 py-8 mx-auto sm:py-16 lg:px-6">
-            <div class="max-w-screen-sm mx-auto text-center">
-                <h2 class="mb-4 text-4xl font-extrabold leading-tight text-gray-900 dark:text-white">Start your free trial today</h2>
-                <p class="mb-6 font-light text-gray-500 dark:text-gray-400 md:text-lg">Try Flowbite Platform for 30 days. No credit card required.</p>
-                <a href="#" class="text-white bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-fuchsia-600 dark:hover:bg-fuchsia-700 focus:outline-none dark:focus:ring-fuchsia-800">Free trial for 30 days</a>
-            </div>
-        </div>
-    </section>
-
-    <footer class="p-4 bg-gray-50 sm:p-6 dark:bg-gray-800">
-        <div class="max-w-screen-xl mx-auto">
-            <div class="md:flex md:justify-between">
-                <div class="mb-6 md:mb-0">
-                    <a href="https://flowbite.com" class="flex items-center">
-                        <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 mr-3" alt="FlowBite Logo" />
-                        <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-                    </a>
-                </div>
-                <div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                            <li class="mb-4">
-                                <a href="#" class="hover:underline">Flowbite</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:underline">Tailwind CSS</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                            <li class="mb-4">
-                                <a href="#" class="hover:underline ">Github</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:underline">Discord</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
-                        <ul class="text-gray-600 dark:text-gray-400">
-                            <li class="mb-4">
-                                <a href="#" class="hover:underline">Privacy Policy</a>
-                            </li>
-                            <li>
-                                <a href="#" class="hover:underline">Terms &amp; Conditions</a>
-                            </li>
-                        </ul>
+                <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+                <div class="sm:flex sm:items-center sm:justify-between">
+                    <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#" class="hover:underline">Fidel Isaboke and Lynn Githinji</a>. All Rights Reserved.
+                    </span>
+                    <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+                        <a href="https://github.com/Fidelisaboke/StrathPort" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
+                        </a>
                     </div>
                 </div>
             </div>
-            <hr class="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-            <div class="sm:flex sm:items-center sm:justify-between">
-                <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#" class="hover:underline">Fidel Isaboke and Lynn Githinji</a>. All Rights Reserved.
-                </span>
-                <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
-                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" /></svg>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" /></svg>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
-                    </a>
-                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c5.51 0 10-4.48 10-10S17.51 2 12 2zm6.605 4.61a8.502 8.502 0 011.93 5.314c-.281-.054-3.101-.629-5.943-.271-.065-.141-.12-.293-.184-.445a25.416 25.416 0 00-.564-1.236c3.145-1.28 4.577-3.124 4.761-3.362zM12 3.475c2.17 0 4.154.813 5.662 2.148-.152.216-1.443 1.941-4.48 3.08-1.399-2.57-2.95-4.675-3.189-5A8.687 8.687 0 0112 3.475zm-3.633.803a53.896 53.896 0 013.167 4.935c-3.992 1.063-7.517 1.04-7.896 1.04a8.581 8.581 0 014.729-5.975zM3.453 12.01v-.26c.37.01 4.512.065 8.775-1.215.25.477.477.965.694 1.453-.109.033-.228.065-.336.098-4.404 1.42-6.747 5.303-6.942 5.629a8.522 8.522 0 01-2.19-5.705zM12 20.547a8.482 8.482 0 01-5.239-1.8c.152-.315 1.888-3.656 6.703-5.337.022-.01.033-.01.054-.022a35.318 35.318 0 011.823 6.475 8.4 8.4 0 01-3.341.684zm4.761-1.465c-.086-.52-.542-3.015-1.659-6.084 2.679-.423 5.022.271 5.314.369a8.468 8.468 0 01-3.655 5.715z" clip-rule="evenodd" /></svg>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <script src="https://unpkg.com/flowbite@1.4.7/dist/flowbite.js"></script>
-</body>
+        </footer>
+    </body>
 </html>

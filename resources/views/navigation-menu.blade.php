@@ -170,9 +170,6 @@
             <x-responsive-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
                 {{ __('Transport Requests') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('personal_info') }}" :active="request()->routeIs('personal_info')">
-                {{ __('Personal Information') }}
-            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -207,10 +204,13 @@
                     @csrf
 
                     <x-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
+                                   @click.prevent="$dispatch('logout');">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
+
+                <!-- Logout Confirmation Modal -->
+                @livewire('logout-confirmation-modal')
 
                 <!-- Team Management -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())

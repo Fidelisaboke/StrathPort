@@ -11,7 +11,7 @@
     <title>About</title>
 </head>
 <body class="font-montserrat">
-    <div class="flex items-center justify-center h-screen bg-gray-200 dark:bg-slate-800">
+    <div class="flex items-center justify-center h-screen overflow-scroll bg-gray-200 dark:bg-slate-800">
         <div class="w-4/5 p-6 bg-gray-100 rounded-lg shadow-lg dark:bg-slate-900">
             <h1 class="mb-4 text-3xl font-bold text-black dark:text-white">StrathPort: A School Transport and Vehicle Allocation System</h1>
             <p class="mb-4 text-lg text-gray-700 dark:text-gray-200">This IS Project I focuses on creating a web application for school transport scheduling and vehicle allocation.</p>
