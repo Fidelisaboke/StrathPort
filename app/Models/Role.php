@@ -13,7 +13,10 @@ class Role extends Model
      * RELATIONSHIPS
      */
 
-    // One-to-Many relationship between Role and UserRole
+    /**
+     * Inverse one-to-many relationship between
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function userRole(){
         return $this->belongsTo(UserRole::class);
     }

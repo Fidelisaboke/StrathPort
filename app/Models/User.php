@@ -67,25 +67,42 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    /**
-     * RELATIONSHIP DEFINITION
-     */
+    // RELATIONSHIP DEFINITION
 
-     // One-to-One relationship between User and Student
+     /**
+      * Inverse one-to-one relationship between User and Student
+      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+      */
     public function student()
     {
         return $this->belongsTo(Student::class);
     }
 
-    // One-to-One relationship between User and Staff
+    /**
+     * Inverse one-to-One relationship between User and Staff
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function staff()
     {
         return $this->belongsTo(Staff::class);
     }
 
-    // One-to-Many relationship between User and UserRole
+    /**
+     * Inverse one-to-many relationship between User and User Role
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function userRole()
     {
         return $this->belongsTo(UserRole::class);
     }
+
+    /**
+     * Inverse one-to-one relationship between User and Carpool Driver
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carpoolDriver(){
+        return $this->belongsTo(CarpoolDriver::class);
+    }
+
+
 }
