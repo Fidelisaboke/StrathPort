@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
             TransportScheduleSeeder::class,
             TransportRequestSeeder::class,
             //UserSeeder::class,
-            RoleSeeder::class,
+            //RoleSeeder::class,
             //UserRoleSeeder::class
         ]);
     }

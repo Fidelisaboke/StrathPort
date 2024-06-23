@@ -26,8 +26,9 @@ class LockScreenController extends Controller
         if(Hash::check($request->password, $user->password)){
             session(['locked' => false]);
             return redirect()->route('dashboard');
+        }else{
+            return back()->withErrors(['password' => 'The password is incorrect.']);
         }
-
-        return back()->withErrors(['password' => 'The password is incorrect.']);
+        
     }
 }

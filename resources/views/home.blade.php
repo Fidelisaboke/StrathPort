@@ -86,7 +86,7 @@
                         <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
                             <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd"/>
-                            </svg> 
+                            </svg>
                         </div>
                         <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Booking</h3>
                         <p class="text-gray-500 md:text-center dark:text-gray-400">To make requests and arrangements for transport</p>
@@ -104,7 +104,7 @@
                         <div class="flex items-center justify-center w-10 h-10 mb-4 bg-teal-100 rounded-full lg:h-12 lg:w-12 dark:bg-teal-900">
                             <svg class="w-5 h-5 text-teal-600 lg:w-6 lg:h-6 dark:text-teal-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                 <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
-                            </svg>                        
+                            </svg>
                         </div>
                         <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Schedules</h3>
                         <p class="text-gray-500 md:text-center dark:text-gray-400">Check out school transport schedules on the go</p>
@@ -117,7 +117,7 @@
                         </div>
                         <h3 class="mb-2 text-xl font-bold md:text-center dark:text-white">Transport Notifications</h3>
                         <p class="text-gray-500 md:text-center dark:text-gray-400">Get notified of updated requests and transport schedules!</p>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </section>
@@ -134,10 +134,10 @@
                     <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
                         <p class="mb-8 text-gray-500 dark:text-gray-800">"User Quote 1"</p>
                         <div class="flex">
-                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">
                                 <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
-                                </svg>                   
+                                </svg>
                             </div>
                             <div class="flex flex-col ml-8">
                                 <h3 class="mb-2 font-bold dark:text-back">User 1</h3>
@@ -148,10 +148,10 @@
                     <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
                         <p class="mb-8 text-gray-500 dark:text-gray-800">"User Quote 2"</p>
                         <div class="flex">
-                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">
                                 <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
-                                </svg>                   
+                                </svg>
                             </div>
                             <div class="flex flex-col ml-8">
                                 <h3 class="mb-2 font-bold dark:text-back">User 2</h3>
@@ -162,10 +162,10 @@
                     <div class="flex-grow p-4 border-pink-300 rounded shadow-md bg-pink-50 dark:bg-pink-100 md:flex-col md:flex">
                         <p class="mb-8 text-gray-800">"User Quote 3"</p>
                         <div class="flex">
-                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">  
+                            <div class="flex items-center justify-center w-10 h-10 mb-4 rounded-full bg-fuchsia-300 lg:h-12 lg:w-12 dark:bg-fuchsia-400">
                                 <svg class="w-5 h-5 text-fuchsia-900 lg:w-6 lg:h-6 dark:text-fuchsia-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 9h.01M8.99 9H9m12 3a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM6.6 13a5.5 5.5 0 0 0 10.81 0H6.6Z"/>
-                                </svg>                   
+                                </svg>
                             </div>
                             <div class="flex flex-col ml-8">
                                 <h3 class="mb-2 font-bold dark:text-back">User 3</h3>
