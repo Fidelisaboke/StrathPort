@@ -1,5 +1,5 @@
 <div class="p-6 px-0 mb-2 space-y-4 overflow-scroll">
-    <h2 class="font-semibold text-gray-600 text-md">Next 5 trips...</h2>
+    <h2 class="font-semibold text-gray-600 text-md">Next 3 trips...</h2>
     <table class="w-full mt-4 text-left table-auto min-w-max">
         <thead>
             <tr>

@@ -19,7 +19,7 @@ class UpcomingTripsTable extends Component
         // Get at most 4 upcoming trips
         $this->transport_schedules = TransportSchedule::where('schedule_date', '>=', now())
             ->orderBy('schedule_date', 'asc')
-            ->limit(5)
+            ->limit(3)
             ->get();
     }
 

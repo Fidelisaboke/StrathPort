@@ -10,9 +10,8 @@ use App\Models\TransportRequest;
 class TransportRequestHistory extends Component
 {
     public $transport_requests;
-    public $pending_count;
-    public $approved_count;
-    public $declined_count;
+    public $pending_count, $approved_count, $declined_count;
+
     /**
      * Create a new component instance.
      */
