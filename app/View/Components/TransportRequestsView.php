@@ -5,18 +5,18 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\TransportSchedule;
+use App\Models\TransportRequest;
 
-class TransportSchedulesView extends Component
+class TransportRequestsView extends Component
 {
-    public $transport_schedules;
+    public $transport_requests;
 
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        $this->transport_schedules = TransportSchedule::paginate(10);
+        $this->transport_requests = TransportRequest::paginate(10);
     }
 
     /**
@@ -24,6 +24,6 @@ class TransportSchedulesView extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.transport-schedules-view');
+        return view('components.transport-requests-view');
     }
 }

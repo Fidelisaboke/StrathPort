@@ -16,7 +16,11 @@ class UpcomingTripsTable extends Component
      */
     public function __construct()
     {
-        $this->transport_schedules = TransportSchedule::whereBetween('schedule_date', [now(), now()->addDays(7)])->get();
+        // Get at most 4 upcoming trips
+        $this->transport_schedules = TransportSchedule::where('schedule_date', '>=', now())
+            ->orderBy('schedule_date', 'asc')
+            ->limit(5)
+            ->get();
     }
 
     /**
