@@ -9,14 +9,12 @@ use App\Models\TransportSchedule;
 
 class TransportSchedulesView extends Component
 {
-    public $transport_schedules;
 
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(public $transportSchedules)
     {
-        $this->transport_schedules = TransportSchedule::paginate(10);
     }
 
     /**

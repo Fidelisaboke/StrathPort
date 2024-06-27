@@ -12,8 +12,8 @@ class TransportScheduleController extends Controller
      */
     public function index()
     {
-        $transport_schedules = TransportSchedule::all();
-        return view('transport_schedules.index', compact('transport_schedules'));
+        $transportSchedules = TransportSchedule::paginate(10);
+        return view('transport_schedules.index', compact('transportSchedules'));
     }
 
     /**
@@ -63,5 +63,22 @@ class TransportScheduleController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+    /**
+     * Search for a transport request.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+
+        $transportSchedules = TransportSchedule::where(function($query) use ($search){
+            $query->where('description', 'like', '%' . $search . '%')
+            ->orWhere('schedule_date', 'like', '%' . $search . '%')
+            ->orWhere('schedule_time', 'like', '%' . $search . '%')
+            ->orWhere('starting_point', 'like', '%' . $search . '%')
+            ->orWhere('destination', 'like', '%' . $search . '%');
+        })->paginate(10);
+
+        return view('transport_schedules.index', compact('transportSchedules'));
     }
 }
