@@ -24,6 +24,8 @@ Route::middleware([
                 return view('dashboard');
             })->name('dashboard');
 
+            Route::get('/transport_requests/search', [TransportRequestController::class, 'search'])->name('transport_requests.search');
+            Route::get('/transport_requests/filter', [TransportRequestController::class, 'filter'])->name('transport_requests.filter');
             Route::resource('transport_requests', TransportRequestController::class);
 
             Route::get('/transport_schedules/search', [TransportScheduleController::class, 'search'])->name('transport_schedules.search');

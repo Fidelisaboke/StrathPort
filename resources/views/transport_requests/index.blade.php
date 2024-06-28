@@ -18,7 +18,15 @@
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <a href="{{route('transport_requests.create')}}" class="px-4 py-2 font-bold bg-gray-300 rounded hover:bg-gray-400">Create Transport Request</a>
+            <a href="{{route('transport_requests.create')}}" class="inline-block px-4 py-2 mb-4 font-bold text-white rounded bg-fuchsia-600 hover:bg-fuchsia-700">Create Transport Request</a>
+            <!-- Search bar -->
+            <form action="{{ route('transport_requests.search')}}" method="GET">
+                <x-search-field />
+            </form>
+            <!-- Filter by transport request status -->
+            <form action="{{ route('transport_requests.filter')}}" method="GET">
+                <x-transport-requests-filter />
+            </form>
             <x-transport-requests-view :transport-requests='$transportRequests'/>
         </div>
     </div>

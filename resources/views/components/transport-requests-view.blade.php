@@ -1,4 +1,4 @@
-<ul class="w-4/5 mx-auto mt-16 space-y-4 md:w-full md:gap-8 md:grid sm:rounded-md md:grid-cols-2 md:space-y-0">
+<ul class="w-4/5 mx-auto mt-4 space-y-4 md:w-full md:gap-8 md:grid sm:rounded-md md:grid-cols-2 md:space-y-0">
     @foreach($transportRequests as $transportRequest)
     <li class="p-4 bg-white rounded-lg shadow-lg">
         <div class="px-4 py-5 sm:px-6">

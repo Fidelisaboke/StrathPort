@@ -126,4 +126,32 @@ class TransportRequestController extends Controller
         TransportRequest::find($id)->delete();
         return redirect('transport_requests')->with('success', 'Transport Request deleted successfully.');
     }
+
+    /**
+     * Search for a transport request.
+     */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $transportRequests = TransportRequest::where('title', 'like', '%'.$search.'%')
+            ->orWhere('description', 'like', '%'.$search.'%')
+            ->orWhere('event_location', 'like', '%'.$search.'%')
+            ->orWhere('no_of_people', 'like', '%'.$search.'%')
+            ->paginate(10);
+        return view('transport_requests.index', compact('transportRequests'));
+    }
+
+    /**
+     * Filter transport requests by status.
+     */
+    public function filter(Request $request){
+        $filter = $request->input('status');
+        if($filter == 'All'){
+           $transportRequests = TransportRequest::paginate(10);
+        }else{
+            $transportRequests = TransportRequest::where('status', $filter)->paginate(10);
+        }
+
+        return view('transport_requests.index', compact('transportRequests'));
+    }
 }
