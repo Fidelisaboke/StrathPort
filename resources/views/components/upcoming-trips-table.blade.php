@@ -34,32 +34,32 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($transport_schedules as $transport_schedule)
+            @foreach($transportSchedules as $transportSchedule)
             <tr>
                 <td class="p-4 border-b border-blue-gray-50">
                     <div class="flex items-center gap-3">
                     <div class="flex flex-col">
-                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_schedule->description}}</p>
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportSchedule->description}}</p>
                     </div>
                     </div>
                 </td>
                 <td class="p-4 border-b border-blue-gray-50">
                     <div class="flex items-center gap-3">
                     <div class="flex flex-col">
-                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_schedule->schedule_date}}</p>
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportSchedule->schedule_date}}</p>
                     </div>
                     </div>
                 </td>
                 <td class="p-4 border-b border-blue-gray-50">
                     <div class="flex items-center gap-3">
                     <div class="flex flex-col">
-                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_schedule->schedule_time}}</p>
+                        <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportSchedule->schedule_time}}</p>
                     </div>
                     </div>
                 </td>
                 <td class="p-4 border-b border-blue-gray-50">
                     <!-- view -->
-                    <a href="{{ route('transport_schedules.show', $transport_schedule->id) }}" class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">View</a>
+                    <a href="{{ route('transport_schedules.show', $transportSchedule->id) }}" class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">View</a>
                 </td>
             </tr>
             @endforeach

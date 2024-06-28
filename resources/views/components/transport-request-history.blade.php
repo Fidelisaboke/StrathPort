@@ -1,22 +1,22 @@
 <div class="p-2 border-black rounded">
     <!--Total Requests Made-->
     <h3 class="text-lg text-center text-gray-800">Total Requests Made</h3>
-    <p class="p-4 text-3xl text-center text-gray-800">{{$transport_requests->count()}}</p>
+    <p class="p-4 text-3xl text-center text-gray-800">{{$transportRequests->count()}}</p>
     <div class="grid grid-cols-3 gap-8 p-4">
         <!-- Pending -->
         <div class="flex flex-col items-center p-2 bg-yellow-500 rounded-lg shadow-xl">
             <h3 class="text-sm text-center text-white lg:text-lg">Pending</h3>
-            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$pending_count}}</p>
+            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$pendingCount}}</p>
         </div>
         <!-- Approved -->
         <div class="flex flex-col items-center p-2 bg-green-500 rounded-lg shadow-xl">
             <h3 class="text-sm text-center text-white lg:text-lg">Approved</h3>
-            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$approved_count}}</p>
+            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$approvedCount}}</p>
         </div>
         <!-- Declined -->
         <div class="flex flex-col items-center p-2 bg-red-500 rounded-lg shadow-xl">
             <h3 class="text-sm text-center text-white lg:text-lg">Declined</h3>
-            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$declined_count}}</p>
+            <p class="p-2 text-xl text-center text-white lg:text-2xl">{{$declinedCount}}</p>
         </div>
     </div>
 </div>
@@ -37,7 +37,7 @@
         datasets: [{
           label: 'Transport Request Status',
           backgroundColor: ['rgb(234, 179, 8)', 'rgb(34, 197, 94)', 'rgb(239, 68, 68)'],
-          data:  [@json($pending_count), @json($approved_count), @json($declined_count)],
+          data:  [@json($pendingCount), @json($approvedCount), @json($declinedCount)],
         }]
       },
     });

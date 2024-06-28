@@ -16,7 +16,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <a href="{{route('transport_requests.create')}}" class="px-4 py-2 font-bold bg-gray-300 rounded hover:bg-gray-400">Create Transport Request</a>
             <br><br>
-            <x-transport-requests-view/>
+            <x-transport-requests-view :transport-requests='$transportRequests'/>
         </div>
     </div>
 </x-app-layout>

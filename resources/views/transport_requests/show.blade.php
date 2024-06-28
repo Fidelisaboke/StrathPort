@@ -21,7 +21,7 @@
                                             ID
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->id }}
+                                            {{ $transportRequest->id }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -29,7 +29,7 @@
                                             Title
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->title }}
+                                            {{ $transportRequest->title }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -37,7 +37,7 @@
                                             Description
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->description }}
+                                            {{ $transportRequest->description }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -45,7 +45,7 @@
                                             Date
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->event_date }}
+                                            {{ $transportRequest->event_date }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -53,7 +53,7 @@
                                             Time
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->event_time }}
+                                            {{ $transportRequest->event_time }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -61,7 +61,7 @@
                                             Location
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->event_location }}
+                                            {{ $transportRequest->event_location }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -69,7 +69,7 @@
                                             No of People Expected
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->no_of_people }}
+                                            {{ $transportRequest->no_of_people }}
                                         </td>
                                     </tr>
                                     <tr class="border-b">
@@ -77,7 +77,7 @@
                                             Status
                                         </th>
                                         <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transport_request->status}}
+                                            {{ $transportRequest->status}}
                                         </td>
                                     </tr>
                                 </table>

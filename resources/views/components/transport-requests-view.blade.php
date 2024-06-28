@@ -1,4 +1,4 @@
-<div class="overflow-hidden bg-white shadow-xl sm:rounded-lg">
+<div class="mb-4 overflow-hidden bg-white shadow-xl sm:rounded-lg">
     <!-- Transport Requests Table -->
     <div class="p-6 px-0 overflow-scroll">
         <table class="w-full mt-4 text-left table-auto min-w-max">
@@ -63,13 +63,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($transport_requests as $transport_request)
+                @foreach($transportRequests as $transportRequest)
                 <tr>
                     <!-- ID -->
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->id}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->id}}</p>
                         </div>
                         </div>
                     </td>
@@ -77,7 +77,7 @@
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->title}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->title}}</p>
                         </div>
                         </div>
                     </td>
@@ -85,7 +85,7 @@
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->event_date}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->event_date}}</p>
                         </div>
                         </div>
                     </td>
@@ -93,7 +93,7 @@
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->event_time}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->event_time}}</p>
                         </div>
                         </div>
                     </td>
@@ -101,7 +101,7 @@
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->event_location}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->event_location}}</p>
                         </div>
                         </div>
                     </td>
@@ -109,43 +109,45 @@
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
                         <div class="flex flex-col">
-                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transport_request->no_of_people}}</p>
+                            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">{{$transportRequest->no_of_people}}</p>
                         </div>
                         </div>
                     </td>
                     <!-- Status -->
                     <td class="p-4 border-b border-blue-gray-50">
                         <div class="flex items-center gap-3">
-                        @if($transport_request->status == 'Pending')
+                        @if($transportRequest->status == 'Pending')
                             <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-yellow-600 uppercase rounded-md select-none whitespace-nowrap bg-yellow-500/20" style="opacity: 1;">
-                                <p class="block antialiased leading-none text-center">{{$transport_request->status}}</p>
+                                <p class="block antialiased leading-none text-center">{{$transportRequest->status}}</p>
                             </div>
-                        @elseif($transport_request->status == 'Approved')
+                        @elseif($transportRequest->status == 'Approved')
                             <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-green-600 uppercase rounded-md select-none whitespace-nowrap bg-green-500/20" style="opacity: 1;">
-                                <p class="block antialiased leading-none text-center">{{$transport_request->status}}</p>
+                                <p class="block antialiased leading-none text-center">{{$transportRequest->status}}</p>
                             </div>
                         @else
                             <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-red-600 uppercase rounded-md select-none whitespace-nowrap bg-red-500/20" style="opacity: 1;">
-                                <p class="block antialiased leading-none text-center">{{$transport_request->status}}</p>
+                                <p class="block antialiased leading-none text-center">{{$transportRequest->status}}</p>
                             </div>
                         @endif
                         </div>
                     </td>
                     <td class="p-4 border-b border-blue-gray-50">
                         <!-- view -->
-                        <a href="{{ route('transport_requests.show', $transport_request->id) }}" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-800">View</a>
+                        <a href="{{ route('transport_requests.show', $transportRequest->id) }}" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-800">View</a>
                         <!-- edit -->
-                        <a href="{{ route('transport_requests.edit', $transport_request->id) }}" class="px-4 py-2 text-white bg-indigo-500 rounded hover:bg-indigo-800">Edit</a>
+                        <a href="{{ route('transport_requests.edit', $transportRequest->id) }}" class="px-4 py-2 text-white bg-indigo-500 rounded hover:bg-indigo-800">Edit</a>
                         <!-- delete -->
-                        <form class="inline-block" action="{{ route('transport_requests.destroy', $transport_request->id) }}" method="POST">
+                        <form class="inline-block" action="{{ route('transport_requests.destroy', $transportRequest->id) }}" method="POST" x-data>
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="px-3 py-1 text-white bg-red-600 rounded hover:bg-red-900">Delete</button>
+                            <button @click.prevent="$dispatch('delete', { deleteRoute: 'transport_requests.destroy', id: {{ $transportRequest->id }} });" type="submit" class="px-3 py-1 text-white bg-red-600 rounded hover:bg-red-900">Delete</button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        @livewire('delete-confirmation-modal')
     </div>
 </div>
+{{$transportRequests->links()}}

@@ -37,8 +37,8 @@ class TransportScheduleController extends Controller
      */
     public function show(string $id)
     {
-        $transport_schedule = TransportSchedule::find($id);
-        return view('transport_schedules.show', compact('transport_schedule'));
+        $transportSchedule = TransportSchedule::find($id);
+        return view('transport_schedules.show', compact('transportSchedule'));
     }
 
     /**

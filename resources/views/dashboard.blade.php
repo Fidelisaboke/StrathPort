@@ -22,7 +22,7 @@
                         </div>
                     </div>
                     <div class="md:w-1/2">
-                        <div class="p-4 bg-white rounded-lg shadow-xl">
+                        <div class="p-4 mt-8 bg-white rounded-lg shadow-xl md:mt-0">
                             <h2 class="text-lg font-semibold text-gray-800">Transport Request History</h2>
                             <x-transport-request-history />
                             <!-- View transport requests -->

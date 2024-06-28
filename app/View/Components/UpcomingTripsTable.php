@@ -10,14 +10,14 @@ use App\Models\TransportSchedule;
 class UpcomingTripsTable extends Component
 
 {
-    public $transport_schedules;
+    public $transportSchedules;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
         // Get at most 4 upcoming trips
-        $this->transport_schedules = TransportSchedule::where('schedule_date', '>=', now())
+        $this->transportSchedules = TransportSchedule::where('schedule_date', '>=', now())
             ->orderBy('schedule_date', 'asc')
             ->limit(3)
             ->get();

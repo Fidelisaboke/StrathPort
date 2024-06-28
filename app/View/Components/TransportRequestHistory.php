@@ -9,18 +9,18 @@ use App\Models\TransportRequest;
 
 class TransportRequestHistory extends Component
 {
-    public $transport_requests;
-    public $pending_count, $approved_count, $declined_count;
+    public $transportRequests;
+    public $pendingCount, $approvedCount, $declinedCount;
 
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        $this->transport_requests = TransportRequest::all();
-        $this->pending_count = TransportRequest::where('status', 'Pending')->count();
-        $this->approved_count = TransportRequest::where('status', 'Approved')->count();
-        $this->declined_count = TransportRequest::where('status', 'Declined')->count();
+        $this->transportRequests = TransportRequest::all();
+        $this->pendingCount = TransportRequest::where('status', 'Pending')->count();
+        $this->approvedCount = TransportRequest::where('status', 'Approved')->count();
+        $this->declinedCount = TransportRequest::where('status', 'Declined')->count();
     }
 
     /**

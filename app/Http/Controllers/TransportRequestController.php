@@ -14,8 +14,8 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        $transport_requests = TransportRequest::all();
-        return view('transport_requests.index', compact('transport_requests'));
+        $transportRequests = TransportRequest::paginate(10);
+        return view('transport_requests.index', compact('transportRequests'));
     }
 
     /**
@@ -68,8 +68,8 @@ class TransportRequestController extends Controller
      */
     public function show(string $id)
     {
-        $transport_request = TransportRequest::find($id);
-        return view('transport_requests.show', compact('transport_request'));
+        $transportRequest = TransportRequest::find($id);
+        return view('transport_requests.show', compact('transportRequest'));
     }
 
     /**
@@ -77,8 +77,8 @@ class TransportRequestController extends Controller
      */
     public function edit(string $id)
     {
-        $transport_request = TransportRequest::find($id);
-        return view('transport_requests.edit', compact('transport_request'));
+        $transportRequest = TransportRequest::find($id);
+        return view('transport_requests.edit', compact('transportRequest'));
     }
 
     /**

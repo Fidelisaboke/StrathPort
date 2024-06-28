@@ -23,7 +23,10 @@ Route::middleware([
             Route::get('/dashboard', function () {
                 return view('dashboard');
             })->name('dashboard');
+
             Route::resource('transport_requests', TransportRequestController::class);
+
+            Route::get('/transport_schedules/search', [TransportScheduleController::class, 'search'])->name('transport_schedules.search');
             Route::resource('transport_schedules', TransportScheduleController::class);
         });
 

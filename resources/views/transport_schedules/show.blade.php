@@ -20,7 +20,7 @@
                                         ID
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->id }}
+                                        {{ $transportSchedule->id }}
                                     </td>
                                 </tr>
                                 <tr class="border-b">
@@ -28,7 +28,7 @@
                                         Description
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->description }}
+                                        {{ $transportSchedule->description }}
                                     </td>
                                 </tr>
                                 <tr class="border-b">
@@ -36,7 +36,7 @@
                                         Date
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->schedule_date }}
+                                        {{ $transportSchedule->schedule_date }}
                                     </td>
                                 </tr>
                                 <tr class="border-b">
@@ -44,7 +44,7 @@
                                         Time
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->schedule_time }}
+                                        {{ $transportSchedule->schedule_time }}
                                     </td>
                                 </tr>
                                 <tr class="border-b">
@@ -52,7 +52,7 @@
                                         Starting Point
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->starting_point }}
+                                        {{ $transportSchedule->starting_point }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -60,7 +60,7 @@
                                         Destination
                                     </th>
                                     <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                        {{ $transport_schedule->destination }}
+                                        {{ $transportSchedule->destination }}
                                     </td>
                                 </tr>
                             </table>
