@@ -7,8 +7,12 @@
 
     <!-- Status messages -->
     @if (session('success'))
-        <div class="p-4 mb-4 text-center text-white bg-green-400 rounded-md">
+        <div class="p-4 mb-4 text-center text-white bg-green-400">
             {{ session('success') }}
+        </div>
+    @elseif (session('error'))
+        <div class="p-4 mb-4 text-center text-white bg-red-400">
+            {{ session('error') }}
         </div>
     @endif
 

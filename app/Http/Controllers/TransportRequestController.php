@@ -38,7 +38,7 @@ class TransportRequestController extends Controller
             'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required',
-            'no_of_people' => 'required|integer',
+            'no_of_people' => 'required|integer|between:1,200',
         ]);
 
         if ($validator->fails()) {
@@ -93,7 +93,7 @@ class TransportRequestController extends Controller
             'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required',
-            'no_of_people' => 'required|integer',
+            'no_of_people' => 'required|integer|between:1,200',
         ]);
 
         if ($validator->fails()) {

@@ -140,7 +140,7 @@
                         <form class="inline-block" action="{{ route('transport_requests.destroy', $transportRequest->id) }}" method="POST" x-data>
                             @csrf
                             @method('DELETE')
-                            <button @click.prevent="$dispatch('delete', { deleteRoute: 'transport_requests.destroy', id: {{ $transportRequest->id }} });" type="submit" class="px-3 py-1 text-white bg-red-600 rounded hover:bg-red-900">Delete</button>
+                            <button @click.prevent="$dispatch('delete', { indexRoute: 'transport_requests.index', id: {{ $transportRequest->id }}, modelClass: 'App\\Models\\TransportRequest'});" type="submit" class="px-3 py-1 text-white bg-red-600 rounded hover:bg-red-900">Delete</button>
                         </form>
                     </td>
                 </tr>
