@@ -19,6 +19,10 @@
                         <x-transport-schedules-view :transport-schedules='$transportSchedules' />
                     </div>
                 </div>
+            @else
+                <div class="mt-8">
+                    <p class="text-lg text-center text-gray-700">No transport schedules found.</p>
+                </div>
             @endif
         </div>
     </div>
