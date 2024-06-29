@@ -5,15 +5,15 @@
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">{{$transportRequest->title}}</h3>
             </div>
-            <div class="mt-2 space-y-2 truncate">
+            <div class="mt-2 space-y-2 overflow-scroll">
                 <p class="max-w-2xl mt-1 text-sm text-gray-500">{{$transportRequest->description}}</p>
-                <div class="flex flex-row">
+                <div class="flex flex-row flex-wrap">
                     <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z"/>
                     </svg>
                     <p class="text-gray-800 text-md">Date: {{$transportRequest->event_date}}</p>
                 </div>
-                <div class="flex flex-row">
+                <div class="flex flex-row flex-wrap">
                     <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>
@@ -35,9 +35,9 @@
                     <p class="text-gray-800 text-md">No of people: {{$transportRequest->no_of_people}}</p>
                 </div>
             </div>
-            <div class="flex items-center justify-between mt-4">
+            <div class="flex flex-wrap items-center justify-between mt-4">
                 @if($transportRequest->status == 'Approved')
-                    <div class="flex flex-row items-center space-x-1">
+                    <div class="flex flex-row flex-wrap items-center space-x-1">
                         <span class="font-medium text-gray-800 text-md">Status: </span>
                         <div class="flex flex-row px-2 py-1 bg-green-600 rounded-full">
                             <svg class="w-6 h-6 text-white" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                 @elseif($transportRequest->status == 'Declined')
-                <div class="flex flex-row items-center space-x-1">
+                <div class="flex flex-row flex-wrap items-center space-x-1">
                     <span class="font-medium text-gray-800 text-md">Status: </span>
                     <div class="flex flex-row px-2 py-1 bg-red-600 rounded-full">
                         <svg class="w-6 h-6 text-white" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -57,9 +57,9 @@
                     </div>
                 </div>
                 @else
-                    <div class="flex flex-row items-center space-x-1">
+                    <div class="flex flex-row flex-wrap items-center space-x-1">
                         <span class="font-medium text-gray-800 text-md">Status: </span>
-                        <div class="flex flex-row px-2 py-1 bg-yellow-600 rounded-full">
+                        <div class="flex flex-row flex-wrap px-2 py-1 bg-yellow-600 rounded-full">
                             <svg class="w-6 h-6 text-white" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.2721 3.13079L17.4462 6.15342C17.6461 6.66824 17.3909 7.24768 16.8761 7.44764L13.8535 8.6217" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                                 <path d="M7.61555 20.5111L6.93391 17.3409C6.81782 16.801 7.16142 16.2692 7.70136 16.1531L10.8715 15.4714" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 @endif
-                <div class="flex flex-row justify-end space-x-2">
+                <div class="flex flex-col justify-end space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                     <a href="{{ route('transport_requests.show', $transportRequest->id) }}" class="px-4 py-2 font-medium text-green-600 rounded-md hover:text-green-500 hover:bg-gray-100">View</a>
                     <a href="{{ route('transport_requests.edit', $transportRequest->id) }}" class="px-4 py-2 font-medium text-indigo-600 rounded-md hover:text-indigo-500 hover:bg-gray-100">Edit</a>
                     <!-- delete -->

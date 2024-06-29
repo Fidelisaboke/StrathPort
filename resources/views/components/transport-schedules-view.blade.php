@@ -39,7 +39,7 @@
         </div>
         <div class="flex flex-col justify-center">
             <div>
-                <a href="{{ route('transport_schedules.show', $transportSchedule->id) }}" class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-800">View</a>
+                <a href="{{ route('transport_schedules.show', $transportSchedule->id) }}" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">View</a>
             </div>
         </div>
     </div>
