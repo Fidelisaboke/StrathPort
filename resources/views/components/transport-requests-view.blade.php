@@ -5,7 +5,7 @@
             <div class="flex items-center justify-between">
                 <h3 class="text-lg font-medium leading-6 text-gray-900">{{$transportRequest->title}}</h3>
             </div>
-            <div class="mt-2 space-y-2 overflow-scroll">
+            <div class="mt-2 space-y-2 overflow-auto">
                 <p class="max-w-2xl mt-1 text-sm text-gray-500">{{$transportRequest->description}}</p>
                 <div class="flex flex-row flex-wrap">
                     <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
