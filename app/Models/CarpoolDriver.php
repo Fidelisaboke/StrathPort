@@ -18,6 +18,13 @@ class CarpoolDriver extends Model
     ];
 
     /**
+     * Get the full name of the carpool driver
+     */
+    public function getFullNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
      * One-to-many relationship between Carpool Driver and Carpool Details
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

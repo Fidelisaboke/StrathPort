@@ -5,20 +5,11 @@
         </h2>
     </x-slot>
 
-    <!-- Status messages -->
-    @if (session('success'))
-        <div class="p-4 mb-4 text-center text-white bg-green-400">
-            {{ session('success') }}
-        </div>
-    @elseif (session('error'))
-        <div class="p-4 mb-4 text-center text-white bg-red-400">
-            {{ session('error') }}
-        </div>
-    @endif
+    <x-status-message/>
 
     <div class="py-12">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <a href="{{route('transport_requests.create')}}" class="flex flex-row justify-center px-4 py-2 mx-8 mb-4 font-bold text-white rounded md:mx-0 md:inline-block bg-fuchsia-600 hover:bg-fuchsia-700">Create Transport Request</a>
+            <a href="{{route('transport_requests.create')}}" class="flex flex-row justify-center px-4 py-2 mx-8 mb-4 font-bold text-white rounded md:mx-0 md:inline-block bg-fuchsia-600 hover:bg-fuchsia-700">Make a Transport Request</a>
             <!-- Search bar -->
             <form action="{{ route('transport_requests.search')}}" method="GET">
                 <x-search-field />

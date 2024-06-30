@@ -11,17 +11,12 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
-                        {{ __('Transport Schedules') }}
-                    </x-nav-link>
-                    <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
-                        {{ __('Transport Requests') }}
-                    </x-nav-link>
-                </div>
+                @if(Auth::user()->id == 1) {{-- Modify Later --}}
+                    <x-student-staff-links />
+                @elseif(Auth::user()->id == 2) {{-- Modify Later --}}
+                    <x-carpool-driver-links />
+                @endif
+
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
@@ -161,15 +156,14 @@
                     Lock Screen
                 </button>
             </div>
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
-                {{ __('Transport Schedules') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
-                {{ __('Transport Requests') }}
-            </x-responsive-nav-link>
+
+            <!-- Responsive Navigation Links
+            @if(Auth::user()->id == 1) {{-- Modify Later --}}
+                <x-student-staff-responsive-links />
+            @elseif(Auth::user()->id == 2) {{-- Modify Later --}}
+                <x-carpool-driver-responsive-links />
+            @endif
+
         </div>
 
         <!-- Responsive Settings Options -->

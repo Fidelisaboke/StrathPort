@@ -5,6 +5,7 @@ use App\Http\Middleware\CheckIfLocked;
 use App\Http\Controllers\LockScreenController;
 use App\Http\Controllers\TransportRequestController;
 use App\Http\Controllers\TransportScheduleController;
+use App\Http\Controllers\CarpoolRequestController;
 
 Route::get('/', function () {
     return view('home');
@@ -24,12 +25,17 @@ Route::middleware([
                 return view('dashboard');
             })->name('dashboard');
 
+            // Student and Staff Routes
             Route::get('/transport_requests/search', [TransportRequestController::class, 'search'])->name('transport_requests.search');
             Route::get('/transport_requests/filter', [TransportRequestController::class, 'filter'])->name('transport_requests.filter');
             Route::resource('transport_requests', TransportRequestController::class);
 
             Route::get('/transport_schedules/search', [TransportScheduleController::class, 'search'])->name('transport_schedules.search');
             Route::resource('transport_schedules', TransportScheduleController::class);
+
+            Route::get('/carpool_requests/search', [CarpoolRequestController::class, 'search'])->name('carpool_requests.search');
+            Route::get('/carpool_requests/filter', [CarpoolRequestController::class, 'filter'])->name('carpool_requests.filter');
+            Route::resource('carpool_requests', CarpoolRequestController::class);
         });
 
 
