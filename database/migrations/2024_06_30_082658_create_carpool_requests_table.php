@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carpooling_details', function (Blueprint $table) {
+        Schema::create('carpool_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('carpool_driver_id')->references('id')->on('carpool_drivers');
-            $table->integer('available_space')->unsigned();
-            $table->datetime('departure_time');
+            $table->string('title');
+            $table->string('description');
+            $table->date('departure_date');
+            $table->time('departure_time');
             $table->string('departure_location');
             $table->string('destination');
-            $table->text('additional_notes');
+            $table->integer('no_of_people');
+            $table->enum('status', ['Pending', 'Approved', 'Declined']);
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carpooling_details');
+        Schema::dropIfExists('carpool_requests');
     }
 };

@@ -11,6 +11,7 @@ class CarpoolDriver extends Model
 
     protected $fillable = [
         'user_id',
+        'carpool_vehicle_id',
         'first_name',
         'last_name',
         'availability_status'

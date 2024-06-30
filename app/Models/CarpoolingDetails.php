@@ -10,8 +10,9 @@ class CarpoolingDetails extends Model
     use HasFactory;
 
     protected $fillable = [
-        'carpool_driver_id',
+        'carpool_request_id',
         'available_space',
+        'departure_date',
         'departure_time',
         'departure_location',
         'destination',

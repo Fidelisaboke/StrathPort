@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carpool_drivers', function (Blueprint $table) {
+        Schema::create('school_vehicles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->enum('availability_status', ['Available', 'Unavailable']);
+            $table->string('make');
+            $table->string('model');
+            $table->string('year');
+            $table->string('number_plate');
+            $table->integer('capacity')->unsigned();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carpool_drivers');
+        Schema::dropIfExists('school_vehicles');
     }
 };

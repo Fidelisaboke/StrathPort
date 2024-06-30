@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('school_drivers', function (Blueprint $table) {
+        Schema::create('carpool_drivers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->references('id')->on('users');
+            $table->foreignId('carpool_vehicle_id')->nullable()->references('id')->on('carpool_vehicles');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('phone');
             $table->enum('availability_status', ['Available', 'Unavailable']);
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('school_drivers');
+        Schema::dropIfExists('carpool_drivers');
     }
 };

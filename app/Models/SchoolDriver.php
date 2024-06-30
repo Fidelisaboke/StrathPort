@@ -11,6 +11,7 @@ class SchoolDriver extends Model
 
     protected $fillable = [
         'first_name',
+        'school_vehicle_id',
         'last_name',
         'phone',
         'availability_status',
@@ -18,9 +19,9 @@ class SchoolDriver extends Model
 
     /**
      * Inverse one-to-one relationship between School Driver and School Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function schoolVehicle(){
-        return $this->belongsTo(SchoolVehicle::class);
+        return $this->hasOne(SchoolVehicle::class);
     }
 }

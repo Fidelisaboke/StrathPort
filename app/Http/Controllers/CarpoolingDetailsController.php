@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Staff;
+use App\Models\CarpoolingDetails;
 
-class StaffController extends Controller
+class CarpoolingDetailsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $staff = Staff::paginate(10);
-        return view('staff.index', compact('staff'));
+        $carpoolingDetails = CarpoolingDetails::paginate(10);
+        return view('carpooling_details.index', compact('carpoolingDetails'));
     }
 
     /**
@@ -21,7 +21,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('staff.create');
+        return view('carpooling_details.create');
     }
 
     /**
@@ -37,8 +37,8 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        $staff = Staff::find($id);
-        return view('staff.show', compact('staff'));
+        $carpoolingDetail = CarpoolingDetails::find($id);
+        return view('carpooling_details.show', compact('carpoolingDetail'));
     }
 
     /**
@@ -46,8 +46,8 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        $staff = Staff::find($id);
-        return view('staff.edit', compact('staff'));
+        $carpoolingDetail = CarpoolingDetails::find($id);
+        return view('carpooling_details.edit', compact('carpoolingDetail'));
     }
 
     /**
@@ -63,7 +63,7 @@ class StaffController extends Controller
      */
     public function destroy(string $id)
     {
-        Staff::find($id)->delete();
-        return redirect('staff.index')->with('success', 'Staff deleted successfully');
+        CarpoolingDetails::find($id)->delete();
+        return redirect('carpooling_details')->with('success', 'Carpooling Detail deleted successfully.');
     }
 }
