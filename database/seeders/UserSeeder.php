@@ -16,20 +16,17 @@ class UserSeeder extends Seeder
         // Used for testing. Emails are not real.
         $users =[
             [
-                'name' => 'User One',
+                'name' => 'Driver One',
                 'email' => 'user1@email.com',
-                'password' => bcrypt('Password123*')
+                'password' => bcrypt('Password123*'),
+                'phone' => '+254712345678'
             ],
             [
-                'name' => 'User Two',
+                'name' => 'Driver Two',
                 'email' => 'user2@email.com',
-                'password' => bcrypt('Password123*')
+                'password' => bcrypt('Password123*'),
+                'phone' => '+254712345678'
             ],
-            [
-                'name' => 'User Three',
-                'email' => 'user3@email.com',
-                'password' => bcrypt('Password123*')
-            ]
         ];
 
         User::insert($users);
