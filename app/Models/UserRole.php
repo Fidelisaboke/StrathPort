@@ -12,15 +12,17 @@ class UserRole extends Model
     protected $table = 'users_roles';
 
     /**
-     * RELATIONSHIPS
+     * Define a one-to-many relationship between UserRole and User
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
-    // One-to-Many relationship between UserRole and User
     public function user(){
         return $this->hasMany(User::class);
     }
 
-    // One-to-Many relationship between UserRole and Role
+    /**
+     * Define a one-to-many relationship between UserRole and Role
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function role(){
         return $this->hasMany(Role::class);
     }

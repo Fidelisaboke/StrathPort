@@ -16,10 +16,9 @@ class Student extends Model
     ];
 
     /**
-     * RELATIONSHIPS
+     * Define a one-to-one relationship between Student and User
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-
-     // One-to-One relationship between Student and User
     public function user()
     {
         return $this->hasOne(User::class);

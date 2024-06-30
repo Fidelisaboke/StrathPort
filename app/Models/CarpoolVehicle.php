@@ -16,4 +16,12 @@ class CarpoolVehicle extends Model
         'number_plate',
         'capacity',
     ];
+
+    /**
+     * Inverse one-to-one relationship between Carpool Vehicle and Carpool Driver
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carpoolDriver(){
+        return $this->belongsTo(CarpoolDriver::class);
+    }
 }

@@ -16,10 +16,9 @@ class Staff extends Model
     ];
 
     /**
-     * RELATIONSHIPS
+     * Define a one-to-one relationship between Staff and User
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-
-    // One-to-One relationship between Staff and User
     public function user()
     {
         return $this->hasOne(User::class);

@@ -79,7 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Inverse one-to-One relationship between User and Staff
+     * Inverse one-to-one relationship between User and Staff
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function staff()

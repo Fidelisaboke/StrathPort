@@ -20,4 +20,20 @@ class CarpoolRequest extends Model
         'no_of_people',
         'status',
     ];
+
+    /**
+     * Define one-to-one relationship between Carpool Driver and Carpool Request
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+     public function carpoolingDriver(){
+        return $this->hasOne(CarpoolRequest::class);
+    }
+
+    /**
+     * Inverse one-to-one relationship between Carpool Request and Carpool Details
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carpoolingDetails(){
+        return $this->belongsTo(CarpoolingDetails::class);
+    }
 }

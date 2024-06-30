@@ -19,11 +19,13 @@ class CarpoolingDetails extends Model
         'additional_notes'
     ];
 
+
+
     /**
-     * Inverse one-to-many relationship between Carpool Driver and Carpool Details
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * Define a one-to-one relationship between Carpool Request and Carpool Details
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
      */
-    public function carpoolingDriver(){
-        return $this->belongsTo(CarpoolingDetails::class);
+    public function carpoolRequest(){
+        return $this->hasOne(CarpoolRequest::class);
     }
 }

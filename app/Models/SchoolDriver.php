@@ -18,7 +18,7 @@ class SchoolDriver extends Model
     ];
 
     /**
-     * Inverse one-to-one relationship between School Driver and School Vehicle
+     * Define a one-to-one relationship between School Driver and School Vehicle
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function schoolVehicle(){
