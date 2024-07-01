@@ -3,9 +3,9 @@
         {{ __('Dashboard') }}
     </x-nav-link>
     <x-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
-        {{ __('Transport Schedules') }}
+        {{ __('Carpool Schedules') }}
     </x-nav-link>
     <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
-        {{ __('Transport Requests') }}
+        {{ __('Carpool Requests') }}
     </x-nav-link>
 </div>
