@@ -6,6 +6,8 @@ use App\Http\Controllers\LockScreenController;
 use App\Http\Controllers\TransportRequestController;
 use App\Http\Controllers\TransportScheduleController;
 use App\Http\Controllers\CarpoolRequestController;
+use App\Http\Controllers\CarpoolingDetailsController;
+use App\Http\Controllers\CarpoolVehicleController;
 
 Route::get('/', function () {
     return view('home');
@@ -36,6 +38,12 @@ Route::middleware([
             Route::get('/carpool_requests/search', [CarpoolRequestController::class, 'search'])->name('carpool_requests.search');
             Route::get('/carpool_requests/filter', [CarpoolRequestController::class, 'filter'])->name('carpool_requests.filter');
             Route::resource('carpool_requests', CarpoolRequestController::class);
+
+            // Carpool Driver Routes
+            Route::get('/carpooling_details/search', [CarpoolingDetailsController::class, 'search'])->name('carpooling_details.search');
+            Route::resource('/carpooling_details', CarpoolingDetailsController::class);
+            Route::resource('/carpool_vehicles', CarpoolVehicleController::class);
+
         });
 
 

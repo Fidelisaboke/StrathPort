@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('year');
             $table->string('number_plate');
             $table->integer('capacity')->unsigned();
+            $table->string('vehicle_photo_path', 2048)->nullable();
             $table->timestamps();
         });
     }

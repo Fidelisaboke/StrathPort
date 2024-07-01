@@ -18,6 +18,15 @@ class CarpoolVehicle extends Model
     ];
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var array<int, string>
+     */
+    protected $appends = [
+        'vehicle_photo_url',
+    ];
+
+    /**
      * Inverse one-to-one relationship between Carpool Vehicle and Carpool Driver
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
