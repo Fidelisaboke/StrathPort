@@ -7,7 +7,7 @@
 
     <div class="py-12">
         <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
-            @can('view student dashboard') {{--Modify Later --}}
+            @can('view student dashboard')
                 <x-student-dashboard />
             @endcan
             @can('view staff dashboard')

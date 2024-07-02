@@ -1,16 +1,30 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             {{ __('Profile') }}
         </h2>
     </x-slot>
 
     <div>
-        <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
+        <div class="py-10 mx-auto max-w-7xl sm:px-6 lg:px-8">
             @if (Laravel\Fortify\Features::canUpdateProfileInformation())
                 @livewire('profile.update-profile-information-form')
 
                 <x-section-border />
+
+                @if (Auth::user()->hasRole('student'))
+                    @livewire('profile.update-student-information-form')
+
+                    <x-section-border />
+                @elseif (Auth::user()->hasRole('staff'))
+                    @livewire('profile.update-staff-information-form')
+
+                    <x-section-border />
+                @elseif (Auth::user()->hasRole('carpool_driver'))
+                    @livewire('profile.update-carpool-driver-information-form')
+
+                    <x-section-border />
+                @endif
             @endif
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))

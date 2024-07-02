@@ -35,12 +35,12 @@
                             <label for="carpool_driver_id" class="block text-sm font-medium text-gray-700">Select Driver</label>
                             <select id="carpool_driver_id" name="carpool_driver_id" class="block w-full mt-1 rounded-md shadow-sm form-input">
                                 @foreach ($carpoolDrivers as $carpoolDriver)
-                                    <option value="{{ old('carpool_driver_id', $carpoolDriver->id) }}">{{ old('full_name', $carpoolDriver->full_name) }}</option>
+                                    <option value="{{ $carpoolDriver->id }}" @if(old('carpool_driver_id', $carpoolDriver->id) == $carpoolDriver->id) selected @endif>{{ $carpoolDriver->full_name }}</option>
                                 @endforeach
                             </select>
                             @error('carpool_driver_id')
                             <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
+                            @enderror
                         </div>
                         <!-- Date -->
                         <div class="px-4 py-5 bg-white sm:p-6">

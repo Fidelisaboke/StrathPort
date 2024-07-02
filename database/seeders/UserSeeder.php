@@ -58,7 +58,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => time(),
         ]);
 
-        $carpoolDriver->assignRole('carpool driver');
+        $carpoolDriver->assignRole('carpool_driver');
 
         // Another Carpool Driver
         $carpoolDriver = User::create( [
@@ -69,7 +69,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => time(),
         ]);
 
-        $carpoolDriver->assignRole('carpool driver');
+        $carpoolDriver->assignRole('carpool_driver');
 
     }
 }

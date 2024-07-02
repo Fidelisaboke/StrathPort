@@ -15,6 +15,9 @@ class RolePermissionSeeder extends Seeder
     public function run(): void
     {
         // Create permissions
+        Permission::create(['name' => 'view student dashboard']);
+        Permission::create(['name' => 'view staff dashboard']);
+        Permission::create(['name' => 'view carpool driver dashboard']);
         Permission::create(['name' => 'view transport schedules']);
         Permission::create(['name' => 'view carpool schedules']);
         Permission::create(['name' => 'edit transport request']);
@@ -60,7 +63,7 @@ class RolePermissionSeeder extends Seeder
         $staff->givePermissionTo('view staff dashboard');
 
         // Carpool Driver
-        $carpoolDriver = Role::create(['name' => 'carpool driver']);
+        $carpoolDriver = Role::create(['name' => 'carpool_driver']);
         $carpoolDriver->givePermissionTo('view carpool driver dashboard');
         $carpoolDriver->givePermissionTo('view carpool schedules');
         $carpoolDriver->givePermissionTo('edit carpool request');
