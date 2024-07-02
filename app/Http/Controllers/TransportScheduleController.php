@@ -13,7 +13,7 @@ class TransportScheduleController extends Controller
     public function index()
     {
         $transportSchedules = TransportSchedule::paginate(10);
-        return view('transport_schedules.index', compact('transportSchedules'));
+        return view('user.transport_schedules.index', compact('transportSchedules'));
     }
 
     /**
@@ -38,7 +38,7 @@ class TransportScheduleController extends Controller
     public function show(string $id)
     {
         $transportSchedule = TransportSchedule::find($id);
-        return view('transport_schedules.show', compact('transportSchedule'));
+        return view('user.transport_schedules.show', compact('transportSchedule'));
     }
 
     /**
@@ -79,6 +79,6 @@ class TransportScheduleController extends Controller
             ->orWhere('destination', 'like', '%' . $search . '%');
         })->paginate(10);
 
-        return view('transport_schedules.index', compact('transportSchedules'));
+        return view('user.transport_schedules.index', compact('transportSchedules'));
     }
 }

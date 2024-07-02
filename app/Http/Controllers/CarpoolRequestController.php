@@ -16,7 +16,7 @@ class CarpoolRequestController extends Controller
     public function index()
     {
         $carpoolRequests = CarpoolRequest::paginate(10);
-        return view('carpool_requests.index', compact('carpoolRequests'));
+        return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 
     /**
@@ -27,7 +27,7 @@ class CarpoolRequestController extends Controller
         $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
         ->get(['id', 'first_name', 'last_name', 'availability_status']);
 
-        return view('carpool_requests.create', compact('carpoolDrivers'));
+        return view('user.carpool_requests.create', compact('carpoolDrivers'));
     }
 
     /**
@@ -76,7 +76,7 @@ class CarpoolRequestController extends Controller
     public function show(string $id)
     {
         $carpoolRequest = CarpoolRequest::find($id);
-        return view('carpool_requests.show', compact('carpoolRequest'));
+        return view('user.carpool_requests.show', compact('carpoolRequest'));
     }
 
     /**
@@ -88,7 +88,7 @@ class CarpoolRequestController extends Controller
         $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
         ->get(['id', 'first_name', 'last_name', 'availability_status']);
 
-        return view('carpool_requests.edit', compact('carpoolRequest', 'carpoolDrivers'));
+        return view('user.carpool_requests.edit', compact('carpoolRequest', 'carpoolDrivers'));
     }
 
     /**
@@ -150,7 +150,7 @@ class CarpoolRequestController extends Controller
             ->orWhere('departure_location', 'like', '%'.$search.'%')
             ->orWhere('destination', 'like', '%'.$search.'%')
             ->paginate(10);
-        return view('carpool_requests.index', compact('carpoolRequests'));
+        return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 
     /**
@@ -164,6 +164,6 @@ class CarpoolRequestController extends Controller
             $carpoolRequests = CarpoolRequest::where('status', $filter)->paginate(10);
         }
 
-        return view('carpool_requests.index', compact('carpoolRequests'));
+        return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 }

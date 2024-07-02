@@ -15,7 +15,7 @@ class TransportRequestController extends Controller
     public function index()
     {
         $transportRequests = TransportRequest::paginate(10);
-        return view('transport_requests.index', compact('transportRequests'));
+        return view('user.transport_requests.index', compact('transportRequests'));
     }
 
     /**
@@ -23,7 +23,7 @@ class TransportRequestController extends Controller
      */
     public function create()
     {
-       return view('transport_requests.create');
+       return view('user.transport_requests.create');
     }
 
     /**

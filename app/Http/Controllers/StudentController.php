@@ -13,7 +13,7 @@ class StudentController extends Controller
     public function index()
     {
         $students = Student::paginate(10);
-        return view('students.index', compact('students'));
+        return view('admin.students.index', compact('students'));
     }
 
     /**
@@ -21,7 +21,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('students.create');
+        return view('admin.students.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class StudentController extends Controller
     public function show(string $id)
     {
         $student = Student::find($id);
-        return view('students.show', compact('student'));
+        return view('admin.students.show', compact('student'));
     }
 
     /**
@@ -47,7 +47,7 @@ class StudentController extends Controller
     public function edit(string $id)
     {
         $student = Student::find($id);
-        return view('students.edit', compact('student'));
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -64,6 +64,6 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         Student::find($id)->delete();
-        return redirect('students.index')->with('success', 'Student deleted successfully');
+        return redirect('admin.students.index')->with('success', 'Student deleted successfully');
     }
 }

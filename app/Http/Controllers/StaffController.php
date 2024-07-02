@@ -13,7 +13,7 @@ class StaffController extends Controller
     public function index()
     {
         $staff = Staff::paginate(10);
-        return view('staff.index', compact('staff'));
+        return view('admin.staff.index', compact('staff'));
     }
 
     /**
@@ -21,7 +21,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('staff.create');
+        return view('admin.staff.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class StaffController extends Controller
     public function show(string $id)
     {
         $staff = Staff::find($id);
-        return view('staff.show', compact('staff'));
+        return view('admin.staff.show', compact('staff'));
     }
 
     /**
@@ -47,7 +47,7 @@ class StaffController extends Controller
     public function edit(string $id)
     {
         $staff = Staff::find($id);
-        return view('staff.edit', compact('staff'));
+        return view('admin.staff.edit', compact('staff'));
     }
 
     /**
@@ -64,6 +64,6 @@ class StaffController extends Controller
     public function destroy(string $id)
     {
         Staff::find($id)->delete();
-        return redirect('staff.index')->with('success', 'Staff deleted successfully');
+        return redirect('admin.staff.index')->with('success', 'Staff deleted successfully');
     }
 }

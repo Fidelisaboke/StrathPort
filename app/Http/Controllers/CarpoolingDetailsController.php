@@ -13,7 +13,7 @@ class CarpoolingDetailsController extends Controller
     public function index()
     {
         $carpoolingDetails = CarpoolingDetails::paginate(10);
-        return view('carpooling_details.index', compact('carpoolingDetails'));
+        return view('user.carpooling_details.index', compact('carpoolingDetails'));
     }
 
     /**
@@ -21,7 +21,7 @@ class CarpoolingDetailsController extends Controller
      */
     public function create()
     {
-        return view('carpooling_details.create');
+        return view('user.carpooling_details.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class CarpoolingDetailsController extends Controller
     public function show(string $id)
     {
         $carpoolingDetail = CarpoolingDetails::find($id);
-        return view('carpooling_details.show', compact('carpoolingDetail'));
+        return view('user.carpooling_details.show', compact('carpoolingDetail'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CarpoolingDetailsController extends Controller
     public function edit(string $id)
     {
         $carpoolingDetail = CarpoolingDetails::find($id);
-        return view('carpooling_details.edit', compact('carpoolingDetail'));
+        return view('user.carpooling_details.edit', compact('carpoolingDetail'));
     }
 
     /**
@@ -64,6 +64,6 @@ class CarpoolingDetailsController extends Controller
     public function destroy(string $id)
     {
         CarpoolingDetails::find($id)->delete();
-        return redirect('carpooling_details')->with('success', 'Carpooling Detail deleted successfully.');
+        return redirect('user.carpooling_details')->with('success', 'Carpooling Detail deleted successfully.');
     }
 }

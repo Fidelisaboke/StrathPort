@@ -13,7 +13,7 @@ class CarpoolVehicleController extends Controller
     public function index()
     {
         $carpoolVehicles = CarpoolVehicle::paginate(10);
-        return view('carpool_vehicles.index', compact('carpoolVehicles'));
+        return view('user.carpool_vehicles.index', compact('carpoolVehicles'));
     }
 
     /**
@@ -21,7 +21,7 @@ class CarpoolVehicleController extends Controller
      */
     public function create()
     {
-        return view('carpool_vehicles.create');
+        return view('user.carpool_vehicles.create');
     }
 
     /**
@@ -38,7 +38,7 @@ class CarpoolVehicleController extends Controller
     public function show(string $id)
     {
         $carpoolVehicle = CarpoolVehicle::find($id);
-        return view('carpool_vehicles.show', compact('carpoolVehicle'));
+        return view('user.carpool_vehicles.show', compact('carpoolVehicle'));
     }
 
     /**
@@ -47,7 +47,7 @@ class CarpoolVehicleController extends Controller
     public function edit(string $id)
     {
         $carpoolVehicle = CarpoolVehicle::find($id);
-        return view('carpool_vehicles.edit', compact('carpoolVehicle'));
+        return view('user.carpool_vehicles.edit', compact('carpoolVehicle'));
     }
 
     /**
@@ -64,6 +64,6 @@ class CarpoolVehicleController extends Controller
     public function destroy(string $id)
     {
         CarpoolVehicle::find($id)->delete();
-        return redirect('carpool_vehicles.index')->with('success', 'Vehicle deleted successfully');
+        return redirect('user.carpool_vehicles.index')->with('success', 'Vehicle deleted successfully');
     }
 }
