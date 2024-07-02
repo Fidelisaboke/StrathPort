@@ -5,6 +5,20 @@
                 <p><span class="text-black">Email: </span>{{Auth::user()->email}}</p>
                 <p class="mt-4"><span class="text-black">Phone No: </span>{{Auth::user()->phone}}</p>
                 <p class="mt-4"><span class="text-black">Address: </span>{{Auth::user()->address}}</p>
+                @if (Auth::user()->hasRole('carpool_driver'))
+                    <p class="mt-4"><span class="text-black">Availability Status: </span>
+                        <span>
+                            <!-- Load availability status from carpool driver table based on user id -->
+                            @php
+                                $carpoolDriver = Auth::user()->carpoolDriver;
+                            @endphp
+                            @if ($carpoolDriver && $carpoolDriver->availability_status == 'Available')
+                                <span class="p-2 font-bold text-green-600 rounded-full bg-green-500/20">Available</span>
+                            @elseif ($carpoolDriver && $carpoolDriver->availability_status == 'Unavailable')
+                                <span class="p-2 font-bold text-red-600 rounded-full bg-red-500/20">Unavailable</span>
+                            @endif</span>
+                        </p>
+                @endif
             </div>
             <div class="flex flex-row items-center justify-end mt-6">
                 <a href="{{route('profile.show')}}" class="inline-flex items-center justify-center px-4 py-2 mr-3 font-medium text-center text-white transition ease-in-out delay-150 rounded-lg text-md hover:-translate-y-1 hover:scale-125 bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-pink-300 dark:focus:ring-fuchsia-900">

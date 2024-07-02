@@ -10,18 +10,18 @@ class Staff extends Model
     use HasFactory;
 
     protected $fillable = [
-        'staff_school_id',
+        'user_id',
         'first_name',
         'last_name',
     ];
 
     /**
      * Define a one-to-one relationship between Staff and User
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
 }

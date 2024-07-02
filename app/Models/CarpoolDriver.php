@@ -26,25 +26,25 @@ class CarpoolDriver extends Model
 
     /**
      * Define a one-to-one relationship between Carpool Driver and User
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user(){
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
      * Define one-to-one relationship between Carpool Driver and Carpool Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function carpoolVehicle(){
-        return $this->hasOne(CarpoolVehicle::class);
+        return $this->belongsTo(CarpoolVehicle::class);
     }
 
     /**
      * Inverse one-to-one relationship between Carpool Driver and Carpool Details
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function carpoolRequest(){
-        return $this->belongsTo(CarpoolRequest::class);
+        return $this->hasOne(CarpoolRequest::class);
     }
 }

@@ -91,10 +91,10 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /**
      * Inverse one-to-one relationship between User and Carpool Driver
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function carpoolDriver(){
-        return $this->belongsTo(CarpoolDriver::class);
+        return $this->hasOne(CarpoolDriver::class);
     }
 
 

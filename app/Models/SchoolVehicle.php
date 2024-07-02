@@ -19,9 +19,9 @@ class SchoolVehicle extends Model
 
     /**
      * Inverse one-to-one relationship between School Driver and School Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
     public function schoolDriver(){
-        return $this->belongsTo(SchoolDriver::class);
+        return $this->hasOne(SchoolDriver::class);
     }
 }

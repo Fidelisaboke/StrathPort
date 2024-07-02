@@ -23,9 +23,9 @@ class CarpoolingDetails extends Model
 
     /**
      * Define a one-to-one relationship between Carpool Request and Carpool Details
-     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function carpoolRequest(){
-        return $this->hasOne(CarpoolRequest::class);
+        return $this->belongsTo(CarpoolRequest::class);
     }
 }
