@@ -12,7 +12,7 @@ class SchoolVehicle extends Model
     protected $fillable = [
         'make',
         'model',
-        'vehicle_year',
+        'year',
         'number_plate',
         'capacity',
     ];

@@ -60,5 +60,16 @@ class UserSeeder extends Seeder
 
         $carpoolDriver->assignRole('carpool driver');
 
+        // Another Carpool Driver
+        $carpoolDriver = User::create( [
+            'name' => 'Carpool Driver Two',
+            'email' => 'user5@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
+        $carpoolDriver->assignRole('carpool driver');
+
     }
 }

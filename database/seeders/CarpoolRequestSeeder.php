@@ -16,7 +16,7 @@ class CarpoolRequestSeeder extends Seeder
     {
         $carpool_requests =[
             [
-                'carpool_driver_id' => 3,
+                'carpool_driver_id' => 1,
                 'title' => 'Carpool Request 1',
                 'description' => 'Carpool Request 1 Description',
                 'departure_date' => Carbon::now()->toDateString(),
@@ -27,7 +27,7 @@ class CarpoolRequestSeeder extends Seeder
                 'status' => 'Pending'
             ],
             [
-                'carpool_driver_id' => 4,
+                'carpool_driver_id' => 1,
                 'title' => 'Carpool Request 2',
                 'description' => 'Carpool Request 2 Description',
                 'departure_date' => Carbon::now()->addDays(1)->toDateString(),
@@ -38,7 +38,7 @@ class CarpoolRequestSeeder extends Seeder
                 'status' => 'Pending'
             ],
             [
-                'carpool_driver_id' => 5,
+                'carpool_driver_id' => 2,
                 'title' => 'Carpool Request 3',
                 'description' => 'Carpool Request 3 Description',
                 'departure_date' => Carbon::now()->addDays(2)->toDateString(),

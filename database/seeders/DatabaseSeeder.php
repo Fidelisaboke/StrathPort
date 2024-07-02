@@ -14,13 +14,18 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            //RolePermissionSeeder::class,
+            RolePermissionSeeder::class,
             UserSeeder::class,
-            // TransportScheduleSeeder::class,
-            // TransportRequestSeeder::class,
-            // CarpoolVehicleSeeder::class,
-            // CarpoolDriverSeeder::class,
-            // CarpoolRequestSeeder::class,
+            StudentSeeder::class,
+            StaffSeeder::class,
+            CarpoolVehicleSeeder::class,
+            CarpoolDriverSeeder::class,
+            SchoolVehicleSeeder::class,
+            SchoolDriverSeeder::class,
+            TransportRequestSeeder::class,
+            TransportScheduleSeeder::class,
+            CarpoolRequestSeeder::class,
+            CarpoolingDetailsSeeder::class,
         ]);
     }
 }
