@@ -7,11 +7,15 @@
 
     <div class="py-12">
         <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
-            @if(Auth::user()->id == 1) {{--Modify Later --}}
-                <x-student-staff-dashboard />
-            @elseif (Auth::user()->id == 2) {{-- Modify Later --}}
+            @can('view student dashboard') {{--Modify Later --}}
+                <x-student-dashboard />
+            @endcan
+            @can('view staff dashboard')
+                <x-staff-dashboard />
+            @endcan
+            @can('view carpool driver dashboard')
                 <x-carpool-driver-dashboard />
-            @endif
+            @endcan
         </div>
     </div>
 </x-app-layout>

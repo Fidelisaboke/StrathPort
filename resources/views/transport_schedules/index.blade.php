@@ -15,9 +15,10 @@
             <!-- Display transport schedules from search -->
             @if ($transportSchedules->count() > 0)
                 <div class="mt-8">
-                    <div class="space-y-4 md:gap-8 md:grid-cols-2 md:grid md:space-y-0">
-                        <x-transport-schedules-view :transport-schedules='$transportSchedules' />
+                    <div class="flex flex-row justify-center mb-4">
+                        {{$transportSchedules->links()}}
                     </div>
+                    <x-transport-schedules-view :transport-schedules='$transportSchedules' />
                 </div>
             @else
                 <div class="mt-8">

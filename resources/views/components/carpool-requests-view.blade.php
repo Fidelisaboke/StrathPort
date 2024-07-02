@@ -86,4 +86,3 @@
     @endforeach
 </ul>
 @livewire('delete-confirmation-modal')
-{{$carpoolRequests->links()}}

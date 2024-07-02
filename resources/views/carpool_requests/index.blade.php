@@ -18,6 +18,9 @@
             <form action="{{ route('carpool_requests.filter')}}" method="GET">
                 <x-transport-requests-filter />
             </form>
+            <div class="flex flex-row justify-center mb-4">
+                {{$carpoolRequests->links()}}
+            </div>
             <x-carpool-requests-view :carpool-requests='$carpoolRequests'/>
         </div>
     </div>

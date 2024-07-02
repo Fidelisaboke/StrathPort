@@ -1,3 +1,2 @@
-<div>
-    <!-- I have not failed. I've just found 10,000 ways that won't work. - Thomas Edison -->
+<div class="space-y-4 md:gap-8 md:grid-cols-2 md:grid md:space-y-0">
 </div>

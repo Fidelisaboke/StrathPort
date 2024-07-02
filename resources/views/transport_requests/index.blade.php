@@ -18,6 +18,9 @@
             <form action="{{ route('transport_requests.filter')}}" method="GET">
                 <x-transport-requests-filter />
             </form>
+            <div class="flex flex-row justify-center mb-4">
+                {{$transportRequests->links()}}
+            </div>
             <x-transport-requests-view :transport-requests='$transportRequests'/>
         </div>
     </div>

@@ -85,4 +85,3 @@
     @endforeach
 </ul>
 @livewire('delete-confirmation-modal')
-{{$transportRequests->links()}}

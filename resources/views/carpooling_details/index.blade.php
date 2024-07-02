@@ -15,9 +15,10 @@
             <!-- Display carpooling details from search -->
             @if ($carpoolingDetails->count() > 0)
                 <div class="mt-8">
-                    <div class="space-y-4 md:gap-8 md:grid-cols-2 md:grid md:space-y-0">
-                        <x-carpooling-details-view :carpooling-details='$carpoolingDetails' />
+                    <div class="flex flex-row justify-center mb-4">
+                        {{$carpoolingDetails->links()}}
                     </div>
+                    <x-carpooling-details-view :carpooling-details='$carpoolingDetails' />
                 </div>
             @else
                 <div class="mt-8">
