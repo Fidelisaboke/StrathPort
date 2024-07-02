@@ -13,22 +13,52 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // Used for testing. Emails are not real.
-        $users =[
-            [
-                'name' => 'Driver One',
-                'email' => 'user1@email.com',
-                'password' => bcrypt('Password123*'),
-                'phone' => '+254712345678'
-            ],
-            [
-                'name' => 'Driver Two',
-                'email' => 'user2@email.com',
-                'password' => bcrypt('Password123*'),
-                'phone' => '+254712345678'
-            ],
-        ];
 
-        User::insert($users);
+        /* Create users and assign the roles*/
+
+        // Admin
+        $admin = User::create([
+            'name' => 'Admin',
+            'email' => 'user1@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
+        $admin->assignRole('admin');
+
+        // Student
+        $student = User::create([
+            'name' => 'Student One',
+            'email' => 'user2@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
+        $student->assignRole('student');
+
+        // Staff
+        $staff = User::create([
+            'name' => 'Staff One',
+            'email' => 'user3@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
+        $staff->assignRole('staff');
+
+        // Carpool Driver
+        $carpoolDriver = User::create( [
+            'name' => 'Carpool Driver',
+            'email' => 'user4@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
+        $carpoolDriver->assignRole('carpool driver');
+
     }
 }

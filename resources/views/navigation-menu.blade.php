@@ -11,11 +11,37 @@
                 </div>
 
                 <!-- Navigation Links -->
-                @if(Auth::user()->id == 1) {{-- Modify Later --}}
-                    <x-student-staff-links />
-                @elseif(Auth::user()->id == 2) {{-- Modify Later --}}
-                    <x-carpool-driver-links />
-                @endif
+                <div class="hidden space-x-8 text-center sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                    @can('view transport schedules')
+                    <x-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
+                        {{ __('Transport Schedules') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('view carpool schedules')
+                    <x-nav-link href="{{ route('carpooling_details.index') }}" :active="request()->routeIs('carpooling_details.index')">
+                        {{ __('Carpool Schedules') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('edit transport request')
+                    <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
+                        {{ __('Transport Requests') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('edit carpool request')
+                    <x-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
+                        {{ __('Carpool Requests') }}
+                    </x-nav-link>
+                    @endcan
+                    @can('edit carpool vehicle')
+                    <x-nav-link href="{{ route('carpool_vehicles.index') }}" :active="request()->routeIs('carpool_vehicles.index')">
+                        {{ __('Vehicle Information') }}
+                    </x-nav-link>
+                    @endcan
+                </div>
+
 
             </div>
 
