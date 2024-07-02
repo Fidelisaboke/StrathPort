@@ -13,15 +13,21 @@
                 <x-section-border />
 
                 @if (Auth::user()->hasRole('student'))
-                    @livewire('profile.update-student-information-form')
+                    <div class="mt-10 sm:mt-0">
+                        @livewire('profile.update-student-information-form')
+                    </div>
 
                     <x-section-border />
                 @elseif (Auth::user()->hasRole('staff'))
-                    @livewire('profile.update-staff-information-form')
+                    <div class="mt-10 sm:mt-0">
+                        @livewire('profile.update-staff-information-form')
+                    </div>
 
                     <x-section-border />
                 @elseif (Auth::user()->hasRole('carpool_driver'))
-                    @livewire('profile.update-carpool-driver-information-form')
+                    <div class="mt-10 sm:mt-0">
+                        @livewire('profile.update-carpool-driver-information-form')
+                    </div>
 
                     <x-section-border />
                 @endif

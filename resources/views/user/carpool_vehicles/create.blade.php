@@ -8,10 +8,20 @@
     <div>
         <div class="max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('transport_requests.store') }}">
+                <form method="post" action="{{ route('carpool_vehicles.store') }}">
                     @csrf
                     <div class="overflow-hidden shadow sm:rounded-md">
-                        <!-- TODO: Hidden field to submit driver_id -->
+                        <!-- Carpool Driver ID (Hidden) -->
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->carpoolDriver->id }}">
+                        <!-- Make -->
+                        <div class="px-4 py-5 bg-white sm:p-6">
+                            <label for="make" class="block text-sm font-medium text-gray-700">Make</label>
+                            <input type="text" name="make" id="make" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
+                                   value="{{ old('make', '') }}" />
+                            @error('make')
+                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            @enderror
+                        </div>
                         <!-- Model -->
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="model" class="block text-sm font-medium text-gray-700">Title</label>
@@ -23,17 +33,17 @@
                         </div>
                         <!-- Vehicle Year -->
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="vehicle_year" class="block text-sm font-medium text-gray-700">Vehicle Year</label>
-                            <input type="text" name="vehicle_year" id="vehicle_year" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
-                                   value="{{ old('vehicle_year', '') }}" />
-                            @error('vehicle_year')
+                            <label for="year" class="block text-sm font-medium text-gray-700">Vehicle Year</label>
+                            <input type="text" name="year" id="year" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
+                                   value="{{ old('year', '') }}" />
+                            @error('year')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                         <!-- Number Plate -->
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="number_plate" class="block text-sm font-medium text-gray-700">Number Plate</label>
-                            <input type="date" name="number_plate" id="number_plate" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
+                            <input type="text" name="number_plate" id="number_plate" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
                                    value="{{ old('number_plate', '') }}" />
                             @error('number_plate')
                                 <p class="text-sm text-red-600">{{ $message }}</p>

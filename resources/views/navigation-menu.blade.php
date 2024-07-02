@@ -25,17 +25,17 @@
                         {{ __('Carpool Schedules') }}
                     </x-nav-link>
                     @endcan
-                    @can('edit transport request')
+                    @can('edit transport requests')
                     <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
                         {{ __('Transport Requests') }}
                     </x-nav-link>
                     @endcan
-                    @can('edit carpool request')
+                    @can('edit carpool requests')
                     <x-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
                         {{ __('Carpool Requests') }}
                     </x-nav-link>
                     @endcan
-                    @can('edit carpool vehicle')
+                    @can('edit carpool vehicles')
                     <x-nav-link href="{{ route('carpool_vehicles.index') }}" :active="request()->routeIs('carpool_vehicles.index')">
                         {{ __('Vehicle Information') }}
                     </x-nav-link>

@@ -18,21 +18,21 @@ class CarpoolVehicleSeeder extends Seeder
                 'make' => 'Toyota',
                 'model' => 'Corolla',
                 'year' => '2019',
-                'number_plate' => 'KBC 123X',
+                'number_plate' => 'AAA 123X',
                 'capacity' => 4
             ],
             [
                 'make' => 'Toyota',
                 'model' => 'Vitz',
                 'year' => '2018',
-                'number_plate' => 'KBD 123X',
+                'number_plate' => 'BBB 234Y',
                 'capacity' => 4
             ],
             [
                 'make' => 'Toyota',
                 'model' => 'Fielder',
                 'year' => '2017',
-                'number_plate' => 'KBE 123X',
+                'number_plate' => 'CCC 345Z',
                 'capacity' => 4
             ],
         ];

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('school_drivers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('school_vehicle_id')->references('id')->on('school_drivers');
+            $table->foreignId('school_vehicle_id')->nullable()->references('id')->on('school_drivers')->nullOnDelete();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone');

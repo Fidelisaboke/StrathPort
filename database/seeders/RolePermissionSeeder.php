@@ -20,8 +20,8 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'view carpool driver dashboard']);
         Permission::create(['name' => 'view transport schedules']);
         Permission::create(['name' => 'view carpool schedules']);
-        Permission::create(['name' => 'edit transport request']);
-        Permission::create(['name' => 'edit carpool request']);
+        Permission::create(['name' => 'edit transport requests']);
+        Permission::create(['name' => 'edit carpool requests']);
         Permission::create(['name' => 'edit user']);
         Permission::create(['name' => 'edit carpool vehicles']);
         Permission::create(['name' => 'edit school vehicles']);
@@ -34,8 +34,8 @@ class RolePermissionSeeder extends Seeder
         // Admin
         $admin = Role::create(['name' => 'admin']);
         $admin->givePermissionTo('view transport schedules');
-        $admin->givePermissionTo('edit transport request');
-        $admin->givePermissionTo('edit carpool request');
+        $admin->givePermissionTo('edit transport requests');
+        $admin->givePermissionTo('edit carpool requests');
         $admin->givePermissionTo('edit user');
         $admin->givePermissionTo('edit carpool vehicles');
         $admin->givePermissionTo('edit school vehicles');
@@ -49,8 +49,8 @@ class RolePermissionSeeder extends Seeder
         // Student
         $student = Role::create(['name' => 'student']);
         $student->givePermissionTo('view student dashboard');
-        $student->givePermissionTo('edit transport request');
-        $student->givePermissionTo('edit carpool request');
+        $student->givePermissionTo('edit transport requests');
+        $student->givePermissionTo('edit carpool requests');
         $student->givePermissionTo('view transport schedules');
         $student->givePermissionTo('view carpool schedules');
 
@@ -59,14 +59,14 @@ class RolePermissionSeeder extends Seeder
         $staff->givePermissionTo('view staff dashboard');
         $staff->givePermissionTo('view transport schedules');
         $staff->givePermissionTo('view carpool schedules');
-        $staff->givePermissionTo('edit carpool request');
+        $staff->givePermissionTo('edit carpool requests');
         $staff->givePermissionTo('view staff dashboard');
 
         // Carpool Driver
         $carpoolDriver = Role::create(['name' => 'carpool_driver']);
         $carpoolDriver->givePermissionTo('view carpool driver dashboard');
         $carpoolDriver->givePermissionTo('view carpool schedules');
-        $carpoolDriver->givePermissionTo('edit carpool request');
+        $carpoolDriver->givePermissionTo('edit carpool requests');
         $carpoolDriver->givePermissionTo('edit carpool vehicles');
 
 

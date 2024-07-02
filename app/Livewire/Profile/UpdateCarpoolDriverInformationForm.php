@@ -31,7 +31,7 @@ class UpdateCarpoolDriverInformationForm extends Component
         $validatedData = Validator::make($this->state, [
             'first_name' => 'required|string|max:255|alpha',
             'last_name' => 'required|string|max:255|alpha',
-            'availability_status' => 'required|string|in:Avaliable,Unavaliable',
+            'availability_status' => 'required|string|in:Available,Unavailable',
         ])->validate();
 
         // Update the carpool driver information

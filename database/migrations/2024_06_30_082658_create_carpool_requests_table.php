@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('carpool_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('carpool_driver_id')->references('id')->on('carpool_drivers');
+            $table->foreignId('carpool_driver_id')->references('id')->on('carpool_drivers')->noActionOnDelete();
             $table->string('title');
             $table->string('description');
             $table->date('departure_date');
