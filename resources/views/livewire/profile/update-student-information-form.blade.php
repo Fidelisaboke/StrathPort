@@ -11,7 +11,7 @@
 
         <!-- Staff School ID -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="student_school_id" value="{{ __('Staff School ID') }}" />
+            <x-label for="student_school_id" value="{{ __('Student School ID') }}" />
             <x-input id="student_school_id" type="text" class="block w-full mt-1" wire:model="state.student_school_id" required autocomplete="student_school_id" />
             @error('student_school_id')
                 <p class="mt-2 text-sm text-red-600">{{ $message }}</p>

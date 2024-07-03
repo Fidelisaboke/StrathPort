@@ -24,7 +24,7 @@
                         </div>
                         <!-- Model -->
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <label for="model" class="block text-sm font-medium text-gray-700">Title</label>
+                            <label for="model" class="block text-sm font-medium text-gray-700">Model</label>
                             <input type="text" name="model" id="model" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
                                    value="{{ old('model', '') }}" />
                             @error('model')
