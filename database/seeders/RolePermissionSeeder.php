@@ -18,6 +18,7 @@ class RolePermissionSeeder extends Seeder
         Permission::create(['name' => 'view student dashboard']);
         Permission::create(['name' => 'view staff dashboard']);
         Permission::create(['name' => 'view carpool driver dashboard']);
+        Permission::create(['name' => 'view admin dashboard']);
         Permission::create(['name' => 'view transport schedules']);
         Permission::create(['name' => 'view carpool schedules']);
         Permission::create(['name' => 'edit transport requests']);
@@ -33,6 +34,7 @@ class RolePermissionSeeder extends Seeder
 
         // Admin
         $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo('view admin dashboard');
         $admin->givePermissionTo('view transport schedules');
         $admin->givePermissionTo('edit transport requests');
         $admin->givePermissionTo('edit carpool requests');
@@ -42,9 +44,6 @@ class RolePermissionSeeder extends Seeder
         $admin->givePermissionTo('edit school drivers');
         $admin->givePermissionTo('edit transport schedules');
         $admin->givePermissionTo('edit carpool schedules');
-        $admin->givePermissionTo('view student dashboard');
-        $admin->givePermissionTo('view staff dashboard');
-        $admin->givePermissionTo('view carpool driver dashboard');
 
         // Student
         $student = Role::create(['name' => 'student']);

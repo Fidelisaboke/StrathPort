@@ -23,6 +23,7 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::middleware(CheckIfLocked::class)->group(function () {
+            // Dashboard Route
             Route::get('/dashboard', function () {
                 return view('dashboard');
             })->name('dashboard');
@@ -44,9 +45,16 @@ Route::middleware([
             Route::resource('/carpooling_details', CarpoolingDetailsController::class);
             Route::resource('/carpool_vehicles', CarpoolVehicleController::class);
 
+            // Admin route group
+            Route::middleware(['role:admin'])->group(function () {
+                Route::prefix('admin')->group(function () {
+
+                });
+
         });
 
 
     Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');
     Route::post('/unlock', [LockScreenController::class, 'unlock'])->name('unlock');
+    });
 });

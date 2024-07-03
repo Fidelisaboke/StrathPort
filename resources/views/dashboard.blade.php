@@ -1,3 +1,8 @@
+@If(Auth::user()->hasRole('admin'))
+    @can('view admin dashboard')
+        <x-admin-dashboard />
+    @endcan
+@else
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
@@ -19,3 +24,4 @@
         </div>
     </div>
 </x-app-layout>
+@endif
