@@ -5,20 +5,16 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-use App\Models\User;
-use App\Models\TransportRequest;
 
-class AdminDashboard extends Component
+class AdminAppLayout extends Component
+
 {
-    public $totalUsers;
-    public $totalTransportRequests;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
-        $this->totalUsers = User::count();
-        $this->totalTransportRequests = TransportRequest::count();
+        //
     }
 
     /**
@@ -26,6 +22,6 @@ class AdminDashboard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.admin-dashboard');
+        return view('components.admin-app-layout');
     }
 }

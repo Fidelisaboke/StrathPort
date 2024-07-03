@@ -8,6 +8,7 @@ use App\Http\Controllers\TransportScheduleController;
 use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
 use App\Http\Controllers\CarpoolVehicleController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('home');
@@ -48,7 +49,8 @@ Route::middleware([
             // Admin route group
             Route::middleware(['role:admin'])->group(function () {
                 Route::prefix('admin')->group(function () {
-
+                    // Users
+                    Route::resource('users', UserController::class);
                 });
 
         });
