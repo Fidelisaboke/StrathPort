@@ -9,6 +9,7 @@ use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
 use App\Http\Controllers\CarpoolVehicleController;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\CarpoolDriver;
 
 Route::get('/', function () {
     return view('home');
@@ -42,9 +43,17 @@ Route::middleware([
             Route::resource('carpool_requests', CarpoolRequestController::class);
 
             // Carpool Driver Routes
-            Route::get('/carpooling_details/search', [CarpoolingDetailsController::class, 'search'])->name('carpooling_details.search');
-            Route::resource('/carpooling_details', CarpoolingDetailsController::class);
-            Route::resource('/carpool_vehicles', CarpoolVehicleController::class);
+            Route::prefix('driver')->group(function () {
+                Route::get('/carpool_vehicles/search', [CarpoolDriver\CarpoolVehicleController::class, 'search'])->name('driver.carpool_vehicles.search');
+                Route::resource('/carpool_vehicles', CarpoolDriver\CarpoolVehicleController::class)->names('driver.carpool_vehicles');
+
+                Route::get('/carpooling_details/search', [CarpoolDriver\CarpoolingDetailsController::class, 'search'])->name('driver.carpooling_details.search');
+                Route::resource('/carpooling_details', CarpoolDriver\CarpoolingDetailsController::class)->names('driver.carpooling_details');
+
+                Route::get('/carpool_requests/search', [CarpoolDriver\CarpoolRequestController::class, 'search'])->name('driver.carpool_requests.search');
+            Route::get('/carpool_requests/filter', [CarpoolDriver\CarpoolRequestController::class, 'filter'])->name('driver.carpool_requests.filter');
+            Route::resource('carpool_requests', CarpoolDriver\CarpoolRequestController::class)->names('driver.carpool_requests');
+            });
 
             // Admin route group
             Route::prefix('admin')->group(function () {

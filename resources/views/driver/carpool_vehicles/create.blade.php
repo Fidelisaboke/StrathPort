@@ -8,7 +8,7 @@
     <div>
         <div class="max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
-                <form method="post" action="{{ route('carpool_vehicles.store') }}">
+                <form method="post" action="{{ route('driver.carpool_vehicles.store') }}">
                     @csrf
                     <div class="overflow-hidden shadow sm:rounded-md">
                         <!-- Carpool Driver ID (Hidden) -->

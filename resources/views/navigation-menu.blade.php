@@ -15,31 +15,45 @@
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @can('view transport schedules')
-                    <x-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
-                        {{ __('Transport Schedules') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('view carpool schedules')
-                    <x-nav-link href="{{ route('carpooling_details.index') }}" :active="request()->routeIs('carpooling_details.index')">
-                        {{ __('Carpool Schedules') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('edit transport requests')
-                    <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
-                        {{ __('Transport Requests') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('edit carpool requests')
-                    <x-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
-                        {{ __('Carpool Requests') }}
-                    </x-nav-link>
-                    @endcan
-                    @can('edit carpool vehicles')
-                    <x-nav-link href="{{ route('carpool_vehicles.index') }}" :active="request()->routeIs('carpool_vehicles.index')">
-                        {{ __('Vehicle Information') }}
-                    </x-nav-link>
-                    @endcan
+                    @if(Auth::user()->hasRole('carpool_driver'))
+                        @can('view carpool schedules')
+                        <x-nav-link href="{{ route('driver.carpooling_details.index') }}" :active="request()->routeIs('driver.carpooling_details.index')">
+                            {{ __('Carpool Schedules') }}
+                        </x-nav-link>
+                        @endcan
+                        @can('edit carpool requests')
+                        <x-nav-link href="{{ route('driver.carpool_requests.index') }}" :active="request()->routeIs('driver.carpool_requests.index')">
+                            {{ __('Carpool Requests') }}
+                        </x-nav-link>
+                        @endcan
+                        @can('edit carpool vehicles')
+                        <x-nav-link href="{{ route('driver.carpool_vehicles.index') }}" :active="request()->routeIs('driver.carpool_vehicles.index')">
+                            {{ __('Vehicle Information') }}
+                        </x-nav-link>
+                        @endcan
+                    @else
+                        @can('view transport schedules')
+                        <x-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
+                            {{ __('Transport Schedules') }}
+                        </x-nav-link>
+                        @endcan
+                        @can('view carpool schedules')
+                        <x-nav-link href="{{ route('carpooling_details.index') }}" :active="request()->routeIs('carpooling_details.index')">
+                            {{ __('Carpool Schedules') }}
+                        </x-nav-link>
+                        @endcan
+                        @can('edit transport requests')
+                        <x-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
+                            {{ __('Transport Requests') }}
+                        </x-nav-link>
+                        @endcan
+                        @can('edit carpool requests')
+                        <x-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
+                            {{ __('Carpool Requests') }}
+                        </x-nav-link>
+                        @endcan
+                    @endif
+
                 </div>
 
 
@@ -187,31 +201,49 @@
             <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            @can('view transport schedules')
-            <x-responsive-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
-                {{ __('Transport Schedules') }}
-            </x-responsive-nav-link>
-            @endcan
-            @can('view carpool schedules')
-            <x-responsive-nav-link href="{{ route('carpooling_details.index') }}" :active="request()->routeIs('carpooling_details.index')">
-                {{ __('Carpool Schedules') }}
-            </x-responsive-nav-link>
-            @endcan
-            @can('edit transport request')
-            <x-responsive-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
-                {{ __('Transport Requests') }}
-            </x-responsive-nav-link>
-            @endcan
-            @can('edit carpool request')
-            <x-responsive-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
-                {{ __('Carpool Requests') }}
-            </x-responsive-nav-link>
-            @endcan
-            @can('edit carpool vehicle')
-            <x-responsive-nav-link href="{{ route('carpool_vehicles.index') }}" :active="request()->routeIs('carpool_vehicles.index')">
-                {{ __('Vehicle Information') }}
-            </x-responsive-nav-link>
-            @endcan
+            @if (Auth::user()->hasRole('carpool_driver'))
+                @can('view carpool schedules')
+                <x-responsive-nav-link href="{{ route('driver.carpooling_details.index') }}" :active="request()->routeIs('driver.carpooling_details.index')">
+                    {{ __('Carpool Schedules') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('edit carpool requests')
+                <x-responsive-nav-link href="{{ route('driver.carpool_requests.index') }}" :active="request()->routeIs('driver.carpool_requests.index')">
+                    {{ __('Carpool Requests') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('edit carpool vehicles')
+                <x-responsive-nav-link href="{{ route('driver.carpool_vehicles.index') }}" :active="request()->routeIs('driver.carpool_vehicles.index')">
+                    {{ __('Vehicle Information') }}
+                </x-responsive-nav-link>
+                @endcan
+            @else
+                @can('view transport schedules')
+                <x-responsive-nav-link href="{{ route('transport_schedules.index') }}" :active="request()->routeIs('transport_schedules.index')">
+                    {{ __('Transport Schedules') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('view carpool schedules')
+                <x-responsive-nav-link href="{{ route('carpooling_details.index') }}" :active="request()->routeIs('carpooling_details.index')">
+                    {{ __('Carpool Schedules') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('edit transport request')
+                <x-responsive-nav-link href="{{ route('transport_requests.index') }}" :active="request()->routeIs('transport_requests.index')">
+                    {{ __('Transport Requests') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('edit carpool request')
+                <x-responsive-nav-link href="{{ route('carpool_requests.index') }}" :active="request()->routeIs('carpool_requests.index')">
+                    {{ __('Carpool Requests') }}
+                </x-responsive-nav-link>
+                @endcan
+                @can('edit carpool vehicle')
+                <x-responsive-nav-link href="{{ route('carpool_vehicles.index') }}" :active="request()->routeIs('carpool_vehicles.index')">
+                    {{ __('Vehicle Information') }}
+                </x-responsive-nav-link>
+                @endcan
+            @endif
 
         </div>
 

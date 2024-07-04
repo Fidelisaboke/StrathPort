@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CarpoolDriver;
 
+use App\Http\Controllers\Controller;
 use App\Models\CarpoolDriver;
 use App\Models\CarpoolVehicle;
 use Illuminate\Http\Request;
@@ -19,7 +20,7 @@ class CarpoolVehicleController extends Controller
     public function index()
     {
         $carpoolVehicles = CarpoolVehicle::paginate(10);
-        return view('user.carpool_vehicles.index', compact('carpoolVehicles'));
+        return view('driver.carpool_vehicles.index', compact('carpoolVehicles'));
     }
 
     /**
@@ -27,7 +28,7 @@ class CarpoolVehicleController extends Controller
      */
     public function create()
     {
-        return view('user.carpool_vehicles.create');
+        return view('driver.carpool_vehicles.create');
     }
 
     /**
@@ -62,8 +63,8 @@ class CarpoolVehicleController extends Controller
             $carpoolDriver = CarpoolDriver::where('user_id', Auth::id())->first();
             $carpoolDriver->carpool_vehicle_id = $carpool_vehicle_id;
             $carpoolDriver->save();
-            
-            return redirect('carpool_vehicles')->with('success', 'Vehicle created successfully');
+
+            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle created successfully');
         }
     }
 
@@ -73,7 +74,7 @@ class CarpoolVehicleController extends Controller
     public function show(string $id)
     {
         $carpoolVehicle = CarpoolVehicle::find($id);
-        return view('user.carpool_vehicles.show', compact('carpoolVehicle'));
+        return view('driver.carpool_vehicles.show', compact('carpoolVehicle'));
     }
 
     /**
@@ -82,7 +83,7 @@ class CarpoolVehicleController extends Controller
     public function edit(string $id)
     {
         $carpoolVehicle = CarpoolVehicle::find($id);
-        return view('user.carpool_vehicles.edit', compact('carpoolVehicle'));
+        return view('driver.carpool_vehicles.edit', compact('carpoolVehicle'));
     }
 
     /**
@@ -113,7 +114,7 @@ class CarpoolVehicleController extends Controller
 
             CarpoolVehicle::find($id)->update($input);
 
-            return redirect('carpool_vehicles')->with('success', 'Vehicle updated successfully');
+            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully');
         }
     }
 
@@ -123,6 +124,6 @@ class CarpoolVehicleController extends Controller
     public function destroy(string $id)
     {
         CarpoolVehicle::find($id)->delete();
-        return redirect('carpool_vehicles')->with('success', 'Vehicle deleted successfully');
+        return redirect('driver/carpool_vehicles')->with('success', 'Vehicle deleted successfully');
     }
 }

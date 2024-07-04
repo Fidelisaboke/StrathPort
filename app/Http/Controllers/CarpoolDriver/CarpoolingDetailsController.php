@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\CarpoolDriver;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\CarpoolingDetails;
 use App\Models\CarpoolRequest;
@@ -15,12 +16,12 @@ class CarpoolingDetailsController extends Controller
     public function index()
     {
         // Get carpool request ids based on user id
-        $carpoolRequestIds = CarpoolRequest::where('user_id', Auth::id())->get('id');
+        $carpoolRequestIds = CarpoolRequest::where('carpool_driver_id', Auth::id())->get('id');
 
         // Get carpool details based on carpool request ids
         $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)->paginate(10);
 
-        return view('user.carpooling_details.index', compact('carpoolingDetails'));
+        return view('driver.carpooling_details.index', compact('carpoolingDetails'));
     }
 
     /**
@@ -28,7 +29,7 @@ class CarpoolingDetailsController extends Controller
      */
     public function create()
     {
-        return view('user.carpooling_details.create');
+        return view('driver.carpooling_details.create');
     }
 
     /**
@@ -45,7 +46,7 @@ class CarpoolingDetailsController extends Controller
     public function show(string $id)
     {
         $carpoolingDetail = CarpoolingDetails::find($id);
-        return view('user.carpooling_details.show', compact('carpoolingDetail'));
+        return view('driver.carpooling_details.show', compact('carpoolingDetail'));
     }
 
     /**
@@ -54,7 +55,7 @@ class CarpoolingDetailsController extends Controller
     public function edit(string $id)
     {
         $carpoolingDetail = CarpoolingDetails::find($id);
-        return view('user.carpooling_details.edit', compact('carpoolingDetail'));
+        return view('driver.carpooling_details.edit', compact('carpoolingDetail'));
     }
 
     /**
@@ -79,6 +80,6 @@ class CarpoolingDetailsController extends Controller
      */
     public function search(Request $request)
     {
-        
+
     }
 }

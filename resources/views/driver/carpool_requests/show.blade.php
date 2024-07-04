@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Carpool Requests') }}
+            {{ __('Transport Requests') }}
         </h2>
     </x-slot>
 
@@ -9,7 +9,7 @@
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
                 <div class="block mb-8">
-                    <a href="{{ route('carpool_requests.index') }}" class="px-4 py-2 font-bold text-black bg-gray-200 rounded hover:bg-gray-400">Back to list</a>
+                    <a href="{{ route('driver.carpool_requests.index') }}" class="px-4 py-2 font-bold text-black bg-gray-200 rounded hover:bg-gray-400">Back to list</a>
                 </div>
                 <div class="flex flex-col">
                     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
