@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\TransportRequest;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class TransportRequestController extends Controller
 {
@@ -14,7 +15,7 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        $transportRequests = TransportRequest::paginate(10);
+        $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);
         return view('user.transport_requests.index', compact('transportRequests'));
     }
 

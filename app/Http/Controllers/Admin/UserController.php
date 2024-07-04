@@ -17,7 +17,7 @@ class UserController extends Controller
     public function index()
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             $users = User::paginate(10);
             return view('admin.users.index', compact('users'));
@@ -30,7 +30,7 @@ class UserController extends Controller
     public function create()
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             return view('admin.users.create');
         }
@@ -42,7 +42,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             // Validate the request...
 
@@ -83,7 +83,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             $user = User::find($id);
             return view('admin.users.show', compact('user'));
@@ -96,7 +96,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             $user = User::find($id);
             return view('admin.users.edit', compact('user'));
@@ -109,7 +109,7 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             // Validate the request...
             $validator = Validator::make($request->all(), [
@@ -147,7 +147,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             User::find($id)->delete();
             return redirect('admin/users')->with('success', 'User deleted successfully!');
@@ -160,7 +160,7 @@ class UserController extends Controller
     public function search(Request $request)
     {
         if(!Gate::allows('admin')){
-            abort(403, 'You are not authorized to access this page');
+            abort(403, 'Unauthorized');
         } else {
             $search = $request->input('search');
             $users = User::where(function($query) use ($search){

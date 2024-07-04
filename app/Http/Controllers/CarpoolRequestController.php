@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\CarpoolRequest;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CarpoolRequestController extends Controller
 {
@@ -15,7 +16,7 @@ class CarpoolRequestController extends Controller
      */
     public function index()
     {
-        $carpoolRequests = CarpoolRequest::paginate(10);
+        $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 
