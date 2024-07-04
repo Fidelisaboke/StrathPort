@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CarpoolDriver;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\CarpoolDriver;
 use App\Models\CarpoolRequest;
 use Illuminate\Support\Facades\Auth;
 
@@ -14,7 +15,12 @@ class CarpoolRequestController extends Controller
      */
     public function index()
     {
-        $carpoolRequests = CarpoolRequest::where('carpool_driver_id', Auth::id())->paginate(10);
+        // Get carpool driver id based on user id
+        $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
+
+        // Get carpool requests based on carpool driver id
+        $carpoolRequests = CarpoolRequest::where('carpool_driver_id', $carpoolDriverId)->paginate(10);
+        
         return view('driver.carpool_requests.index', compact('carpoolRequests'));
     }
 

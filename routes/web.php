@@ -42,6 +42,9 @@ Route::middleware([
             Route::get('/carpool_requests/filter', [CarpoolRequestController::class, 'filter'])->name('carpool_requests.filter');
             Route::resource('carpool_requests', CarpoolRequestController::class);
 
+            Route::get('/carpooling_details/search', [CarpoolingDetailsController::class, 'search'])->name('carpooling_details.search');
+            Route::resource('/carpooling_details', CarpoolingDetailsController::class)->names('carpooling_details');
+
             // Carpool Driver Routes
             Route::prefix('driver')->group(function () {
                 Route::get('/carpool_vehicles/search', [CarpoolDriver\CarpoolVehicleController::class, 'search'])->name('driver.carpool_vehicles.search');

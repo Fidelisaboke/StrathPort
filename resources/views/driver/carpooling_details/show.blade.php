@@ -21,7 +21,7 @@
                 </a>
             </div>
 
-            <div class="container grid px-6 mx-auto lg:w-3/5">
+            <div class="container grid px-6 mx-auto md:w-3/5">
                 <div class="items-center p-4 my-6">
                     <div class="overflow-hidden shadow sm:rounded-md">
                         <!-- ID -->
