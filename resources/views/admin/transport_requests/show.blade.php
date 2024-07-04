@@ -1,6 +1,5 @@
 <x-admin-app-layout>
     <x-slot name="title">
-        Transport Requests
+        Transport Request Details
     </x-slot>
 </x-admin-app-layout>
-

@@ -66,6 +66,15 @@ Route::middleware([
 
                 // Transport Requests
                 Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');
+
+                // Transport Schedules
+                Route::resource('transport_schedules', Admin\TransportScheduleController::class)->names('admin.transport_schedules');
+
+                // School Drivers
+                Route::resource('school_drivers', Admin\SchoolDriverController::class)->names('admin.school_drivers');
+
+                // School Vehicles
+                Route::resource('school_vehicles', Admin\SchoolVehicleController::class)->names('admin.school_vehicles');
             });
 
             Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');

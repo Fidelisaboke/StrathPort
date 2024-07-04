@@ -3,18 +3,18 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TransportRequest;
+use App\Models\SchoolVehicle;
 use Illuminate\Http\Request;
 
-class TransportRequestController extends Controller
+class SchoolVehicleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $transportRequests = TransportRequest::paginate(10);
-        return view('admin.transport_requests.index', compact('transportRequests'));
+        $schoolVehicles = SchoolVehicle::paginate(10);
+        return view('admin.school_vehicles.index', compact('schoolVehicles'));
     }
 
     /**

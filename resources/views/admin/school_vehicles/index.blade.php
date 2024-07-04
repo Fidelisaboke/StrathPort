@@ -1,6 +1,6 @@
 <x-admin-app-layout>
     <x-slot name="title">
-        Transport Requests
+        School Vehicles
     </x-slot>
 </x-admin-app-layout>
 

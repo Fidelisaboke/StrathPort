@@ -25,41 +25,33 @@
         </x-admin-nav-link>
 
         <!-- Transport Requests -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.transport_requests.index')}}">
-            <i class="fa-regular fa-calendar" aria-hidden="true"></i>
+        <x-admin-nav-link href="{{route('admin.transport_requests.index')}}" :active="request()->routeIs('admin.transport_requests.index')">
+            <i class="w-6 h-6 fas fa-calendar" aria-hidden="true"></i>
             <span class="mx-3">Transport Requests</span>
-        </a>
+        </x-admin-nav-link>
 
         <!-- Transport Schedules -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.transport_schedules.index')}}">
+        <x-admin-nav-link href="{{route('admin.transport_schedules.index')}}" :active="request()->routeIs('admin.transport_schedules.index')">
             <i class="w-6 h-6 fas fa-calendar" aria-hidden="true"></i>
             <span class="mx-3">Transport Schedules</span>
-        </a>
-
-        <!-- Carpool Drivers -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.school_drivers.index')}}">
-            <i class="w-6 h-6 fas fa-id-card" aria-hidden="true"></i>
-            <span class="mx-3">Carpool Drivers</span>
-        </a>
+        </x-admin-nav-link>
 
         <!-- School Drivers -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.school_drivers.index')}}">
-            <i class="w-6 h-6 fa fa-id-card" aria-hidden="true"></i>
+        <x-admin-nav-link href="{{route('admin.school_drivers.index')}}" :active="request()->routeIs('admin.school_drivers.index')">
+            <i class="w-6 h-6 fas fa-id-card" aria-hidden="true"></i>
             <span class="mx-3">School Drivers</span>
-        </a>
+        </x-admin-nav-link>
 
         <!-- School Vehicles -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.school_vehicles.index')}}">
+        <x-admin-nav-link href="{{route('admin.school_vehicles.index')}}" :active="request()->routeIs('admin.school_vehicles.index')">
             <i class="w-6 h-6 fas fa-bus" aria-hidden="true"></i>
             <span class="mx-3">School Vehicles</span>
-        </a>
-
-        <!-- School Drivers -->
+        </x-admin-nav-link>
 
         <!-- Settings -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('user/profile')}}">
+        <x-admin-nav-link href="{{url('user/profile')}}" :active="request()->routeIs('profile.show')">
             <i class="w-6 h-6 fas fa-cog"></i>
             <span class="mx-3">Settings</span>
-        </a>
+        </x-admin-nav-link>
     </nav>
 </div>
