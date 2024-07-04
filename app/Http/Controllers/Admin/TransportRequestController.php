@@ -1,19 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Student;
 
-class StudentController extends Controller
+class TransportRequestController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $students = Student::paginate(10);
-        return view('admin.students.index', compact('students'));
+        //
     }
 
     /**
@@ -21,7 +20,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.students.create');
+        //
     }
 
     /**
@@ -37,8 +36,7 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        $student = Student::find($id);
-        return view('admin.students.show', compact('student'));
+        //
     }
 
     /**
@@ -46,8 +44,7 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        $student = Student::find($id);
-        return view('admin.students.edit', compact('student'));
+        //
     }
 
     /**
@@ -63,7 +60,6 @@ class StudentController extends Controller
      */
     public function destroy(string $id)
     {
-        Student::find($id)->delete();
-        return redirect('admin.students.index')->with('success', 'Student deleted successfully');
+        //
     }
 }

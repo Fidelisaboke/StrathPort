@@ -69,7 +69,7 @@ class TransportRequestController extends Controller
     public function show(string $id)
     {
         $transportRequest = TransportRequest::find($id);
-        return view('transport_requests.show', compact('transportRequest'));
+        return view('user.transport_requests.show', compact('transportRequest'));
     }
 
     /**
@@ -78,7 +78,7 @@ class TransportRequestController extends Controller
     public function edit(string $id)
     {
         $transportRequest = TransportRequest::find($id);
-        return view('transport_requests.edit', compact('transportRequest'));
+        return view('user.transport_requests.edit', compact('transportRequest'));
     }
 
     /**
@@ -138,7 +138,7 @@ class TransportRequestController extends Controller
             ->orWhere('event_location', 'like', '%'.$search.'%')
             ->orWhere('no_of_people', 'like', '%'.$search.'%')
             ->paginate(10);
-        return view('transport_requests.index', compact('transportRequests'));
+        return view('user.transport_requests.index', compact('transportRequests'));
     }
 
     /**
@@ -152,6 +152,6 @@ class TransportRequestController extends Controller
             $transportRequests = TransportRequest::where('status', $filter)->paginate(10);
         }
 
-        return view('transport_requests.index', compact('transportRequests'));
+        return view('user.transport_requests.index', compact('transportRequests'));
     }
 }

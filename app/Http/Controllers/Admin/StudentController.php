@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Staff;
+use App\Models\Student;
 
-class StaffController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $staff = Staff::paginate(10);
-        return view('admin.staff.index', compact('staff'));
+        $students = Student::paginate(10);
+        return view('admin.students.index', compact('students'));
     }
 
     /**
@@ -21,7 +22,7 @@ class StaffController extends Controller
      */
     public function create()
     {
-        return view('admin.staff.create');
+        return view('admin.students.create');
     }
 
     /**
@@ -37,8 +38,8 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        $staff = Staff::find($id);
-        return view('admin.staff.show', compact('staff'));
+        $student = Student::find($id);
+        return view('admin.students.show', compact('student'));
     }
 
     /**
@@ -46,8 +47,8 @@ class StaffController extends Controller
      */
     public function edit(string $id)
     {
-        $staff = Staff::find($id);
-        return view('admin.staff.edit', compact('staff'));
+        $student = Student::find($id);
+        return view('admin.students.edit', compact('student'));
     }
 
     /**
@@ -63,7 +64,7 @@ class StaffController extends Controller
      */
     public function destroy(string $id)
     {
-        Staff::find($id)->delete();
-        return redirect('admin.staff.index')->with('success', 'Staff deleted successfully');
+        Student::find($id)->delete();
+        return redirect('admin.students.index')->with('success', 'Student deleted successfully');
     }
 }

@@ -8,7 +8,8 @@ use App\Http\Controllers\TransportScheduleController;
 use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
 use App\Http\Controllers\CarpoolVehicleController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin;
+use App\Http\Middleware\CheckIfAdmin;
 
 Route::get('/', function () {
     return view('home');
@@ -47,13 +48,21 @@ Route::middleware([
             Route::resource('/carpool_vehicles', CarpoolVehicleController::class);
 
             // Admin route group
-            Route::middleware(['role:admin'])->group(function () {
-                Route::prefix('admin')->group(function () {
-                    // Users
-                    Route::resource('users', UserController::class);
-                });
+            Route::prefix('admin')->group(function () {
+                // Users
+                Route::get('users/search', [Admin\UserController::class, 'search'])->name('admin.users.search');
+                Route::resource('users', Admin\UserController::class)->names('admin.users');
 
-        });
+                // Roles
+                Route::resource('roles', Admin\RoleController::class)->names('admin.roles');
+
+                // Permissions
+                Route::resource('permissions', Admin\PermissionController::class)->names('admin.permissions');
+
+                // Transport Requests
+                Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');
+            })->middleware(CheckIfAdmin::class);
+
 
 
     Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');
