@@ -71,5 +71,14 @@ class UserSeeder extends Seeder
 
         $carpoolDriver->assignRole('carpool_driver');
 
+        // User without role
+        User::create([
+            'name' => 'User One',
+            'email' => 'user6@email.com',
+            'password' => bcrypt('Password123*'),
+            'phone' => '+254712345678',
+            'email_verified_at' => time(),
+        ]);
+
     }
 }

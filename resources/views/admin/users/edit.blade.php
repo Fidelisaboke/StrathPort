@@ -3,6 +3,10 @@
         Edit User
     </x-slot>
 
+    @php
+        $roles = Spatie\Permission\Models\Role::all();
+    @endphp
+
     <div class="container grid w-3/5 px-6 mx-auto">
         <div class="items-center p-4 my-6">
             <form method="post" action="{{ route('admin.users.update', $user->id) }}">
@@ -51,6 +55,19 @@
                         <input type="phone" name="phone" id="phone" class="block w-full mt-1 rounded-md shadow-sm form-input"
                             value="{{ old('phone', $user->phone) }}" />
                         @error('phone')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <!-- Roles -->
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="roles" class="block text-sm font-medium text-gray-700">Roles</label>
+                        <select name="roles[]" id="roles" class="block w-full mt-1 rounded-md shadow-sm form-input"
+                            multiple>
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}" @if ($user->roles->pluck('name')->contains($role->name)) selected @endif>{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('roles')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

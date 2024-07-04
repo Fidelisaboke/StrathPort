@@ -20,21 +20,9 @@
 
         <!-- Users -->
         <x-admin-nav-link href="{{route('admin.users.index')}}" :active="request()->routeIs('admin.users.index')">
-            <i class="w-6 h-6 fas fa-users" aria-hidden="true"></i>
-            <span class="mx-3">Users</span>
+            <i class="w-6 h-6 fas fa-users-cog" aria-hidden="true"></i>
+            <span class="mx-3">User Management</span>
         </x-admin-nav-link>
-
-        <!-- User Roles -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{route('admin.roles.index')}}">
-            <i class="w-6 h-6 fas fa-user-tag" aria-hidden="true"></i>
-            <span class="mx-3">Roles</span>
-        </a>
-
-        <!-- User Permissions -->
-        <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.permissions.index')}}">
-            <i class="w-6 h-6 fas fa-user-cog" aria-hidden="true"></i>
-            <span class="mx-3">Permissions</span>
-        </a>
 
         <!-- Transport Requests -->
         <a class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100" href="{{url('admin.transport_requests.index')}}">

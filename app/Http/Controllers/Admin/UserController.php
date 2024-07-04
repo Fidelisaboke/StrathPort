@@ -53,25 +53,27 @@ class UserController extends Controller
                 'secondary_email' => 'nullable|email',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
+                'roles' => 'nullable|array',
             ]);
 
             if ($validator->fails()) {
-                return redirect('admin/users/create')
-                            ->withErrors($validator)
-                            ->withInput();
+            return redirect('admin/users/create')
+                    ->withErrors($validator)
+                    ->withInput();
             } else {
-                $input = [
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => bcrypt($request->password),
-                    'secondary_email' => $request->secondary_email,
-                    'address' => $request->address,
-                    'phone' => $request->phone,
-                ];
+            $input = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => bcrypt($request->password),
+                'secondary_email' => $request->secondary_email,
+                'address' => $request->address,
+                'phone' => $request->phone,
+            ];
 
-                User::create($input);
+            $user = User::create($input);
+            $user->assignRole($request->roles);
 
-                return redirect('admin/users')->with('success', 'User created successfully!');
+            return redirect('admin/users')->with('success', 'User created successfully!');
             }
 
         }
@@ -118,6 +120,7 @@ class UserController extends Controller
                 'secondary_email' => 'nullable|email',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
+                'roles' => 'nullable|array',
             ]);
 
             if ($validator->fails()) {
@@ -131,9 +134,14 @@ class UserController extends Controller
                     'secondary_email' => $request->secondary_email,
                     'address' => $request->address,
                     'phone' => $request->phone,
+                    'roles' => $request->roles,
                 ];
 
                 User::find($id)->update($input);
+
+                // Sync the roles with the user
+                $user = User::find($id);
+                $user->syncRoles($request->roles);
 
                 return redirect('admin/users')->with('success', 'User updated successfully!');
             }

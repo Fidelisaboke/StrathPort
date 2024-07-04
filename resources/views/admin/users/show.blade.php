@@ -33,21 +33,39 @@
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="secondary_email" class="block text-sm font-medium text-gray-700">Secondary email</label>
                     <div class="flex justify-between">
-                        <span>{{ $user->secondary_email }}</span>
+                        <span>
+                            @empty ($user->secondary_email)
+                                N/A
+                            @else
+                                {{ $user->secondary_email }}
+                            @endempty
+                        </span>
                     </div>
                 </div>
                 <!-- Address -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
                     <div class="flex justify-between">
-                        <span>{{ $user->address }}</span>
+                        <span>
+                            @empty($user->address)
+                                N/A
+                            @else
+                                {{ $user->address }}
+                            @endempty
+                            </span>
                     </div>
                 </div>
                 <!-- Phone -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="phone" class="block text-sm font-medium text-gray-700">Phone</label>
                     <div class="flex justify-between">
-                        <span>{{ $user->phone }}</span>
+                        <span>
+                            @empty($user->phone)
+                                N/A
+                            @else
+                                {{ $user->phone }}
+                            @endempty
+                        </span>
                     </div>
                 </div>
             </div>
