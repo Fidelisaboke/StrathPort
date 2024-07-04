@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('transport_requests', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->string('title');
             $table->string('description');
             $table->date('event_date');

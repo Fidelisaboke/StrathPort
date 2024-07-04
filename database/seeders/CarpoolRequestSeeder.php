@@ -16,6 +16,7 @@ class CarpoolRequestSeeder extends Seeder
     {
         $carpool_requests =[
             [
+                'user_id' => 2,
                 'carpool_driver_id' => 1,
                 'title' => 'Carpool Request 1',
                 'description' => 'Carpool Request 1 Description',
@@ -27,6 +28,7 @@ class CarpoolRequestSeeder extends Seeder
                 'status' => 'Pending'
             ],
             [
+                'user_id' => 2,
                 'carpool_driver_id' => 1,
                 'title' => 'Carpool Request 2',
                 'description' => 'Carpool Request 2 Description',
@@ -38,6 +40,7 @@ class CarpoolRequestSeeder extends Seeder
                 'status' => 'Pending'
             ],
             [
+                'user_id' => 3,
                 'carpool_driver_id' => 2,
                 'title' => 'Carpool Request 3',
                 'description' => 'Carpool Request 3 Description',

@@ -97,5 +97,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(CarpoolDriver::class);
     }
 
+    /**
+     * Inverse one-to-one relationship between User and Transport Request
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function transportRequest(){
+        return $this->hasOne(TransportRequest::class);
+    }
+
+    /**
+     * Inverse one-to-one relationship between User and Carpool Request
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function carpoolRequest(){
+        return $this->hasOne(CarpoolRequest::class);
+    }
 
 }

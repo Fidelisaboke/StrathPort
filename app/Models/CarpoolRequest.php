@@ -10,9 +10,10 @@ class CarpoolRequest extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
+        'carpool_driver_id',
         'title',
         'description',
-        'carpool_driver_id',
         'departure_date',
         'departure_time',
         'departure_location',
@@ -22,11 +23,11 @@ class CarpoolRequest extends Model
     ];
 
     /**
-     * Define one-to-one relationship between Carpool Driver and Carpool Request
+     * Get the carpool driver that owns the carpool request.
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-     public function carpoolingDriver(){
-        return $this->belongsTo(CarpoolRequest::class);
+     public function carpoolDriver(){
+        return $this->belongsTo(CarpoolDriver::class);
     }
 
     /**
@@ -35,5 +36,14 @@ class CarpoolRequest extends Model
      */
     public function carpoolingDetails(){
         return $this->hasOne(CarpoolingDetails::class);
+    }
+
+    /**
+     * Get the user that owns the carpool request.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

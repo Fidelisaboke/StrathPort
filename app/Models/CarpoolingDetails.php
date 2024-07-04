@@ -11,12 +11,6 @@ class CarpoolingDetails extends Model
 
     protected $fillable = [
         'carpool_request_id',
-        'available_space',
-        'departure_date',
-        'departure_time',
-        'departure_location',
-        'destination',
-        'additional_notes'
     ];
 
 

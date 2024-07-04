@@ -8,4 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class TransportSchedule extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'transport_request_id',
+    ];
+
+    /**
+     * Get the transport request that owns the transport schedule.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function transportRequest()
+    {
+        return $this->belongsTo(TransportRequest::class);
+    }
 }

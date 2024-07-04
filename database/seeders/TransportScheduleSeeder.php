@@ -16,6 +16,7 @@ class TransportScheduleSeeder extends Seeder
     {
         $transport_schedules = [
             [
+                'title' => 'Daily Commute',
                 'description' => 'Commute to Town',
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'schedule_time' => '08:00:00',
@@ -23,6 +24,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'Town'
             ],
             [
+                'title' => 'Daily Commute',
                 'description' => 'Commute to School',
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'schedule_time' => '16:00:00',
@@ -30,13 +32,15 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'School'
             ],
             [
-                'description' => 'Commute to Town',
+                'title' => 'Hiking',
+                'description' => 'Mt. Longonot Hike',
                 'schedule_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'schedule_time' => '18:00:00',
                 'starting_point' => 'School',
-                'destination' => 'Town'
+                'destination' => 'Longonot'
             ],
             [
+                'title' => 'Daily Commute',
                 'description' => 'Commute to School',
                 'schedule_date' => Carbon::now()->addDays(5)->format('Y-m-d'),
                 'schedule_time' => '22:00:00',
@@ -44,6 +48,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'School'
             ],
             [
+                'title' => 'Daily Commute',
                 'description' => 'Commute to Town',
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
                 'schedule_time' => '08:00:00',
@@ -51,11 +56,12 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'Town'
             ],
             [
-                'description' => 'Commute to School',
+                'title' => 'Hiking',
+                'description' => 'Mt. Kenya Hike',
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
                 'schedule_time' => '16:00:00',
                 'starting_point' => 'Town',
-                'destination' => 'School'
+                'destination' => 'Central Kenya'
             ]
 
         ];
