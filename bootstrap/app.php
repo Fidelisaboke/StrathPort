@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Middleware\CheckIfAdmin;
 use App\Http\Middleware\CheckIfLocked;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;

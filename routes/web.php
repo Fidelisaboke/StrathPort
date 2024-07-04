@@ -9,7 +9,6 @@ use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
 use App\Http\Controllers\CarpoolVehicleController;
 use App\Http\Controllers\Admin;
-use App\Http\Middleware\CheckIfAdmin;
 
 Route::get('/', function () {
     return view('home');
@@ -61,11 +60,9 @@ Route::middleware([
 
                 // Transport Requests
                 Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');
-            })->middleware(CheckIfAdmin::class);
+            });
 
-
-
-    Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');
-    Route::post('/unlock', [LockScreenController::class, 'unlock'])->name('unlock');
+            Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');
+            Route::post('/unlock', [LockScreenController::class, 'unlock'])->name('unlock');
     });
 });

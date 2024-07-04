@@ -16,6 +16,7 @@
 
         <!-- Styles -->
         @livewireStyles
+        <script src="https://kit.fontawesome.com/fcd086b162.js" crossorigin="anonymous"></script>
     </head>
     <body class="font-sans antialiased">
         <x-banner />
