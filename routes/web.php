@@ -2,12 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckIfLocked;
+use App\Http\Middleware\CheckIfActive;
 use App\Http\Controllers\LockScreenController;
 use App\Http\Controllers\TransportRequestController;
 use App\Http\Controllers\TransportScheduleController;
 use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
-use App\Http\Controllers\CarpoolVehicleController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\CarpoolDriver;
 
@@ -24,7 +24,7 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::middleware(CheckIfLocked::class)->group(function () {
+    Route::middleware([CheckIfActive::class, CheckIfLocked::class])->group(function () {
             // Dashboard Route
             Route::get('/dashboard', function () {
                 return view('dashboard');
@@ -63,12 +63,6 @@ Route::middleware([
                 // Users
                 Route::get('users/search', [Admin\UserController::class, 'search'])->name('admin.users.search');
                 Route::resource('users', Admin\UserController::class)->names('admin.users');
-
-                // Roles
-                Route::resource('roles', Admin\RoleController::class)->names('admin.roles');
-
-                // Permissions
-                Route::resource('permissions', Admin\PermissionController::class)->names('admin.permissions');
 
                 // Transport Requests
                 Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');

@@ -16,6 +16,14 @@ class UpdateStudentInformationForm extends Component
     public function mount()
     {
         $student = Student::where('user_id', auth()->id())->first();
+
+        // Create student if it does not exist
+        if (!$student) {
+            $student = new Student();
+            $student->user_id = auth()->id();
+            $student->save();
+        }
+        
         $this->state = $student->toArray();
     }
 

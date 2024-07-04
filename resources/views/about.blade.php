@@ -14,7 +14,6 @@
     <div class="flex items-center justify-center mx-auto bg-gray-200 sm:h-screen overflow-y dark:bg-slate-800 h-4/5">
         <div class="w-4/5 p-6 bg-gray-100 rounded-lg shadow-lg dark:bg-slate-900">
             <h1 class="mb-4 text-3xl font-bold text-black dark:text-white">StrathPort: A School Transport and Vehicle Allocation System</h1>
-            <p class="mb-4 text-lg text-gray-700 dark:text-gray-200">This IS Project I focuses on creating a web application for school transport scheduling and vehicle allocation.</p>
             <p class="mb-4 text-gray-600 text-md dark:text-gray-100">StrathPort aims to streamline the management of school transport by providing an efficient platform for scheduling and allocating vehicles. With our system, schools can easily plan routes, assign drivers, and ensure timely pickups and drop-offs, enhancing the overall safety and reliability of student transport.</p>
             <p class="text-gray-600 dark:text-gray-100 text-md">Our web application is designed to be user-friendly and highly customizable to meet the specific needs of different schools. By leveraging modern technologies, StrathPort not only optimizes operational efficiency but also reduces costs and minimizes environmental impact through better resource management.</p>
         </div>

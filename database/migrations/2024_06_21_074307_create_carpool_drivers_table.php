@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreignId('carpool_vehicle_id')->nullable()->references('id')->on('carpool_vehicles')->nullOnDelete();
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->enum('availability_status', ['Available', 'Unavailable']);
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->enum('availability_status', ['Available', 'Unavailable'])->default('Unavailable');
             $table->timestamps();
         });
     }

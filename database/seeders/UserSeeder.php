@@ -22,6 +22,7 @@ class UserSeeder extends Seeder
             'email' => 'user1@email.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
+            'account_status' => 'active',
             'email_verified_at' => time(),
         ]);
 
@@ -33,6 +34,7 @@ class UserSeeder extends Seeder
             'email' => 'user2@email.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
+            'account_status' => 'active',
             'email_verified_at' => time(),
         ]);
 
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
             'email' => 'user3@email.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
+            'account_status' => 'active',
             'email_verified_at' => time(),
         ]);
 
@@ -55,6 +58,7 @@ class UserSeeder extends Seeder
             'email' => 'user4@email.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
+            'account_status' => 'active',
             'email_verified_at' => time(),
         ]);
 

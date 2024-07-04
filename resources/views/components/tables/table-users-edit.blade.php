@@ -44,12 +44,12 @@
                             </p>
                         </th>
                         <!-- Account Status -->
-                        {{-- <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                        <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                             <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">Status <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
                                 </svg>
                             </p>
-                        </th> --}}
+                        </th>
                         <!-- Actions -->
                         <th class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                             <p class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
@@ -101,23 +101,23 @@
                             </div>
                         </td>
                         <!-- Account Status -->
-                        {{-- <td class="p-4 border-b border-blue-gray-50">
+                        <td class="p-4 border-b border-blue-gray-50">
                             <div class="flex items-center gap-3">
-                            @if($user->status == 'Inactive')
+                            @if($user->account_status == 'inactive')
                                 <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-yellow-600 uppercase rounded-md select-none whitespace-nowrap bg-yellow-500/20" style="opacity: 1;">
-                                    <p class="block antialiased leading-none text-center">{{$user->status}}</p>
+                                    <p class="block antialiased leading-none text-center">{{$user->account_status}}</p>
                                 </div>
-                            @elseif($user->status == 'Active')
+                            @elseif($user->account_status == 'active')
                                 <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-green-600 uppercase rounded-md select-none whitespace-nowrap bg-green-500/20" style="opacity: 1;">
-                                    <p class="block antialiased leading-none text-center">{{$user->status}}</p>
+                                    <p class="block antialiased leading-none text-center">{{$user->account_status}}</p>
                                 </div>
                             @else
                                 <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-red-600 uppercase rounded-md select-none whitespace-nowrap bg-red-500/20" style="opacity: 1;">
-                                    <p class="block antialiased leading-none text-center">{{$user->status}}</p>
+                                    <p class="block antialiased leading-none text-center">{{$user->account_status}}</p>
                                 </div>
                             @endif
                             </div>
-                        </td> --}}
+                        </td>
                         <td class="p-4 border-b border-blue-gray-50">
                             <!-- view -->
                             <a href="{{ route('admin.users.show', $user->id) }}" class="text-green-600 rounded hover:text-green-800">View</a>
@@ -127,7 +127,7 @@
                             <form class="inline-block" action="{{ route('admin.users.destroy', $user->id) }}" method="POST" x-data>
                                 @csrf
                                 @method('DELETE')
-                                <button @click.prevent="$dispatch('delete', { indexRoute: 'admin.users.index', id: {{ $user->id }}, modelClass: 'App\\Models\\User'});" type="submit" class="ml-2 text-red-600 rounded hover:text-red-900">Delete</button>
+                                <button @click.prevent="$dispatch('delete', { indexRoute: 'admin.users.index', id: {{ $user->id }}, modelClass: 'App\\Models\\User', adminModule:true });" type="submit" class="ml-2 text-red-600 rounded hover:text-red-900">Delete</button>
                             </form>
                         </td>
                     </tr>

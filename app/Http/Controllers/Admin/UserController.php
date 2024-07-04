@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Student;
+use App\Models\Staff;
+use App\Models\CarpoolDriver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
@@ -53,7 +56,8 @@ class UserController extends Controller
                 'secondary_email' => 'nullable|email',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
-                'roles' => 'nullable|array',
+                'account_status' => 'nullable|string|in:active,inactive',
+                'roles' => 'nullable|array|size:1',
             ]);
 
             if ($validator->fails()) {
@@ -68,6 +72,7 @@ class UserController extends Controller
                 'secondary_email' => $request->secondary_email,
                 'address' => $request->address,
                 'phone' => $request->phone,
+                'account_status' => $request->account_status,
             ];
 
             $user = User::create($input);
@@ -120,7 +125,8 @@ class UserController extends Controller
                 'secondary_email' => 'nullable|email',
                 'address' => 'nullable|string',
                 'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
-                'roles' => 'nullable|array',
+                'roles' => 'nullable|array|size:1',
+                'account_status' => 'nullable|string|in:active,inactive',
             ]);
 
             if ($validator->fails()) {
@@ -134,14 +140,34 @@ class UserController extends Controller
                     'secondary_email' => $request->secondary_email,
                     'address' => $request->address,
                     'phone' => $request->phone,
-                    'roles' => $request->roles,
+                    'account_status' => $request->account_status,
                 ];
 
                 User::find($id)->update($input);
 
-                // Sync the roles with the user
+                // Prevent changing of roles if the user already has a role
                 $user = User::find($id);
-                $user->syncRoles($request->roles);
+                if ($user->roles->count() == 0 || $request->roles[0] == $user->roles[0]->name) {
+                    $user->assignRole($request->roles);
+
+                    // create corresponding student, staff, or carpool driver record
+                    if ($request->roles[0] == 'student') {
+                        $student = new Student();
+                        $student->user_id = auth()->id();
+                        $student->save();
+                    } elseif ($request->roles[0] == 'staff') {
+                        $staff = new Staff();
+                        $staff->user_id = auth()->id();
+                        $staff->save();
+                    } elseif ($request->roles[0] == 'carpool_driver') {
+                        $carpoolDriver = new CarpoolDriver();
+                        $carpoolDriver->user_id = auth()->id();
+                        $carpoolDriver->save();
+                    }
+                } else {
+                    // Return error message if user already has a role
+                    return redirect('admin/users/'.$id.'/edit')->with('error', 'Cannot change roles for a user with existing roles!');
+                }
 
                 return redirect('admin/users')->with('success', 'User updated successfully!');
             }
@@ -157,7 +183,14 @@ class UserController extends Controller
         if(!Gate::allows('admin')){
             abort(403, 'Unauthorized');
         } else {
-            User::find($id)->delete();
+            // Prevent deleting admins
+            $user = User::find($id);
+            if($user->hasRole('admin')){
+                return redirect('admin/users')->with('error', 'Cannot delete an admin!');
+            } else {
+                User::find($id)->delete();
+            }
+
             return redirect('admin/users')->with('success', 'User deleted successfully!');
         }
     }

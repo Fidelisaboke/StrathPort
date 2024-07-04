@@ -17,6 +17,14 @@ class UpdateCarpoolDriverInformationForm extends Component
     public function mount()
     {
         $carpoolDriver = CarpoolDriver::where('user_id', auth()->id())->first();
+
+        // Create carpool driver if it does not exist
+        if (!$carpoolDriver) {
+            $carpoolDriver = new CarpoolDriver();
+            $carpoolDriver->user_id = auth()->id();
+            $carpoolDriver->save();
+        }
+        
         $this->state = $carpoolDriver->toArray();
     }
 

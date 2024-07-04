@@ -17,6 +17,13 @@ class UpdateStaffInformationForm extends Component
     {
         $staff = Staff::where('user_id', auth()->id())->first();
         $this->state = $staff->toArray();
+
+        // Create staff if it does not exist
+        if (!$staff) {
+            $staff = new Staff();
+            $staff->user_id = auth()->id();
+            $staff->save();
+        }
     }
     public function render()
     {

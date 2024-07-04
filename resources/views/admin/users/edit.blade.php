@@ -2,6 +2,16 @@
     <x-slot name="title">
         Edit User
     </x-slot>
+    
+    <x-status-message />
+
+    <!-- Back Button -->
+    <div class="px-4 py-2 mt-6 rounded max-w-max bg-fuchsia-600 hover:bg-fuchsia-700">
+        <a href="{{ route('admin.users.index') }}" class="flex items-center justify-center text-white">
+            <i class="mr-2 fas fa-arrow-left"></i>
+            Back to User List
+        </a>
+    </div>
 
     @php
         $roles = Spatie\Permission\Models\Role::all();
@@ -58,11 +68,21 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    <!-- Account Status -->
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="account_status" class="block text-sm font-medium text-gray-700">Account Status</label>
+                        <select name="account_status" id="account_status" class="block w-full mt-1 rounded-md shadow-sm form-input">
+                            <option value="active" {{ $user->account_status == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="inactive" {{ $user->account_status == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                        </select>
+                        @error('account_status')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Roles -->
                     <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="roles" class="block text-sm font-medium text-gray-700">Roles</label>
-                        <select name="roles[]" id="roles" class="block w-full mt-1 rounded-md shadow-sm form-input"
-                            multiple>
+                        <label for="roles" class="block text-sm font-medium text-gray-700">Role</label>
+                        <select name="roles[]" id="roles" class="block w-full mt-1 rounded-md shadow-sm form-input">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}" @if ($user->roles->pluck('name')->contains($role->name)) selected @endif>{{ $role->name }}</option>
                             @endforeach

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->integer('student_school_id')->unsigned();
-            $table->string('first_name');
-            $table->string('last_name');
+            $table->integer('student_school_id')->nullable()->unsigned()->unique();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
             $table->timestamps();
         });
     }
