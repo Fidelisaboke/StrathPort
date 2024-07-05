@@ -16,6 +16,14 @@ class Staff extends Model
     ];
 
     /**
+     * Get the full name of the staff
+     */
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
      * Define a one-to-one relationship between Staff and User
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

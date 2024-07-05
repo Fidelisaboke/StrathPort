@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('transport_schedules', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transport_request_id')->nullable()->references('id')->on('transport_requests')->cascadeOnDelete();
+            $table->foreignId('transport_request_id')->nullable()->references('id')->on('transport_requests')->nullOnDelete();
             $table->string('title');
             $table->string('description');
             $table->date('schedule_date');

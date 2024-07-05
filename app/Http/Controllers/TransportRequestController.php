@@ -38,7 +38,7 @@ class TransportRequestController extends Controller
             'description' => 'required|string|max:255',
             'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
-            'event_location' => 'required|string|max"255',
+            'event_location' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
         ]);
 
@@ -48,6 +48,7 @@ class TransportRequestController extends Controller
                         ->withInput();
         }else{
             $input = [
+                'user_id' => Auth::id(),
                 'title' => $request->title,
                 'description' => $request->description,
                 'event_date' => $request->event_date,
@@ -134,11 +135,17 @@ class TransportRequestController extends Controller
     public function search(Request $request)
     {
         $search = $request->input('search');
-        $transportRequests = TransportRequest::where('title', 'like', '%'.$search.'%')
-            ->orWhere('description', 'like', '%'.$search.'%')
-            ->orWhere('event_location', 'like', '%'.$search.'%')
-            ->orWhere('no_of_people', 'like', '%'.$search.'%')
+
+        // Search for transport requests for the user
+        $transportRequests = TransportRequest::where('user_id', Auth::id())
+                ->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('event_date', 'LIKE', "%$search%")
+                ->orWhere('event_time', 'LIKE', "%$search%")
+                ->orWhere('event_location', 'LIKE', "%$search%")
+                ->orWhere('no_of_people', 'LIKE', "%$search%")
             ->paginate(10);
+
         return view('user.transport_requests.index', compact('transportRequests'));
     }
 
@@ -148,9 +155,9 @@ class TransportRequestController extends Controller
     public function filter(Request $request){
         $filter = $request->input('status');
         if($filter == 'All'){
-           $transportRequests = TransportRequest::paginate(10);
+            $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);
         }else{
-            $transportRequests = TransportRequest::where('status', $filter)->paginate(10);
+            $transportRequests = TransportRequest::where('user_id', Auth::id())->where('status', $filter)->paginate(10);
         }
 
         return view('user.transport_requests.index', compact('transportRequests'));

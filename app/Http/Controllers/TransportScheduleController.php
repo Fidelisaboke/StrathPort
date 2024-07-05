@@ -2,19 +2,33 @@
 
 namespace App\Http\Controllers;
 use App\Models\TransportSchedule;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class TransportScheduleController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function index()
     {
-        $transportSchedules = TransportSchedule::paginate(10);
+        $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
+
+        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function($query) {
+            $query->where('user_id', Auth::id());
+        });
+
+        // Combine queries using unionAll (without pagination yet)
+        $allSchedulesQuery = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery);
+
+        // Apply pagination on the combined query
+        $transportSchedules = $allSchedulesQuery->paginate(10);
+
         return view('user.transport_schedules.index', compact('transportSchedules'));
     }
+
 
     /**
      * Show the form for creating a new resource.

@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\Gate;
+use App\Models\User;
 
 class DeleteConfirmationModal extends Component
 {
@@ -37,7 +38,7 @@ class DeleteConfirmationModal extends Component
             $model->delete();
             session()->flash('success', 'Resource deleted successfully.');
         } elseif ($model && $this->adminModule && Gate::allows('admin')) {
-            if($model->hasRole('admin')){
+            if($model instanceof User && $model->hasRole('admin')){
                 session()->flash('error', 'Cannot delete an admin!');
             } else {
                 $model->delete();

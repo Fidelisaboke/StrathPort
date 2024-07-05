@@ -11,6 +11,12 @@ class TransportSchedule extends Model
 
     protected $fillable = [
         'transport_request_id',
+        'title',
+        'description',
+        'schedule_date',
+        'schedule_time',
+        'starting_point',
+        'destination',
     ];
 
     /**

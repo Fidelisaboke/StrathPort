@@ -65,6 +65,9 @@ Route::middleware([
                 Route::resource('users', Admin\UserController::class)->names('admin.users');
 
                 // Transport Requests
+                Route::post('transport_requests/update_status/{id}', [Admin\TransportRequestController::class, 'updateStatus'])->name('admin.transport_requests.update_status');
+                Route::get('transport_requests/search', [Admin\TransportRequestController::class, 'search'])->name('admin.transport_requests.search');
+                Route::get('transport_requests/filter', [Admin\TransportRequestController::class, 'filter'])->name('admin.transport_requests.filter');
                 Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');
 
                 // Transport Schedules

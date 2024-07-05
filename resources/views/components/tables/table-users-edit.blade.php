@@ -10,7 +10,6 @@
         {{ $users->links() }}
     </x-tables.table-links>
     <div class="mb-4 overflow-hidden bg-white shadow-xl sm:rounded-lg">
-        <!-- Transport Requests Table -->
         <div class="p-6 px-0 overflow-scroll">
             <table class="w-full mt-4 text-left table-auto min-w-max">
                 <thead>
