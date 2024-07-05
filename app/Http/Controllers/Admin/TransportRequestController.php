@@ -138,7 +138,42 @@ class TransportRequestController extends Controller
                 ];
 
                 TransportRequest::find($id)->update($input);
-                return redirect('admin/transport_requests')->with('success', 'Transport request updated successfully!');
+
+                // Update the corresponding transport schedule if exists
+
+                $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
+
+                if($request->status == 'Declined' && !empty($transportSchedule)){
+                    // Delete the corresponding transport schedule if exists
+                    TransportSchedule::where('transport_request_id', $id)->delete();
+                }
+
+                // If status changed to pending, delete the corresponding transport schedule
+                if($request->status == 'Pending' && !empty($transportSchedule)){
+                    TransportSchedule::where('transport_request_id', $id)->delete();
+                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! The corresponding transport schedule has been deleted.');
+                }
+
+                if($request->status == 'Approved' && empty($transportSchedule)){
+                    // Create a corresponding transport schedule if not exists
+                    $schedule = [
+                        'transport_request_id' => $id,
+                        'title' => TransportRequest::find($id)->title,
+                        'description' => TransportRequest::find($id)->description,
+                        'schedule_date' => TransportRequest::find($id)->event_date,
+                        'schedule_time' => TransportRequest::find($id)->event_time,
+                        'starting_point' => 'Strathmore University',
+                        'destination' => TransportRequest::find($id)->event_location,
+                    ];
+
+                    TransportSchedule::create($schedule);
+
+                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! A transport schedule has been created.');
+                } else{
+                    $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
+                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! ' . $message);
+                }
+
             }
         }
     }
@@ -225,6 +260,11 @@ class TransportRequestController extends Controller
 
         $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
 
+        if($request->status == 'Declined' && !empty($transportSchedule)){
+            // Delete the corresponding transport schedule if exists
+            TransportSchedule::where('transport_request_id', $id)->delete();
+        }
+
         if($request->status == 'Approved' && empty($transportSchedule)){
             // Create a corresponding transport schedule if not exists
             $schedule = [
@@ -240,11 +280,9 @@ class TransportRequestController extends Controller
             TransportSchedule::create($schedule);
 
             return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status updated successfully! A transport schedule has been created.');
-        } elseif($request->status == 'Declined' && !empty($transportSchedule)){
-            // Delete the corresponding transport schedule if exists
-            TransportSchedule::where('transport_request_id', $id)->delete();
-
-            return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status updated successfully! The corresponding transport schedule has been deleted.');
+        } else{
+            $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
+            return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status updated successfully! ' . $message);
         }
     }
 }

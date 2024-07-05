@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('carpool_requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('carpool_driver_id')->references('id')->on('carpool_drivers')->nullOnDelete();
+            $table->foreignId('carpool_driver_id')->nullable()->references('id')->on('carpool_drivers')->nullOnDelete();
             $table->string('title');
             $table->string('description');
             $table->date('departure_date');
