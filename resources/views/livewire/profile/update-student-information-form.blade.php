@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="description">
-        {{ __('Update your first name and last name.') }}
+        {{ __('Update your School ID, first name and last name.') }}
     </x-slot>
 
     <x-slot name="form">

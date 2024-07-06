@@ -40,5 +40,9 @@
           data:  [@json($pendingCount), @json($approvedCount), @json($declinedCount)],
         }]
       },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
     });
 </script>

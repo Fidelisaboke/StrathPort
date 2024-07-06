@@ -1,87 +1,66 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Transport Requests') }}
+            {{ __('View Transport Request') }}
         </h2>
     </x-slot>
 
-    <div class="py-12">
-        <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
-                <div class="block mb-8">
-                    <a href="{{ route('transport_requests.index') }}" class="px-4 py-2 font-bold text-black bg-gray-200 rounded hover:bg-gray-400">Back to list</a>
-                </div>
-                <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                            <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
-                                <table class="w-full min-w-full divide-y divide-gray-200">
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            ID
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->id }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Title
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->title }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Description
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->description }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Date
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->event_date }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Time
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->event_time }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Location
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->event_location }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            No of People Expected
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->no_of_people }}
-                                        </td>
-                                    </tr>
-                                    <tr class="border-b">
-                                        <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase bg-gray-50">
-                                            Status
-                                        </th>
-                                        <td class="px-6 py-4 text-sm text-gray-900 bg-white divide-y divide-gray-200 whitespace-nowrap">
-                                            {{ $transportRequest->status}}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
+    <div>
+        <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
+        <!-- Back Button -->
+        <x-button-link href="{{ route('transport_requests.index') }}" text="Back to Transport Requests List" arrowType="left"/>
+
+
+        <div class="container grid px-6 mx-auto md:w-3/5">
+            <div class="items-center p-4 my-6">
+                <div class="overflow-hidden shadow sm:rounded-md">
+                    <!-- ID -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="id" class="block text-sm font-medium text-gray-700">ID</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->id }}</span>
+                        </div>
+                    </div>
+                    <!-- Description -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->description }}</span>
+                        </div>
+                    </div>
+                    <!-- Date -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="event_date" class="block text-sm font-medium text-gray-700">Date</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->event_date }}</span>
+                        </div>
+                    </div>
+                    <!-- Time -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="event_time" class="block text-sm font-medium text-gray-700">Time</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->event_time }}</span>
+                        </div>
+                    </div>
+                    <!-- Event Location -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="starting_location" class="block text-sm font-medium text-gray-700">Event Location</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->event_location }}</span>
+                        </div>
+                    </div>
+                    <!-- No of People -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="no_of_people" class="block text-sm font-medium text-gray-700">No of People</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->no_of_people }}</span>
+                        </div>
+                    </div>
+                    <!-- Status -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->status }}</span>
                         </div>
                     </div>
                 </div>

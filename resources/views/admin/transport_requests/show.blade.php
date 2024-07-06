@@ -27,9 +27,22 @@
     <div class="container grid w-3/5 px-6 mx-auto">
         <div class="items-center p-4 my-6">
             <div class="overflow-hidden shadow sm:rounded-md">
+                <!-- Request From -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="user" class="block text-sm font-medium text-gray-700">Request From</label>
+                    <div class="flex justify-between">
+                        <span>
+                            @empty($fullName)
+                                {{$user->name}}
+                            @else
+                                {{ $fullName }}
+                            @endempty
+                        </span>
+                    </div>
+                </div>
                 <!-- ID -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="user" class="block text-sm font-medium text-gray-700">User</label>
+                    <label for="user" class="block text-sm font-medium text-gray-700">Request ID</label>
                     <div class="flex justify-between">
                         <span>{{ $transportRequest->id }}</span>
                     </div>
@@ -46,19 +59,6 @@
                     <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
                     <div class="flex justify-between">
                         <span>{{ $transportRequest->description }}</span>
-                    </div>
-                </div>
-                <!-- Request From -->
-                <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="user" class="block text-sm font-medium text-gray-700">Request From</label>
-                    <div class="flex justify-between">
-                        <span>
-                            @empty($fullName)
-                                {{$user->name}}
-                            @else
-                                {{ $fullName }}
-                            @endempty
-                        </span>
                     </div>
                 </div>
                 <!-- Date -->

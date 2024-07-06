@@ -19,31 +19,31 @@
         </x-admin-nav-link>
 
         <!-- Users -->
-        <x-admin-nav-link href="{{route('admin.users.index')}}" :active="request()->routeIs('admin.users.index')">
+        <x-admin-nav-link href="{{route('admin.users.index')}}" :active="request()->routeIs('admin.users.*')">
             <i class="w-6 h-6 fas fa-users-cog" aria-hidden="true"></i>
             <span class="mx-3">User Management</span>
         </x-admin-nav-link>
 
         <!-- Transport Requests -->
-        <x-admin-nav-link href="{{route('admin.transport_requests.index')}}" :active="request()->routeIs('admin.transport_requests.index')">
+        <x-admin-nav-link href="{{route('admin.transport_requests.index')}}" :active="request()->routeIs('admin.transport_requests.*')">
             <i class="w-6 h-6 fas fa-calendar" aria-hidden="true"></i>
             <span class="mx-3">Transport Requests</span>
         </x-admin-nav-link>
 
         <!-- Transport Schedules -->
-        <x-admin-nav-link href="{{route('admin.transport_schedules.index')}}" :active="request()->routeIs('admin.transport_schedules.index')">
+        <x-admin-nav-link href="{{route('admin.transport_schedules.index')}}" :active="request()->routeIs('admin.transport_schedules.*')">
             <i class="w-6 h-6 fas fa-calendar" aria-hidden="true"></i>
             <span class="mx-3">Transport Schedules</span>
         </x-admin-nav-link>
 
         <!-- School Drivers -->
-        <x-admin-nav-link href="{{route('admin.school_drivers.index')}}" :active="request()->routeIs('admin.school_drivers.index')">
+        <x-admin-nav-link href="{{route('admin.school_drivers.index')}}" :active="request()->routeIs('admin.school_drivers.*')">
             <i class="w-6 h-6 fas fa-id-card" aria-hidden="true"></i>
             <span class="mx-3">School Drivers</span>
         </x-admin-nav-link>
 
         <!-- School Vehicles -->
-        <x-admin-nav-link href="{{route('admin.school_vehicles.index')}}" :active="request()->routeIs('admin.school_vehicles.index')">
+        <x-admin-nav-link href="{{route('admin.school_vehicles.index')}}" :active="request()->routeIs('admin.school_vehicles.*')">
             <i class="w-6 h-6 fas fa-bus" aria-hidden="true"></i>
             <span class="mx-3">School Vehicles</span>
         </x-admin-nav-link>

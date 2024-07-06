@@ -2,8 +2,8 @@
     $carpoolVehicle = Auth::user()->carpoolDriver->carpoolVehicle;
 @endphp
 
-<div class="md:gap-12 md:grid md:grid-cols-2">
-    <div class="p-4 mb-4 bg-white rounded-lg shadow-xl md:mb-0">
+<div class="overflow-auto lg:gap-12 lg:grid lg:grid-cols-2">
+    <div class="p-4 mb-4 bg-white rounded-lg shadow-xl lg:mb-0">
         <h2 class="text-lg font-semibold text-gray-800">User Profile</h2>
         <x-user-profile-card />
     </div>

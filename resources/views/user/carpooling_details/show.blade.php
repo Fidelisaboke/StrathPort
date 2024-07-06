@@ -11,15 +11,10 @@
         $carpoolDriver = $carpoolRequest->carpoolDriver;
     @endphp
 
-    <div class="py-12">
-        <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
+    <div class="py-4">
+        <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
             <!-- Back Button -->
-            <div class="px-4 py-2 mt-6 rounded max-w-max bg-fuchsia-600 hover:bg-fuchsia-700">
-                <a href="{{ route('carpooling_details.index') }}" class="flex items-center justify-center text-white">
-                    <i class="mr-2 fas fa-arrow-left"></i>
-                    Back to Carpool Schedule List
-                </a>
-            </div>
+            <x-button-link href="{{ route('carpooling_details.index') }}" text="Back to Carpool Schedules List" arrowType="left"/>
 
             <div class="container grid px-6 mx-auto lg:w-3/5">
                 <div class="items-center p-4 my-6">

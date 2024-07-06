@@ -1,5 +1,5 @@
-<div class="w-full space-y-8 md:flex md:justify-center">
-    <div class="md:flex md:space-x-8 lg:space-x-12">
+<div class="space-y-8">
+    <div class="md:flex md:space-x-6 lg:space-x-10">
         <div class="md:w-1/2">
             <div class="p-4 bg-white rounded-lg shadow-xl">
                 <h2 class="text-lg font-semibold text-gray-800">User Profile</h2>

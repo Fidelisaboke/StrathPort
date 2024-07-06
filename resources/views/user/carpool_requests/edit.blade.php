@@ -6,7 +6,7 @@
     </x-slot>
 
     <div>
-        <div class="max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
+        <div class="w-3/5 max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <form method="post" action="{{ route('carpool_requests.update', $carpoolRequest->id) }}">
                     @csrf

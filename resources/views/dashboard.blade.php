@@ -11,7 +11,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
+        <div class="w-4/5 mx-auto max-w-7xl md:w-full sm:px-8 lg:px-10">
             @if(!Auth::user()->hasAnyRole('student', 'staff', 'carpool_driver') || Auth::user()->account_status !== 'active')
                 <x-welcome />
             @else

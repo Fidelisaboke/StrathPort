@@ -1,5 +1,5 @@
 <!-- Transport request filter -->
-<div class="flex flex-col ml-2">
+<div class="flex flex-col mb-4 ml-2">
     <label for="status" class="block mb-2 text-sm font-bold text-gray-700">Filter by status:</label>
     <div class="flex items-center space-x-4">
         <select name="status" id="status" class="px-8 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-fuchsia-100 focus:border-fuchsia-300">

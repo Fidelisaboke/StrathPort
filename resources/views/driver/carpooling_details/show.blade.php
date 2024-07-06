@@ -14,7 +14,7 @@
     <div class="py-12">
         <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
             <!-- Back Button -->
-            <div class="px-4 py-2 mt-6 rounded max-w-max bg-fuchsia-600 hover:bg-fuchsia-700">
+            <div class="px-4 py-2 rounded max-w-max bg-fuchsia-600 hover:bg-fuchsia-700">
                 <a href="{{ route('driver.carpooling_details.index') }}" class="flex items-center justify-center text-white">
                     <i class="mr-2 fas fa-arrow-left"></i>
                     Back to Carpool Schedule List
@@ -73,7 +73,7 @@
                                 <span>{{ $carpoolDriver->full_name }}</span>
                             </div>
                         </div>
-                        <!-- Driver Name-->
+                        <!-- Driver Phone-->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
                             <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
                             <div class="flex justify-start">

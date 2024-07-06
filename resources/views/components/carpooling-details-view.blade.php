@@ -35,10 +35,17 @@
                     </div>
                 </div>
                 <div class="flex flex-col justify-center">
-                    <div>
-                        <a href="{{ route('driver.carpooling_details.show', $carpoolingDetail->id) }}"
-                            class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">View</a>
-                    </div>
+                    @if(Auth::user()->hasRole('carpool_driver'))
+                        <div>
+                            <a href="{{ route('driver.carpooling_details.show', $carpoolingDetail->id) }}"
+                                class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">View</a>
+                        </div>
+                    @else
+                        <div>
+                            <a href="{{ route('carpooling_details.show', $carpoolingDetail->id) }}"
+                                class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">View</a>
+                        </div>
+                    @endif
                 </div>
             </div>
         @endforeach
