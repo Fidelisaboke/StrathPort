@@ -17,12 +17,10 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $transportRequests = TransportRequest::paginate(10);
-            return view('admin.transport_requests.index', compact('transportRequests'));
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $transportRequests = TransportRequest::paginate(10);
+        return view('admin.transport_requests.index', compact('transportRequests'));
     }
 
     /**
@@ -30,11 +28,9 @@ class TransportRequestController extends Controller
      */
     public function create()
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            return view('admin.transport_requests.create');
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        return view('admin.transport_requests.create');
     }
 
     /**
@@ -42,38 +38,36 @@ class TransportRequestController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        // Validate the request...
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'title' => 'required|string|max:60',
+            'description' => 'required|string|max:255',
+            'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'event_time' => 'required|after:05:00|before:19:00',
+            'event_location' => 'required|string|max:255',
+            'no_of_people' => 'required|integer|between:1,200',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/transport_requests/create')
+                        ->withErrors($validator->errors())
+                        ->withInput();
         } else {
-            // Validate the request...
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|integer',
-                'title' => 'required|string|max:60',
-                'description' => 'required|string|max:255',
-                'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
-                'event_time' => 'required|after:05:00|before:19:00',
-                'event_location' => 'required|string|max:255',
-                'no_of_people' => 'required|integer|between:1,200',
-            ]);
+            $input = [
+                'user_id' => $request->user_id,
+                'title' => $request->title,
+                'description' => $request->description,
+                'event_date' => $request->event_date,
+                'event_time' => $request->event_time,
+                'event_location' => $request->event_location,
+                'no_of_people' => $request->no_of_people,
+            ];
 
-            if ($validator->fails()) {
-                return redirect('admin/transport_requests/create')
-                            ->withErrors($validator->errors())
-                            ->withInput();
-            } else {
-                $input = [
-                    'user_id' => $request->user_id,
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'event_date' => $request->event_date,
-                    'event_time' => $request->event_time,
-                    'event_location' => $request->event_location,
-                    'no_of_people' => $request->no_of_people,
-                ];
-
-                TransportRequest::create($input);
-                return redirect('admin/transport_requests')->with('success', 'Transport request created successfully!');
-            }
+            TransportRequest::create($input);
+            return redirect('admin/transport_requests')->with('success', 'Transport request created successfully!');
         }
     }
 
@@ -82,12 +76,10 @@ class TransportRequestController extends Controller
      */
     public function show(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $transportRequest = TransportRequest::find($id);
-            return view('admin.transport_requests.show', compact('transportRequest'));
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $transportRequest = TransportRequest::find($id);
+        return view('admin.transport_requests.show', compact('transportRequest'));
     }
 
     /**
@@ -95,12 +87,10 @@ class TransportRequestController extends Controller
      */
     public function edit(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
             $transportRequest = TransportRequest::find($id);
             return view('admin.transport_requests.edit', compact('transportRequest'));
-        }
     }
 
     /**
@@ -108,73 +98,71 @@ class TransportRequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            // Validate the request...
-            $validator = Validator::make($request->all(), [
-                'title' => 'required|string|max:60',
-                'description' => 'required|string|max:255',
-                'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
-                'event_time' => 'required|after:05:00|before:19:00',
-                'event_location' => 'required|string|max:255',
-                'no_of_people' => 'required|integer|between:1,200',
-                'status' => 'required|in:Pending,Approved,Declined',
-            ]);
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-            if ($validator->fails()) {
-                return redirect('admin/transport_requests/'.$id.'/edit')
-                            ->withErrors($validator->errors())
-                            ->withInput();
-            } else {
-                $input = [
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'event_date' => $request->event_date,
-                    'event_time' => $request->event_time,
-                    'event_location' => $request->event_location,
-                    'no_of_people' => $request->no_of_people,
-                    'status' => $request->status,
+        // Validate the request...
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:60',
+            'description' => 'required|string|max:255',
+            'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'event_time' => 'required|after:05:00|before:19:00',
+            'event_location' => 'required|string|max:255',
+            'no_of_people' => 'required|integer|between:1,200',
+            'status' => 'required|in:Pending,Approved,Declined',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/transport_requests/'.$id.'/edit')
+                        ->withErrors($validator->errors())
+                        ->withInput();
+        } else {
+            $input = [
+                'title' => $request->title,
+                'description' => $request->description,
+                'event_date' => $request->event_date,
+                'event_time' => $request->event_time,
+                'event_location' => $request->event_location,
+                'no_of_people' => $request->no_of_people,
+                'status' => $request->status,
+            ];
+
+            TransportRequest::find($id)->update($input);
+
+            // Update the corresponding transport schedule if exists
+
+            $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
+
+            if($request->status == 'Declined' && !empty($transportSchedule)){
+                // Delete the corresponding transport schedule if exists
+                TransportSchedule::where('transport_request_id', $id)->delete();
+            }
+
+            // If status changed to pending, delete the corresponding transport schedule
+            if($request->status == 'Pending' && !empty($transportSchedule)){
+                TransportSchedule::where('transport_request_id', $id)->delete();
+                return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! The corresponding transport schedule has been deleted.');
+            }
+
+            if($request->status == 'Approved' && empty($transportSchedule)){
+                // Create a corresponding transport schedule if not exists
+                $schedule = [
+                    'transport_request_id' => $id,
+                    'title' => TransportRequest::find($id)->title,
+                    'description' => TransportRequest::find($id)->description,
+                    'schedule_date' => TransportRequest::find($id)->event_date,
+                    'schedule_time' => TransportRequest::find($id)->event_time,
+                    'starting_point' => 'Strathmore University',
+                    'destination' => TransportRequest::find($id)->event_location,
                 ];
 
-                TransportRequest::find($id)->update($input);
+                TransportSchedule::create($schedule);
 
-                // Update the corresponding transport schedule if exists
-
-                $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
-
-                if($request->status == 'Declined' && !empty($transportSchedule)){
-                    // Delete the corresponding transport schedule if exists
-                    TransportSchedule::where('transport_request_id', $id)->delete();
-                }
-
-                // If status changed to pending, delete the corresponding transport schedule
-                if($request->status == 'Pending' && !empty($transportSchedule)){
-                    TransportSchedule::where('transport_request_id', $id)->delete();
-                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! The corresponding transport schedule has been deleted.');
-                }
-
-                if($request->status == 'Approved' && empty($transportSchedule)){
-                    // Create a corresponding transport schedule if not exists
-                    $schedule = [
-                        'transport_request_id' => $id,
-                        'title' => TransportRequest::find($id)->title,
-                        'description' => TransportRequest::find($id)->description,
-                        'schedule_date' => TransportRequest::find($id)->event_date,
-                        'schedule_time' => TransportRequest::find($id)->event_time,
-                        'starting_point' => 'Strathmore University',
-                        'destination' => TransportRequest::find($id)->event_location,
-                    ];
-
-                    TransportSchedule::create($schedule);
-
-                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! A transport schedule has been created.');
-                } else{
-                    $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
-                    return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! ' . $message);
-                }
-
+                return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! A transport schedule has been created.');
+            } else{
+                $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
+                return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! ' . $message);
             }
+
         }
     }
 
@@ -183,12 +171,11 @@ class TransportRequestController extends Controller
      */
     public function destroy(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            TransportRequest::find($id)->delete();
-            return redirect('admin/transport_requests')->with('success', 'Transport request deleted successfully!');
-        }
+
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        TransportRequest::find($id)->delete();
+        return redirect('admin/transport_requests')->with('success', 'Transport request deleted successfully!');
     }
 
     /**
@@ -196,19 +183,19 @@ class TransportRequestController extends Controller
      */
     public function search(Request $request)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
             $search = $request->get('search');
-            $transportRequests = TransportRequest::where('title', 'like', '%'.$search.'%')
-                ->orWhere('description', 'like', '%'.$search.'%')
-                ->orWhere('event_date', 'like', '%'.$search.'%')
-                ->orWhere('event_time', 'like', '%'.$search.'%')
-                ->orWhere('event_location', 'like', '%'.$search.'%')
-                ->orWhere('no_of_people', 'like', '%'.$search.'%')
-                ->paginate(10);
+            $transportRequests = TransportRequest::where(function($query) use ($search){
+                $query->where('title', 'like', '%'.$search.'%')
+                    ->orWhere('description', 'like', '%'.$search.'%')
+                    ->orWhere('event_date', 'like', '%'.$search.'%')
+                    ->orWhere('event_time', 'like', '%'.$search.'%')
+                    ->orWhere('event_location', 'like', '%'.$search.'%')
+                    ->orWhere('no_of_people', 'like', '%'.$search.'%');
+            })->paginate(10);
+
             return view('admin.transport_requests.index', compact('transportRequests'));
-        }
     }
 
     /**
@@ -216,17 +203,15 @@ class TransportRequestController extends Controller
      */
     public function filter(Request $request)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $filter = $request->get('status');
+        if($filter == 'All'){
+            $transportRequests = TransportRequest::paginate(10);
         } else {
-            $filter = $request->get('status');
-            if($filter == 'All'){
-                $transportRequests = TransportRequest::paginate(10);
-            } else {
-                $transportRequests = TransportRequest::where('status', $filter)->paginate(10);
-            }
-            return view('admin.transport_requests.index', compact('transportRequests'));
+            $transportRequests = TransportRequest::where('status', $filter)->paginate(10);
         }
+        return view('admin.transport_requests.index', compact('transportRequests'));
     }
 
     /**
@@ -234,9 +219,7 @@ class TransportRequestController extends Controller
      */
     public function updateStatus(Request $request, string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
         $validator = Validator::make($request->all(), [
             'status' => 'required|in:Pending,Approved,Declined',

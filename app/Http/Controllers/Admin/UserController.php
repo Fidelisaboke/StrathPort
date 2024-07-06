@@ -19,12 +19,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $users = User::paginate(10);
-            return view('admin.users.index', compact('users'));
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $users = User::paginate(10);
+        return view('admin.users.index', compact('users'));
     }
 
     /**
@@ -32,11 +30,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            return view('admin.users.create');
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        return view('admin.users.create');
     }
 
     /**
@@ -44,27 +40,26 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            // Validate the request...
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255',
-                'email' => 'required|email|unique:users',
-                'password' => Password::defaults(),
-                'secondary_email' => 'nullable|email',
-                'address' => 'nullable|string',
-                'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
-                'account_status' => 'nullable|string|in:active,inactive',
-                'roles' => 'nullable|array|size:1',
-            ]);
+        // Validate the request...
 
-            if ($validator->fails()) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users',
+            'password' => Password::defaults(),
+            'secondary_email' => 'nullable|email',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
+            'account_status' => 'nullable|string|in:active,inactive',
+            'roles' => 'nullable|array|size:1',
+        ]);
+
+        if ($validator->fails()) {
             return redirect('admin/users/create')
-                    ->withErrors($validator)
-                    ->withInput();
-            } else {
+                ->withErrors($validator)
+                ->withInput();
+        } else {
             $input = [
                 'name' => $request->name,
                 'email' => $request->email,
@@ -79,8 +74,6 @@ class UserController extends Controller
             $user->assignRole($request->roles);
 
             return redirect('admin/users')->with('success', 'User created successfully!');
-            }
-
         }
     }
 
@@ -89,12 +82,10 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $user = User::find($id);
-            return view('admin.users.show', compact('user'));
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $user = User::find($id);
+        return view('admin.users.show', compact('user'));
     }
 
     /**
@@ -102,12 +93,10 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $user = User::find($id);
-            return view('admin.users.edit', compact('user'));
-        }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $user = User::find($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
@@ -115,63 +104,60 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        // Validate the request...
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'secondary_email' => 'nullable|email',
+            'address' => 'nullable|string',
+            'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
+            'roles' => 'nullable|array|size:1',
+            'account_status' => 'nullable|string|in:active,inactive',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect('admin/users/' . $id . '/edit')
+                ->withErrors($validator)
+                ->withInput();
         } else {
-            // Validate the request...
-            $validator = Validator::make($request->all(), [
-                'name' => 'required|max:255',
-                'email' => 'required|email|unique:users,email,'.$id,
-                'secondary_email' => 'nullable|email',
-                'address' => 'nullable|string',
-                'phone' => 'nullable|string|regex:/^(\+254)[0-9]{9}$/',
-                'roles' => 'nullable|array|size:1',
-                'account_status' => 'nullable|string|in:active,inactive',
-            ]);
+            $input = [
+                'name' => $request->name,
+                'email' => $request->email,
+                'secondary_email' => $request->secondary_email,
+                'address' => $request->address,
+                'phone' => $request->phone,
+                'account_status' => $request->account_status,
+            ];
 
-            if ($validator->fails()) {
-                return redirect('admin/users/'.$id.'/edit')
-                            ->withErrors($validator)
-                            ->withInput();
-            } else {
-                $input = [
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'secondary_email' => $request->secondary_email,
-                    'address' => $request->address,
-                    'phone' => $request->phone,
-                    'account_status' => $request->account_status,
-                ];
+            User::find($id)->update($input);
 
-                User::find($id)->update($input);
+            // Prevent changing of roles if the user already has a role
+            $user = User::find($id);
+            if ($user->roles->count() == 0 || $request->roles[0] == $user->roles[0]->name) {
+                $user->assignRole($request->roles);
 
-                // Prevent changing of roles if the user already has a role
-                $user = User::find($id);
-                if ($user->roles->count() == 0 || $request->roles[0] == $user->roles[0]->name) {
-                    $user->assignRole($request->roles);
-
-                    // create corresponding student, staff, or carpool driver record
-                    if ($request->roles[0] == 'student') {
-                        $student = new Student();
-                        $student->user_id = auth()->id();
-                        $student->save();
-                    } elseif ($request->roles[0] == 'staff') {
-                        $staff = new Staff();
-                        $staff->user_id = auth()->id();
-                        $staff->save();
-                    } elseif ($request->roles[0] == 'carpool_driver') {
-                        $carpoolDriver = new CarpoolDriver();
-                        $carpoolDriver->user_id = auth()->id();
-                        $carpoolDriver->save();
-                    }
-                } else {
-                    // Return error message if user already has a role
-                    return redirect('admin/users/'.$id.'/edit')->with('error', 'Cannot change roles for a user with existing roles!');
+                // create corresponding student, staff, or carpool driver record
+                if ($request->roles[0] == 'student') {
+                    $student = new Student();
+                    $student->user_id = auth()->id();
+                    $student->save();
+                } elseif ($request->roles[0] == 'staff') {
+                    $staff = new Staff();
+                    $staff->user_id = auth()->id();
+                    $staff->save();
+                } elseif ($request->roles[0] == 'carpool_driver') {
+                    $carpoolDriver = new CarpoolDriver();
+                    $carpoolDriver->user_id = auth()->id();
+                    $carpoolDriver->save();
                 }
-
-                return redirect('admin/users')->with('success', 'User updated successfully!');
+            } else {
+                // Return error message if user already has a role
+                return redirect('admin/users/' . $id . '/edit')->with('error', 'Cannot change roles for a user with existing roles!');
             }
 
+            return redirect('admin/users')->with('success', 'User updated successfully!');
         }
     }
 
@@ -180,19 +166,17 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            // Prevent deleting admins
-            $user = User::find($id);
-            if($user->hasRole('admin')){
-                return redirect('admin/users')->with('error', 'Cannot delete an admin!');
-            } else {
-                User::find($id)->delete();
-            }
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-            return redirect('admin/users')->with('success', 'User deleted successfully!');
+        // Prevent deleting admins
+        $user = User::find($id);
+        if ($user->hasRole('admin')) {
+            return redirect('admin/users')->with('error', 'Cannot delete an admin!');
+        } else {
+            User::find($id)->delete();
         }
+
+        return redirect('admin/users')->with('success', 'User deleted successfully!');
     }
 
     /**
@@ -200,21 +184,17 @@ class UserController extends Controller
      */
     public function search(Request $request)
     {
-        if(!Gate::allows('admin')){
-            abort(403, 'Unauthorized');
-        } else {
-            $search = $request->input('search');
-            $users = User::where(function($query) use ($search){
-                        $query->where('name', 'like', '%'.$search.'%')
-                        ->orWhere('email', 'like', '%'.$search.'%')
-                        ->orWhere('secondary_email', 'like', '%'.$search.'%')
-                        ->orWhere('phone', 'like', '%'.$search.'%')
-                        ->orWhere('address', 'like', '%'.$search.'%');
-            })->paginate(10);
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+        
+        $search = $request->input('search');
+        $users = User::where(function ($query) use ($search) {
+            $query->where('name', 'like', '%' . $search . '%')
+                ->orWhere('email', 'like', '%' . $search . '%')
+                ->orWhere('secondary_email', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%')
+                ->orWhere('address', 'like', '%' . $search . '%');
+        })->paginate(10);
 
-            return view('admin.users.index', compact('users'));
-        }
+        return view('admin.users.index', compact('users'));
     }
-
-
 }

@@ -75,7 +75,7 @@ class SchoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $schoolVehicle = SchoolVehicle::findOrFail($id);
+        $schoolVehicle = SchoolVehicle::find($id);
         return view('admin.school_vehicles.show', compact('schoolVehicle'));
     }
 
@@ -86,7 +86,7 @@ class SchoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $schoolVehicle = SchoolVehicle::findOrFail($id);
+        $schoolVehicle = SchoolVehicle::find($id);
         return view('admin.school_vehicles.edit', compact('schoolVehicle'));
     }
 
@@ -121,7 +121,7 @@ class SchoolVehicleController extends Controller
                 'capacity' => $request->capacity,
             ];
 
-            SchoolVehicle::findOrFail($id)->update($input);
+            SchoolVehicle::find($id)->update($input);
 
             return redirect('admin/school_vehicles')->with('success', 'School Vehicle updated successfully.');
         }

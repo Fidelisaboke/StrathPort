@@ -133,13 +133,15 @@ class TransportScheduleController extends Controller
     public function search(Request $request)
     {
         $search = $request->search;
-        $transportSchedules = TransportSchedule::where('title', 'like', '%' . $search . '%')
-            ->orWhere('description', 'like', '%' . $search . '%')
-            ->orWhere('schedule_date', 'like', '%' . $search . '%')
-            ->orWhere('schedule_time', 'like', '%' . $search . '%')
-            ->orWhere('starting_point', 'like', '%' . $search . '%')
-            ->orWhere('destination', 'like', '%' . $search . '%')
-            ->paginate(10);
+        $transportSchedules = TransportSchedule::where(function($query) use ($search){
+            $query->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%')
+                ->orWhere('schedule_date', 'like', '%' . $search . '%')
+                ->orWhere('schedule_time', 'like', '%' . $search . '%')
+                ->orWhere('starting_point', 'like', '%' . $search . '%')
+                ->orWhere('destination', 'like', '%' . $search . '%');
+        })->paginate(10);
+
         return view('admin.transport_schedules.index', compact('transportSchedules'));
     }
 }
