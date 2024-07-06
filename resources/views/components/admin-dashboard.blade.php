@@ -13,7 +13,7 @@
                         <span class="text-3xl font-bold text-fuchsia-600">{{$totalUsers}}</span>
                         <span class="ml-4 font-semibold text-gray-600">Users</span>
                     </div>
-                    <div class="p-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
+                    <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
                         <i class="fas fa-users"></i>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                         <span class="text-3xl font-bold text-fuchsia-600">{{$totalTransportRequests}}</span>
                         <span class="ml-4 font-semibold text-gray-600">Transport Requests</span>
                     </div>
-                    <div class="p-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
+                    <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
                         <i class="fas fa-calendar"></i>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <span class="text-3xl font-bold text-fuchsia-600">{{$totalTransportSchedules}}</span>
                         <span class="ml-4 font-semibold text-gray-600">Transport Schedules</span>
                     </div>
-                    <div class="p-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
+                    <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
                         <i class="fas fa-calendar"></i>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         <span class="text-3xl font-bold text-fuchsia-600">{{$totalSchoolDrivers}}</span>
                         <span class="ml-4 font-semibold text-gray-600">School Drivers</span>
                     </div>
-                    <div class="p-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
+                    <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
                         <i class="fas fa-id-card"></i>
                     </div>
                 </div>
@@ -69,7 +69,7 @@
                         <span class="text-3xl font-bold text-fuchsia-600">{{$totalSchoolVehicles}}</span>
                         <span class="ml-4 font-semibold text-gray-600">School Vehicles</span>
                     </div>
-                    <div class="p-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
+                    <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
                         <i class="fas fa-bus"></i>
                     </div>
                 </div>

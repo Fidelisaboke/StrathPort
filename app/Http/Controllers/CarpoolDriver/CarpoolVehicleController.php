@@ -41,7 +41,7 @@ class CarpoolVehicleController extends Controller
             'model' => 'required|string|max:255',
             'year' => 'required|string|numeric|before:' . Carbon::now()->format('Y'),
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
-            'capacity' => 'required|integer|between:1,20'
+            'capacity' => 'required|integer|unsigned|between:1,20'
         ]);
 
         if ($validator->fails()) {

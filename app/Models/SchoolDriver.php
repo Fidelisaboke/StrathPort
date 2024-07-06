@@ -17,6 +17,13 @@ class SchoolDriver extends Model
     ];
 
     /**
+     * Get full name of the driver
+     */
+    public function getFullNameAttribute(){
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
+    /**
      * Define a one-to-one relationship between School Driver and School Vehicle
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

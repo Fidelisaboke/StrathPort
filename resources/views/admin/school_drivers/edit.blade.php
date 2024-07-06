@@ -55,10 +55,10 @@
                         <select name="availability_status" id="availability_status"
                             class="block w-full mt-1 rounded-md shadow-sm form-select">
                             <option value="Available"
-                                {{ old('availability_status', $schoolDriver->availability_status) == 'available' ? 'selected' : '' }}>
+                                {{ old('availability_status', $schoolDriver->availability_status) == 'Available' ? 'selected' : '' }}>
                                 Available</option>
                             <option value="Unavailable"
-                                {{ old('availability_status', $schoolDriver->availability_status) == 'unavailable' ? 'selected' : '' }}>
+                                {{ old('availability_status', $schoolDriver->availability_status) == 'Unavailable' ? 'selected' : '' }}>
                                 Unavailable</option>
                         </select>
                         @error('availability_status')
