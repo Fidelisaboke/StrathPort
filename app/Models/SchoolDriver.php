@@ -10,7 +10,6 @@ class SchoolDriver extends Model
     use HasFactory;
 
     protected $fillable = [
-        'school_vehicle_id',
         'first_name',
         'last_name',
         'phone',
@@ -19,9 +18,9 @@ class SchoolDriver extends Model
 
     /**
      * Define a one-to-one relationship between School Driver and School Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function schoolVehicle(){
-        return $this->belongsTo(SchoolVehicle::class);
+        return $this->hasMany(SchoolVehicle::class);
     }
 }

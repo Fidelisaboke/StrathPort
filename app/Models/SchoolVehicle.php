@@ -10,6 +10,7 @@ class SchoolVehicle extends Model
     use HasFactory;
 
     protected $fillable = [
+        'school_driver_id',
         'make',
         'model',
         'year',
@@ -19,9 +20,9 @@ class SchoolVehicle extends Model
 
     /**
      * Inverse one-to-one relationship between School Driver and School Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function schoolDriver(){
-        return $this->hasOne(SchoolDriver::class);
+        return $this->belongsTo(SchoolDriver::class);
     }
 }

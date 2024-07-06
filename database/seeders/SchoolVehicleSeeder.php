@@ -16,6 +16,7 @@ class SchoolVehicleSeeder extends Seeder
         // Add 3 school vehicles
         $schoolVehicles = [
             [
+                'school_driver_id' => 1,
                 'make' => 'Toyota',
                 'model' => 'Hiace',
                 'year' => '2021',
@@ -23,6 +24,7 @@ class SchoolVehicleSeeder extends Seeder
                 'capacity' => 15,
             ],
             [
+                'school_driver_id' => 2,
                 'make' => 'Toyota',
                 'model' => 'Prime',
                 'year' => '2022',
@@ -30,6 +32,7 @@ class SchoolVehicleSeeder extends Seeder
                 'capacity' => 50,
             ],
             [
+                'school_driver_id' => 3,
                 'make' => 'Toyota',
                 'model' => 'Camry',
                 'year' => '2023',
