@@ -71,12 +71,15 @@ Route::middleware([
                 Route::resource('transport_requests', Admin\TransportRequestController::class)->names('admin.transport_requests');
 
                 // Transport Schedules
+                Route::get('transport_schedules/search', [Admin\TransportScheduleController::class, 'search'])->name('admin.transport_schedules.search');
                 Route::resource('transport_schedules', Admin\TransportScheduleController::class)->names('admin.transport_schedules');
 
                 // School Drivers
+                Route::get('school_drivers/search', [Admin\SchoolDriverController::class, 'search'])->name('admin.school_drivers.search');
                 Route::resource('school_drivers', Admin\SchoolDriverController::class)->names('admin.school_drivers');
 
                 // School Vehicles
+                Route::get('school_vehicles/search', [Admin\SchoolVehicleController::class, 'search'])->name('admin.school_vehicles.search');
                 Route::resource('school_vehicles', Admin\SchoolVehicleController::class)->names('admin.school_vehicles');
             });
 
