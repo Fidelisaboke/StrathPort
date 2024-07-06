@@ -57,11 +57,11 @@ class CarpoolVehicleController extends Controller
             ];
 
             // Insert and return latest id to save to carpool driver
-            $carpool_vehicle_id = CarpoolVehicle::insertGetId($input);
+            $carpoolVehicleId = CarpoolVehicle::insertGetId($input);
 
             // Update the user's carpool driver record to include the carpool vehicle id
             $carpoolDriver = CarpoolDriver::where('user_id', Auth::id())->first();
-            $carpoolDriver->carpool_vehicle_id = $carpool_vehicle_id;
+            $carpoolDriver->carpool_vehicle_id = $carpoolVehicleId;
             $carpoolDriver->save();
 
             return redirect('driver/carpool_vehicles')->with('success', 'Vehicle created successfully');

@@ -16,7 +16,7 @@ class CarpoolRequestController extends Controller
      */
     public function index()
     {
-        $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->paginate(10);
+        $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 
@@ -54,6 +54,7 @@ class CarpoolRequestController extends Controller
                 ->withInput();
         }else{
             $input = [
+                'user_id' => Auth::id(),
                 'title' => $request->title,
                 'description' => $request->description,
                 'carpool_driver_id' => $request->carpool_driver_id,

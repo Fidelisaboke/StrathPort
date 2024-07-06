@@ -15,7 +15,7 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
-        $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);
+        $transportRequests = TransportRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
         return view('user.transport_requests.index', compact('transportRequests'));
     }
 

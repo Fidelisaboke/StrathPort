@@ -21,7 +21,7 @@ class TransportScheduleController extends Controller
         });
 
         // Combine queries using unionAll (without pagination yet)
-        $allSchedulesQuery = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery);
+        $allSchedulesQuery = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->orderByDesc('id');
 
         // Apply pagination on the combined query
         $transportSchedules = $allSchedulesQuery->paginate(10);

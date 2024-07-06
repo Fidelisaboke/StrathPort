@@ -79,6 +79,6 @@ class CarpoolingDetailsController extends Controller
      */
     public function search(Request $request)
     {
-        
+
     }
 }

@@ -20,7 +20,7 @@ class CarpoolRequestController extends Controller
 
         // Get carpool requests based on carpool driver id
         $carpoolRequests = CarpoolRequest::where('carpool_driver_id', $carpoolDriverId)->paginate(10);
-        
+
         return view('driver.carpool_requests.index', compact('carpoolRequests'));
     }
 
