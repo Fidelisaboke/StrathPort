@@ -62,24 +62,24 @@
                                 </svg>
                             </p>
                         </th>
-                        <!-- Start Point -->
-                        <th
-                            class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
-                            <p
-                                class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                                Starting Point <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
-                                </svg>
-                            </p>
-                        </th>
                         <!-- Destination -->
                         <th
                             class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
                             <p
                                 class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                                 Destination <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
+                                </svg>
+                            </p>
+                        </th>
+                        <!-- Status -->
+                        <th
+                            class="p-4 transition-colors cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 hover:bg-blue-gray-50">
+                            <p
+                                class="flex items-center justify-between gap-2 font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+                                Status <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-4 h-4">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"></path>
@@ -138,16 +138,6 @@
                                     </div>
                                 </div>
                             </td>
-                            <!-- Start Point -->
-                            <td class="p-4 border-b border-blue-gray-50">
-                                <div class="flex items-center gap-3">
-                                    <div class="flex flex-col">
-                                        <p
-                                            class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                            {{ $transportSchedule->starting_point }}</p>
-                                    </div>
-                                </div>
-                            </td>
                             <!-- Destination -->
                             <td class="p-4 border-b border-blue-gray-50">
                                 <div class="flex items-center gap-3">
@@ -156,6 +146,30 @@
                                             class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
                                             {{ $transportSchedule->destination }}</p>
                                     </div>
+                                </div>
+                            </td>
+                            <!-- Status -->
+                            <td class="p-4 border-b border-blue-gray-50">
+                                <div class="flex items-center gap-3">
+                                    @if ($transportSchedule->status == 'In Progress')
+                                        <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-yellow-600 uppercase rounded-md select-none whitespace-nowrap bg-yellow-500/20"
+                                            style="opacity: 1;">
+                                            <p class="block antialiased leading-none text-center">
+                                                {{ $transportSchedule->status }}</p>
+                                        </div>
+                                    @elseif($transportSchedule->status == 'Completed')
+                                        <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-green-600 uppercase rounded-md select-none whitespace-nowrap bg-green-500/20"
+                                            style="opacity: 1;">
+                                            <p class="block antialiased leading-none text-center">
+                                                {{ $transportSchedule->status }}</p>
+                                        </div>
+                                    @else
+                                        <div class="relative grid items-center px-2 py-1 font-sans text-xs font-bold text-red-600 uppercase rounded-md select-none whitespace-nowrap bg-red-500/20"
+                                            style="opacity: 1;">
+                                            <p class="block antialiased leading-none text-center">
+                                                {{ $transportSchedule->status }}</p>
+                                        </div>
+                                    @endif
                                 </div>
                             </td>
                             <!-- Actions -->

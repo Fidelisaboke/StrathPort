@@ -82,6 +82,9 @@ Route::middleware([
                 Route::resource('transport_schedules', Admin\TransportScheduleController::class)->names('admin.transport_schedules');
 
                 // School Drivers
+
+                Route::put('/transport_schedules/cancel_trip/{id}', [Admin\TransportScheduleController::class, 'cancelTrip'])->name('admin.transport_schedules.cancelTrip');
+                Route::put('/transport_schedules/complete_trip/{id}', [Admin\TransportScheduleController::class, 'completeTrip'])->name('admin.transport_schedules.completeTrip');
                 Route::get('school_drivers/search', [Admin\SchoolDriverController::class, 'search'])->name('admin.school_drivers.search');
                 Route::resource('school_drivers', Admin\SchoolDriverController::class)->names('admin.school_drivers');
 

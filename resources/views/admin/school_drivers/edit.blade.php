@@ -72,4 +72,7 @@
                         </button>
                     </div>
                 </div>
+            </form>
+        </div>
+    </div>
 </x-admin-app-layout>

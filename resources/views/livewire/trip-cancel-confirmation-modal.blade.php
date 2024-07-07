@@ -4,7 +4,7 @@
     </x-slot>
 
     <x-slot name="content">
-        {{ __('Are you sure you want to cancel?') }}
+        {{ __('Are you sure you want to cancel this trip?') }}
     </x-slot>
 
     <x-slot name="footer">

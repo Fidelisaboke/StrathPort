@@ -103,11 +103,31 @@
                         @enderror
                     </div>
 
+                    <!-- Status -->
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                        <select name="status" id="status" class="block w-full mt-1 rounded-md shadow-sm form-select">
+                            <option value="In Progress" {{ $transportSchedule->status == 'In Progress' ? 'selected' : '' }}>
+                                In Progress</option>
+                            <option value="Cancelled" {{ $transportSchedule->status == 'Cancelled' ? 'selected' : '' }}>
+                                Cancelled</option>
+                            <option value="Completed" {{ $transportSchedule->status == 'Completed' ? 'selected' : '' }}>
+                                Completed</option>
+                        </select>
+                        @error('status')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
+
                     <div class="flex items-center justify-end px-4 py-3 text-right bg-gray-50 sm:px-6">
                         <button
                             class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-fuchsia-700 hover:bg-fuchsia-800 active:border-fuchsia-500 focus:outline-none focus:border-fuchsia-500 focus:shadow-outline-fuchsia disabled:opacity-25">
                             Update
                         </button>
                     </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </x-admin-app-layout>
