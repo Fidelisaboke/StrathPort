@@ -1,7 +1,7 @@
 <div class="p-2 border-black rounded">
     <!--Total Requests Made-->
     <h3 class="text-lg text-center text-gray-800">Total Requests Made</h3>
-    <p class="p-4 text-3xl text-center text-gray-800">{{$transportRequests->count()}}</p>
+    <p class="p-4 text-3xl text-center text-gray-800">{{$transportRequestsCount}}</p>
     <div class="grid grid-cols-3 gap-8 p-4">
         <!-- Pending -->
         <div class="flex flex-col items-center p-2 bg-yellow-500 rounded-lg shadow-xl">
@@ -22,13 +22,13 @@
 </div>
 
 <div class="p-2 w-128 h-128">
-    <canvas class="items-center" id="transport_request_history"></canvas>
+    <canvas class="items-center" id="transport_request_doughnut"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-    var ctx = document.getElementById('transport_request_history').getContext('2d');
+    var ctx = document.getElementById('transport_request_doughnut').getContext('2d');
 
     new Chart(ctx, {
       type: 'doughnut',

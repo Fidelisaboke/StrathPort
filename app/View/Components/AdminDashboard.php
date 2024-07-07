@@ -18,16 +18,32 @@ class AdminDashboard extends Component
     public $totalTransportSchedules;
     public $totalSchoolVehicles;
     public $totalSchoolDrivers;
+    public $requestApprovalRate;
+    public $peakRequestMonth;
     /**
      * Create a new component instance.
      */
     public function __construct()
     {
+        /* Analytics */
+        // Total Counts
         $this->totalUsers = User::count();
         $this->totalTransportRequests = TransportRequest::count();
         $this->totalTransportSchedules = TransportSchedule::count();
         $this->totalSchoolVehicles = SchoolVehicle::count('id');
         $this->totalSchoolDrivers = SchoolDriver::count('id');
+
+        // Request approval rate
+        $this->requestApprovalRate = number_format((TransportRequest::where('status', 'Approved')->count() / $this->totalTransportRequests) * 100, 2);
+
+        // Peak request month
+        $this->peakRequestMonth = TransportRequest::selectRaw('MONTH(event_date) as month, count(*) as requests')
+            ->groupBy('month')
+            ->orderBy('requests', 'desc')
+            ->first();
+
+        // Return the month name
+        $this->peakRequestMonth = date('F', mktime(0, 0, 0, $this->peakRequestMonth->month, 10));
     }
 
     /**
