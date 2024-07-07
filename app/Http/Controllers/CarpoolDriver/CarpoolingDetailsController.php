@@ -8,6 +8,7 @@ use App\Models\CarpoolingDetails;
 use App\Models\CarpoolRequest;
 use App\Models\CarpoolDriver;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CarpoolingDetailsController extends Controller
 {
@@ -16,6 +17,8 @@ class CarpoolingDetailsController extends Controller
      */
     public function index()
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         // Get carpool driver id based on user id
         $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
 
@@ -33,6 +36,8 @@ class CarpoolingDetailsController extends Controller
      */
     public function create()
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         return view('driver.carpooling_details.create');
     }
 
@@ -41,7 +46,7 @@ class CarpoolingDetailsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
     }
 
     /**
@@ -49,6 +54,8 @@ class CarpoolingDetailsController extends Controller
      */
     public function show(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         $carpoolingDetail = CarpoolingDetails::find($id);
         return view('driver.carpooling_details.show', compact('carpoolingDetail'));
     }
@@ -58,6 +65,8 @@ class CarpoolingDetailsController extends Controller
      */
     public function edit(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         $carpoolingDetail = CarpoolingDetails::find($id);
         return view('driver.carpooling_details.edit', compact('carpoolingDetail'));
     }
@@ -67,7 +76,7 @@ class CarpoolingDetailsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
     }
 
     /**
@@ -75,6 +84,8 @@ class CarpoolingDetailsController extends Controller
      */
     public function destroy(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         CarpoolingDetails::find($id)->delete();
         return redirect('user.carpooling_details')->with('success', 'Carpooling Detail deleted successfully.');
     }
@@ -84,6 +95,55 @@ class CarpoolingDetailsController extends Controller
      */
     public function search(Request $request)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
 
+        // Get carpool driver id based on user id
+        $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
+
+        // Get carpool request ids based on carpool driver id
+        $carpoolRequestIds = CarpoolRequest::where('carpool_driver_id', $carpoolDriverId)->pluck('id');
+
+        // Get carpool details based on search parameter and carpool request ids
+        $search = $request->search;
+        $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
+            ->where('title', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%')
+            ->orWhere('departure_date', 'like', '%' . $search . '%')
+            ->orWhere('departure_time', 'like', '%' . $search . '%')
+            ->orWhere('departure_location', 'like', '%' . $search . '%')
+            ->orWhere('destination', 'like', '%' . $search . '%')
+            ->orWhere('no_of_people', 'like', '%' . $search . '%')
+            ->paginate(10);
+
+        return view('driver.carpooling_details.index', compact('carpoolingDetails'));
+
+    }
+
+    /**
+     * Cancel a carpool schedule.
+     */
+    public function cancelTrip(string $id)
+    {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
+        $carpoolingDetail = CarpoolingDetails::find($id);
+        $carpoolingDetail->status = 'Cancelled';
+        $carpoolingDetail->save();
+
+        return redirect('driver/carpooling_details/'.$id)->with('success', 'Trip cancelled successfully.');
+    }
+
+    /**
+     * Complete a carpool schedule.
+     */
+    public function completeTrip(string $id)
+    {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+        
+        $carpoolingDetail = CarpoolingDetails::find($id);
+        $carpoolingDetail->status = 'Completed';
+        $carpoolingDetail->save();
+
+        return redirect('driver/carpooling_details/'.$id)->with('success', 'Trip completed successfully.');
     }
 }

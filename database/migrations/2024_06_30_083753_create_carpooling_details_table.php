@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('carpooling_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('carpool_request_id')->references('id')->on('carpool_requests')->cascadeOnDelete();
+            $table->enum('status', ['In Progress', 'Completed', 'Cancelled'])->default('In Progress');
             $table->timestamps();
         });
     }

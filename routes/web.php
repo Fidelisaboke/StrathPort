@@ -25,16 +25,18 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::middleware([CheckIfActive::class, CheckIfLocked::class])->group(function () {
-            // Dashboard Route
+            /* Dashboard Route */
             Route::get('/dashboard', function () {
                 return view('dashboard');
             })->name('dashboard');
 
-            // Student and Staff Routes
+            /* Student and Staff Routes */
             Route::get('/transport_requests/search', [TransportRequestController::class, 'search'])->name('transport_requests.search');
             Route::get('/transport_requests/filter', [TransportRequestController::class, 'filter'])->name('transport_requests.filter');
             Route::resource('transport_requests', TransportRequestController::class);
 
+            Route::put('/transport_schedules/cancel_trip/{id}', [TransportScheduleController::class, 'cancelTrip'])->name('transport_schedules.cancelTrip');
+            Route::put('/transport_schedules/complete_trip/{id}', [TransportScheduleController::class, 'completeTrip'])->name('transport_schedules.completeTrip');
             Route::get('/transport_schedules/search', [TransportScheduleController::class, 'search'])->name('transport_schedules.search');
             Route::resource('transport_schedules', TransportScheduleController::class);
 
@@ -42,24 +44,28 @@ Route::middleware([
             Route::get('/carpool_requests/filter', [CarpoolRequestController::class, 'filter'])->name('carpool_requests.filter');
             Route::resource('carpool_requests', CarpoolRequestController::class);
 
+            Route::put('/carpooling_details/cancel_trip/{id}', [CarpoolingDetailsController::class, 'cancelTrip'])->name('carpooling_details.cancelTrip');
+            Route::put('/carpooling_details/complete_trip/{id}', [CarpoolingDetailsController::class, 'completeTrip'])->name('carpooling_details.completeTrip');
             Route::get('/carpooling_details/search', [CarpoolingDetailsController::class, 'search'])->name('carpooling_details.search');
             Route::resource('/carpooling_details', CarpoolingDetailsController::class)->names('carpooling_details');
 
-            // Carpool Driver Routes
+            /* Carpool Driver Routes */
             Route::prefix('driver')->group(function () {
                 Route::get('/carpool_vehicles/search', [CarpoolDriver\CarpoolVehicleController::class, 'search'])->name('driver.carpool_vehicles.search');
                 Route::resource('/carpool_vehicles', CarpoolDriver\CarpoolVehicleController::class)->names('driver.carpool_vehicles');
 
+                Route::put('/carpooling_details/cancel_trip/{id}', [CarpoolDriver\CarpoolingDetailsController::class, 'cancelTrip'])->name('driver.carpooling_details.cancelTrip');
+                Route::put('/carpooling_details/complete_trip/{id}', [CarpoolDriver\CarpoolingDetailsController::class, 'completeTrip'])->name('driver.carpooling_details.completeTrip');
                 Route::get('/carpooling_details/search', [CarpoolDriver\CarpoolingDetailsController::class, 'search'])->name('driver.carpooling_details.search');
                 Route::resource('/carpooling_details', CarpoolDriver\CarpoolingDetailsController::class)->names('driver.carpooling_details');
 
                 Route::get('/carpool_requests/search', [CarpoolDriver\CarpoolRequestController::class, 'search'])->name('driver.carpool_requests.search');
                 Route::get('/carpool_requests/filter', [CarpoolDriver\CarpoolRequestController::class, 'filter'])->name('driver.carpool_requests.filter');
-                Route::post('/carpool_requests/update_status/{id}', [CarpoolDriver\CarpoolRequestController::class, 'updateStatus'])->name('driver.carpool_requests.update_status');
+                Route::put('/carpool_requests/update_status/{id}', [CarpoolDriver\CarpoolRequestController::class, 'updateStatus'])->name('driver.carpool_requests.update_status');
                 Route::resource('carpool_requests', CarpoolDriver\CarpoolRequestController::class)->names('driver.carpool_requests');
             });
 
-            // Admin route group
+            /* Admin Routes */
             Route::prefix('admin')->group(function () {
                 // Users
                 Route::get('users/search', [Admin\UserController::class, 'search'])->name('admin.users.search');

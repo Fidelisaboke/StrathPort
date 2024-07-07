@@ -7,6 +7,7 @@ use App\Models\TransportRequest;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class TransportRequestController extends Controller
 {
@@ -15,6 +16,8 @@ class TransportRequestController extends Controller
      */
     public function index()
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         $transportRequests = TransportRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
         return view('user.transport_requests.index', compact('transportRequests'));
     }
@@ -24,7 +27,9 @@ class TransportRequestController extends Controller
      */
     public function create()
     {
-       return view('user.transport_requests.create');
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
+        return view('user.transport_requests.create');
     }
 
     /**
@@ -32,6 +37,8 @@ class TransportRequestController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         // validate the form data
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:60',
@@ -70,6 +77,8 @@ class TransportRequestController extends Controller
      */
     public function show(string $id)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         $transportRequest = TransportRequest::find($id);
         return view('user.transport_requests.show', compact('transportRequest'));
     }
@@ -79,6 +88,8 @@ class TransportRequestController extends Controller
      */
     public function edit(string $id)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         $transportRequest = TransportRequest::find($id);
         return view('user.transport_requests.edit', compact('transportRequest'));
     }
@@ -88,6 +99,8 @@ class TransportRequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         // validate the form data
         $validator = Validator::make($request->all(), [
             'title' => 'required',
@@ -125,6 +138,8 @@ class TransportRequestController extends Controller
      */
     public function destroy(string $id)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         TransportRequest::find($id)->delete();
         return redirect('transport_requests')->with('success', 'Transport Request deleted successfully.');
     }
@@ -134,6 +149,8 @@ class TransportRequestController extends Controller
      */
     public function search(Request $request)
     {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
         $search = $request->input('search');
 
         // Search for transport requests for the user
@@ -152,7 +169,10 @@ class TransportRequestController extends Controller
     /**
      * Filter transport requests by status.
      */
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+        
         $filter = $request->input('status');
         if($filter == 'All'){
             $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);
@@ -162,4 +182,6 @@ class TransportRequestController extends Controller
 
         return view('user.transport_requests.index', compact('transportRequests'));
     }
+
+
 }

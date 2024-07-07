@@ -11,6 +11,7 @@ class CarpoolingDetails extends Model
 
     protected $fillable = [
         'carpool_request_id',
+        'status',
     ];
 
 

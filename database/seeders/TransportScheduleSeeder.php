@@ -17,12 +17,23 @@ class TransportScheduleSeeder extends Seeder
         $transport_schedules = [
             [
                 'school_vehicle_id' => 1,
-                'title' => 'Daily Commute',
-                'description' => 'Commute to Town',
-                'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
+                'title' => 'Excursion',
+                'description' => 'Excursion to Nairobi National Park',
+                'schedule_date' => Carbon::now()->subDays(2)->format('Y-m-d'),
                 'schedule_time' => '08:00:00',
                 'starting_point' => 'School',
-                'destination' => 'Town'
+                'destination' => 'Nairobi National Park',
+                'status' => 'Completed',
+            ],
+            [
+                'school_vehicle_id' => 2,
+                'title' => 'Daily Commute',
+                'description' => 'Commute to Town',
+                'schedule_date' => Carbon::now()->subDays(1)->format('Y-m-d'),
+                'schedule_time' => '08:00:00',
+                'starting_point' => 'School',
+                'destination' => 'Town',
+                'status' => 'Completed'
             ],
             [
                 'school_vehicle_id' => 1,
@@ -31,7 +42,8 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'schedule_time' => '16:00:00',
                 'starting_point' => 'Town',
-                'destination' => 'School'
+                'destination' => 'School',
+                'status' => 'In Progress'
             ],
             [
                 'school_vehicle_id' => 2,
@@ -40,7 +52,8 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'schedule_time' => '18:00:00',
                 'starting_point' => 'School',
-                'destination' => 'Longonot'
+                'destination' => 'Longonot',
+                'status' => 'Cancelled'
             ],
             [
                 'school_vehicle_id' => 1,
@@ -49,7 +62,8 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
                 'schedule_time' => '08:00:00',
                 'starting_point' => 'School',
-                'destination' => 'Town'
+                'destination' => 'Town',
+                'status' => 'In Progress'
             ],
             [
                 'school_vehicle_id' => 2,
@@ -58,7 +72,8 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
                 'schedule_time' => '16:00:00',
                 'starting_point' => 'Town',
-                'destination' => 'Central Kenya'
+                'destination' => 'Central Kenya',
+                'status' => 'In Progress',
             ]
 
         ];

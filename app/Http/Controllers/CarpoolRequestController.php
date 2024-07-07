@@ -8,6 +8,7 @@ use App\Models\CarpoolRequest;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class CarpoolRequestController extends Controller
 {
@@ -16,6 +17,8 @@ class CarpoolRequestController extends Controller
      */
     public function index()
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
@@ -25,6 +28,8 @@ class CarpoolRequestController extends Controller
      */
     public function create()
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
         ->get(['id', 'first_name', 'last_name', 'availability_status']);
 
@@ -36,6 +41,8 @@ class CarpoolRequestController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         // Validate the request...
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:60',
@@ -77,6 +84,8 @@ class CarpoolRequestController extends Controller
      */
     public function show(string $id)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $carpoolRequest = CarpoolRequest::find($id);
         return view('user.carpool_requests.show', compact('carpoolRequest'));
     }
@@ -86,6 +95,8 @@ class CarpoolRequestController extends Controller
      */
     public function edit(string $id)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $carpoolRequest = CarpoolRequest::find($id);
         $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
         ->get(['id', 'first_name', 'last_name', 'availability_status']);
@@ -98,6 +109,8 @@ class CarpoolRequestController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         // Validate the request...
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:60',
@@ -138,16 +151,22 @@ class CarpoolRequestController extends Controller
      */
     public function destroy(string $id)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
        CarpoolRequest::find($id)->delete();
-         return redirect('carpool_requests')->with('success', 'Carpool Request deleted successfully.');
+        return redirect('carpool_requests')->with('success', 'Carpool Request deleted successfully.');
     }
 
     /**
      * Search for a carpool request.
      */
-    public function search(Request $request){
+    public function search(Request $request)
+    {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $search = $request->get('search');
-        $carpoolRequests = CarpoolRequest::where('title', 'like', '%'.$search.'%')
+        $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())
+            ->where('title', 'like', '%'.$search.'%')
             ->orWhere('description', 'like', '%'.$search.'%')
             ->orWhere('departure_location', 'like', '%'.$search.'%')
             ->orWhere('destination', 'like', '%'.$search.'%')
@@ -158,12 +177,18 @@ class CarpoolRequestController extends Controller
     /**
      * Filter carpool requests by status.
      */
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $filter = $request->get('status');
         if($filter == 'All'){
-           $carpoolRequests = CarpoolRequest::paginate(10);
+            $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
         }else{
-            $carpoolRequests = CarpoolRequest::where('status', $filter)->paginate(10);
+            $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())
+            ->where('status', $filter)
+            ->orderByDesc('id')
+            ->paginate(10);
         }
 
         return view('user.carpool_requests.index', compact('carpoolRequests'));

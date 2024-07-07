@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Gate;
 
 
 
@@ -19,7 +20,10 @@ class CarpoolVehicleController extends Controller
      */
     public function index()
     {
-        $carpoolVehicles = CarpoolVehicle::paginate(10);
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
+        $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
+        $carpoolVehicles = CarpoolVehicle::where('carpool_driver_id', $carpoolDriverId)->paginate(10);
         return view('driver.carpool_vehicles.index', compact('carpoolVehicles'));
     }
 
@@ -28,6 +32,8 @@ class CarpoolVehicleController extends Controller
      */
     public function create()
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         return view('driver.carpool_vehicles.create');
     }
 
@@ -36,6 +42,8 @@ class CarpoolVehicleController extends Controller
      */
     public function store(Request $request)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         $validator = Validator::make($request->all(), [
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',
@@ -74,6 +82,8 @@ class CarpoolVehicleController extends Controller
      */
     public function show(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         $carpoolVehicle = CarpoolVehicle::find($id);
         return view('driver.carpool_vehicles.show', compact('carpoolVehicle'));
     }
@@ -83,6 +93,8 @@ class CarpoolVehicleController extends Controller
      */
     public function edit(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         $carpoolVehicle = CarpoolVehicle::find($id);
         return view('driver.carpool_vehicles.edit', compact('carpoolVehicle'));
     }
@@ -92,6 +104,8 @@ class CarpoolVehicleController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
         // Validate the request...
         $validator = Validator::make($request->all(), [
             'make' => 'required|string|max:255',
@@ -124,6 +138,8 @@ class CarpoolVehicleController extends Controller
      */
     public function destroy(string $id)
     {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+        
         CarpoolVehicle::find($id)->delete();
         return redirect('driver/carpool_vehicles')->with('success', 'Vehicle deleted successfully');
     }

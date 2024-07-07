@@ -50,8 +50,6 @@ class DeleteConfirmationModal extends Component
         else {
             session()->flash('error', 'Failed to delete the resource.');
         }
-
-        return redirect()->route($this->indexRoute);
     }
 
 

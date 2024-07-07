@@ -17,12 +17,15 @@ class CarpoolingDetailsSeeder extends Seeder
         $carpoolingDetails = [
             [
                 'carpool_request_id' => 1,
+                'status' => 'In Progress',
             ],
             [
                 'carpool_request_id' => 2,
+                'status' => 'Completed',
             ],
             [
                 'carpool_request_id' => 3,
+                'status' => 'Cancelled',
             ]
         ];
 

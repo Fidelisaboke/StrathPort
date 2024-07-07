@@ -66,30 +66,52 @@
                             </div>
                         </div>
                         <!-- Vehicle Registration Number -->
-                <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
-                    <div class="flex justify-between">
-                        @empty($schoolVehicle)
-                            <span class="text-red-600">No vehicle assigned</span>
-                        @else
-                            <span>{{ $schoolVehicle->number_plate }}</span>
-                        @endempty
-                    </div>
-                </div>
-                <!-- School Driver -->
-                <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="school_driver" class="block text-sm font-medium text-gray-700">School Driver</label>
-                    <div class="flex justify-between">
-                        @empty($schoolDriver)
-                            <span class="text-red-600">No driver assigned</span>
-                        @else
-                            <span>{{ $schoolDriver->full_name }}</span>
-                        @endempty
-                    </div>
-                </div>
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                            <div class="flex justify-between">
+                                @empty($schoolVehicle)
+                                    <span class="text-red-600">No vehicle assigned</span>
+                                @else
+                                    <span>{{ $schoolVehicle->number_plate }}</span>
+                                @endempty
+                            </div>
+                        </div>
+                        <!-- School Driver -->
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="school_driver" class="block text-sm font-medium text-gray-700">School Driver</label>
+                            <div class="flex justify-between">
+                                @empty($schoolDriver)
+                                    <span class="text-red-600">No driver assigned</span>
+                                @else
+                                    <span>{{ $schoolDriver->full_name }}</span>
+                                @endempty
+                            </div>
+                        </div>
+                        <!-- Status -->
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <div class="flex justify-between">
+                                <span>{{ $transportSchedule->status }}</span>
+                                @if($transportSchedule->transportRequest && $transportSchedule->status == 'In Progress')
+                                    <div class="flex items-center">
+                                        <form action="{{ route('transport_schedules.completeTrip', $transportSchedule->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
+                                        </form>
+                                        <form action="{{ route('transport_schedules.cancelTrip', $transportSchedule->id) }}" method="POST" x-data>
+                                            @csrf
+                                            @method('PUT')
+                                            <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+@livewire('trip-cancel-confirmation-modal')

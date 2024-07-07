@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\TransportSchedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class TransportScheduleController extends Controller
 {
@@ -14,6 +15,8 @@ class TransportScheduleController extends Controller
      */
     public function index()
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
 
         $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function($query) {
@@ -21,10 +24,9 @@ class TransportScheduleController extends Controller
         });
 
         // Combine queries using unionAll (without pagination yet)
-        $allSchedulesQuery = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->orderByDesc('id');
-
-        // Apply pagination on the combined query
-        $transportSchedules = $allSchedulesQuery->paginate(10);
+        $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)
+            ->orderByDesc('id')
+            ->paginate(10);
 
         return view('user.transport_schedules.index', compact('transportSchedules'));
     }
@@ -35,7 +37,7 @@ class TransportScheduleController extends Controller
      */
     public function create()
     {
-        //
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
     }
 
     /**
@@ -43,7 +45,7 @@ class TransportScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
     }
 
     /**
@@ -51,6 +53,8 @@ class TransportScheduleController extends Controller
      */
     public function show(string $id)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $transportSchedule = TransportSchedule::find($id);
         return view('user.transport_schedules.show', compact('transportSchedule'));
     }
@@ -60,7 +64,7 @@ class TransportScheduleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
     }
 
     /**
@@ -68,7 +72,7 @@ class TransportScheduleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
     }
 
     /**
@@ -76,16 +80,25 @@ class TransportScheduleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
     }
     /**
      * Search for a transport request.
      */
     public function search(Request $request)
     {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
         $search = $request->input('search');
 
-        $transportSchedules = TransportSchedule::where(function($query) use ($search){
+        $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
+
+        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function($query) {
+            $query->where('user_id', Auth::id());
+        });
+
+        // Combine queries using unionAll (without pagination yet)
+        $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->where(function($query) use ($search){
             $query->where('description', 'like', '%' . $search . '%')
             ->orWhere('schedule_date', 'like', '%' . $search . '%')
             ->orWhere('schedule_time', 'like', '%' . $search . '%')
@@ -94,5 +107,33 @@ class TransportScheduleController extends Controller
         })->paginate(10);
 
         return view('user.transport_schedules.index', compact('transportSchedules'));
+    }
+
+    /**
+     * Cancel a transport schedule.
+     */
+    public function cancelTrip(string $id)
+    {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
+        $transportSchedule = TransportSchedule::find($id);
+        $transportSchedule->status = 'Cancelled';
+        $transportSchedule->save();
+
+        return redirect('transport_schedules')->with('success', 'Transport Schedule cancelled successfully.');
+    }
+
+    /**
+     * Complete a transport schedule.
+     */
+    public function completeTrip(string $id)
+    {
+        abort_unless(Gate::allows('student'), 403, 'Forbidden');
+
+        $transportSchedule = TransportSchedule::find($id);
+        $transportSchedule->status = 'Completed';
+        $transportSchedule->save();
+
+        return redirect('transport_schedules')->with('success', 'Transport Schedule completed successfully.');
     }
 }

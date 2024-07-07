@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\TransportRequest;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class TransportRequestSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class TransportRequestSeeder extends Seeder
                 'user_id' => 2,
                 'title' => 'Transport Request 1',
                 'description' => 'Transport request for a school event',
-                'event_date' => '2024-06-12',
+                'event_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'event_time' => '08:00:00',
                 'event_location' => 'School Gymnasium',
                 'no_of_people' => 100,
@@ -28,7 +29,7 @@ class TransportRequestSeeder extends Seeder
                 'user_id' => 2,
                 'title' => 'Trip to Central Park',
                 'description' => 'Transport request for a school trip to Central Park',
-                'event_date' => '2024-06-12',
+                'event_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
                 'event_time' => '09:00:00',
                 'event_location' => 'Central Park',
                 'no_of_people' => 50,
@@ -38,7 +39,7 @@ class TransportRequestSeeder extends Seeder
                 'user_id' => 2,
                 'title' => 'Transport Request 3',
                 'description' => 'Transport request for a school event',
-                'event_date' => '2024-06-12',
+                'event_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'event_time' => '10:00:00',
                 'event_location' => 'School Gymnasium',
                 'no_of_people' => 100,

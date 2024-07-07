@@ -87,9 +87,30 @@
                                 @endempty
                             </div>
                         </div>
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                            <div class="flex justify-between">
+                                <span>{{ $carpoolingDetail->status }}</span>
+                                @if($carpoolingDetail->carpoolRequest && $carpoolingDetail->status == 'In Progress')
+                                    <div class="flex items-center">
+                                        <form action="{{ route('carpooling_details.completeTrip', $carpoolingDetail->id) }}" method="POST">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
+                                        </form>
+                                        <form action="{{ route('carpooling_details.cancelTrip', $carpoolingDetail->id) }}" method="POST" x-data>
+                                            @csrf
+                                            @method('PUT')
+                                            <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'carpooling_details', id: {{ $carpoolingDetail->id }}, modelClass: 'App\\Models\\CarpoolingDetails' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
+@livewire('trip-cancel-confirmation-modal')
