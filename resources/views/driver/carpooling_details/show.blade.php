@@ -66,20 +66,6 @@
                                 <span>{{ $carpoolRequest->destination }}</span>
                             </div>
                         </div>
-                        <!-- Driver Name-->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="driver_full_name" class="block text-sm font-medium text-gray-700">Driver Name</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolDriver->full_name }}</span>
-                            </div>
-                        </div>
-                        <!-- Driver Phone-->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
-                            <div class="flex justify-start">
-                                <span>{{ $carpoolDriver->user->phone }}</span>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

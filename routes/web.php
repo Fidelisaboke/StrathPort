@@ -54,8 +54,9 @@ Route::middleware([
                 Route::resource('/carpooling_details', CarpoolDriver\CarpoolingDetailsController::class)->names('driver.carpooling_details');
 
                 Route::get('/carpool_requests/search', [CarpoolDriver\CarpoolRequestController::class, 'search'])->name('driver.carpool_requests.search');
-            Route::get('/carpool_requests/filter', [CarpoolDriver\CarpoolRequestController::class, 'filter'])->name('driver.carpool_requests.filter');
-            Route::resource('carpool_requests', CarpoolDriver\CarpoolRequestController::class)->names('driver.carpool_requests');
+                Route::get('/carpool_requests/filter', [CarpoolDriver\CarpoolRequestController::class, 'filter'])->name('driver.carpool_requests.filter');
+                Route::post('/carpool_requests/update_status/{id}', [CarpoolDriver\CarpoolRequestController::class, 'updateStatus'])->name('driver.carpool_requests.update_status');
+                Route::resource('carpool_requests', CarpoolDriver\CarpoolRequestController::class)->names('driver.carpool_requests');
             });
 
             // Admin route group

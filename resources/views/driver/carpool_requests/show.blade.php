@@ -9,6 +9,8 @@
         $carpoolDriver = $carpoolRequest->carpoolDriver;
     @endphp
 
+    <x-status-message />
+
     <div class="py-4">
         <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
@@ -60,18 +62,26 @@
                                     <span>{{ $carpoolRequest->destination }}</span>
                                 </div>
                             </div>
-                            <!-- Driver Name-->
-                            <div class="px-4 py-2 bg-white border-b sm:p-6">
-                                <label for="driver_full_name" class="block text-sm font-medium text-gray-700">Driver Name</label>
-                                <div class="flex justify-between">
-                                    <span>{{ $carpoolDriver->full_name }}</span>
-                                </div>
                             </div>
-                            <!-- Driver Name-->
+                            <!-- Status -->
                             <div class="px-4 py-2 bg-white border-b sm:p-6">
-                                <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
-                                <div class="flex justify-start">
-                                    <span>{{ $carpoolDriver->user->phone }}</span>
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->status }}</span>
+                                    @if($carpoolRequest->status == 'Pending')
+                                        <div class="flex items-center">
+                                            <form action="{{ route('driver.carpool_requests.update_status', $carpoolRequest->id) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="Approved">
+                                                <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Approve</button>
+                                            </form>
+                                            <form action="{{ route('driver.carpool_requests.update_status', $carpoolRequest->id) }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="status" value="Declined">
+                                                <button type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
