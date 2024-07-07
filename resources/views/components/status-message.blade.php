@@ -7,35 +7,40 @@
                 let errorMessage = document.getElementById('error-message');
 
                 if (successMessage) {
-                    successMessage.remove();
+                    successMessage.classList.add('animate-slide-out');
+                    setTimeout(() => successMessage.remove(), 500);
                 }
 
                 if (warningMessage) {
-                    warningMessage.remove();
+                    warningMessage.classList.add('animate-slide-out');
+                    setTimeout(() => warningMessage.remove(), 500);
                 }
 
                 if (errorMessage) {
-                    errorMessage.remove();
+                    errorMessage.classList.add('animate-slide-out');
+                    setTimeout(() => errorMessage.remove(), 500);
                 }
             }, 3000);
         });
     </script>
     <!-- Status messages -->
-    @if (session('success'))
-    <div id="success-message" class="p-4 mx-auto my-4 text-center text-white transition-opacity duration-500 ease-in-out bg-green-500 rounded-lg max-w-max animate-fade-in">
-        {{ session('success') }}
-    </div>
-    @endif
+    <div class="fixed top-0 z-10 mt-4 transform -translate-x-1/2 left-1/2">
+        @if (session('success'))
+        <div id="success-message" class="flex p-4 m-4 text-center text-white bg-green-500 rounded-lg max-w-max animate-slide-in">
+            {{ session('success') }}
+        </div>
+        @endif
 
-    @if (session('warning'))
-    <div id="warning-message" class="p-4 mx-auto my-4 text-center text-white transition-opacity duration-500 ease-in-out delay-150 bg-yellow-500 rounded-lg max-w-max animate-fade-in">
-        {{ session('warning') }}
-    </div>
-    @endif
+        @if (session('warning'))
+        <div id="warning-message" class="flex p-4 m-4 text-center text-white bg-yellow-500 rounded-lg max-w-max animate-slide-in">
+            {{ session('warning') }}
+        </div>
+        @endif
 
-    @if (session('error'))
-    <div id="error-message" class="p-4 mx-auto my-4 text-center text-white transition-opacity duration-500 ease-in-out delay-150 bg-red-500 rounded-lg max-w-max animate-fade-in">
-        {{ session('error') }}
+        @if (session('error'))
+        <div id="error-message" class="flex p-4 m-4 text-center text-white bg-red-500 rounded-lg max-w-max animate-slide-in">
+            {{ session('error') }}
+        </div>
+        @endif
     </div>
-    @endif
 @endif
