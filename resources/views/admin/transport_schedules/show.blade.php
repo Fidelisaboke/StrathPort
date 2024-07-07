@@ -3,6 +3,14 @@
         Transport Schedule Details
     </x-slot>
 
+    @php
+        $schoolVehicle = $transportSchedule->schoolVehicle;
+        if(empty($schoolVehicle))
+            $schoolDriver = null;
+        else
+            $schoolDriver = $schoolVehicle->schoolDriver;
+    @endphp
+
     <x-status-message />
 
     <!-- Back Button -->
@@ -52,20 +60,56 @@
                 </div>
                 <!-- Schedule Date -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="date" class="block text-sm font-medium text-gray-700">Date</label>
+                    <label for="schedule_date" class="block text-sm font-medium text-gray-700">Date</label>
                     <div class="flex justify-start">
                         <span>{{ $transportSchedule->schedule_date }}</span>
                     </div>
                 </div>
                 <!-- Schedule Time -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="time" class="block text-sm font-medium text-gray-700">Time</label>
+                    <label for="schedule_time" class="block text-sm font-medium text-gray-700">Time</label>
                     <div class="flex justify-between">
                         <span>{{ $transportSchedule->schedule_time }}</span>
                     </div>
                 </div>
-                {{-- TODO: Add Status, School Vehicle and School Driver --}}
-
+                <!-- Starting Point -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="starting_point" class="block text-sm font-medium text-gray-700">Starting Point</label>
+                    <div class="flex justify-between">
+                        <span>{{ $transportSchedule->starting_point }}</span>
+                    </div>
+                </div>
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
+                    <div class="flex justify-between">
+                        <span>{{ $transportSchedule->destination }}</span>
+                    </div>
+                </div>
+                <!-- Vehicle Registration Number -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                    <div class="flex justify-between">
+                        @empty($schoolVehicle)
+                            <span class="text-red-600">No vehicle assigned</span>
+                        @else
+                            <span>{{ $schoolVehicle->number_plate }}</span>
+                        @endempty
+                    </div>
+                </div>
+                <!-- School Driver -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="school_driver" class="block text-sm font-medium text-gray-700">School Driver</label>
+                    <div class="flex justify-between">
+                        @empty($schoolDriver)
+                            <span class="text-red-600">No driver assigned</span>
+                        @else
+                            <span>{{ $schoolDriver->full_name }}</span>
+                        @endempty
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
 </x-admin-app-layout>

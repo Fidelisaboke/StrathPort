@@ -4,7 +4,7 @@
             Welcome to StrathPort!
         </h1>
 
-        <p class="mb-4 text-xl text-gray-800 leadinzg-relaxed">
+        <p class="mb-4 text-xl leading-relaxed text-gray-800">
             Thank you for registering to StrathPort!
             We are excited to have you on board. We are here to make your experience as seamless as possible.
         </p>

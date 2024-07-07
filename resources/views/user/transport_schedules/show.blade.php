@@ -1,9 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Vie Transport Schedule') }}
+            {{ __('View Transport Schedule') }}
         </h2>
     </x-slot>
+
+    @php
+        $schoolVehicle = $transportSchedule->schoolVehicle;
+        if(empty($schoolVehicle))
+            $schoolDriver = null;
+        else
+            $schoolDriver = $schoolVehicle->schoolDriver;
+    @endphp
 
     <div class="py-4">
         <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
@@ -42,7 +50,7 @@
                                 <span>{{ $transportSchedule->schedule_time }}</span>
                             </div>
                         </div>
-                        <!-- Starting POint -->
+                        <!-- Starting Point -->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
                             <label for="starting_location" class="block text-sm font-medium text-gray-700">Starting
                                 Point</label>
@@ -57,7 +65,28 @@
                                 <span>{{ $transportSchedule->destination }}</span>
                             </div>
                         </div>
-                        {{-- TODO: Add School Vehicle and School Driver details for the schedule - --}}
+                        <!-- Vehicle Registration Number -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                    <div class="flex justify-between">
+                        @empty($schoolVehicle)
+                            <span class="text-red-600">No vehicle assigned</span>
+                        @else
+                            <span>{{ $schoolVehicle->number_plate }}</span>
+                        @endempty
+                    </div>
+                </div>
+                <!-- School Driver -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="school_driver" class="block text-sm font-medium text-gray-700">School Driver</label>
+                    <div class="flex justify-between">
+                        @empty($schoolDriver)
+                            <span class="text-red-600">No driver assigned</span>
+                        @else
+                            <span>{{ $schoolDriver->full_name }}</span>
+                        @endempty
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>

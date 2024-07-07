@@ -12,7 +12,7 @@
                     @csrf
                     <div class="overflow-hidden shadow sm:rounded-md">
                         <!-- Carpool Driver ID (Hidden) -->
-                        <input type="hidden" name="user_id" value="{{ Auth::user()->carpoolDriver->id }}">
+                        <input type="hidden" name="carpool_driver_id" value="{{ Auth::user()->carpoolDriver->id }}">
                         <!-- Make -->
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="make" class="block text-sm font-medium text-gray-700">Make</label>

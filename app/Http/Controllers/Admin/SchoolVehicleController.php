@@ -46,6 +46,7 @@ class SchoolVehicleController extends Controller
             'year' => 'required|string|max:255',
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
             'capacity' => 'required|integer|max:255',
+            'availability_status' => 'required|string|in:Available,Unavailable',
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +61,7 @@ class SchoolVehicleController extends Controller
                 'year' => $request->year,
                 'number_plate' => $request->number_plate,
                 'capacity' => $request->capacity,
+                'availability_status' => $request->availability_status,
             ];
 
             SchoolVehicle::create($input);
@@ -105,6 +107,7 @@ class SchoolVehicleController extends Controller
             'year' => 'required|string|max:255',
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
             'capacity' => 'required|integer|max:255',
+            'availability_status' => 'required|string|in:Available,Unavailable',
         ]);
 
         if ($validator->fails()) {
@@ -119,6 +122,7 @@ class SchoolVehicleController extends Controller
                 'year' => $request->year,
                 'number_plate' => $request->number_plate,
                 'capacity' => $request->capacity,
+                'availability_status' => $request->availability_status,
             ];
 
             SchoolVehicle::find($id)->update($input);

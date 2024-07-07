@@ -3,6 +3,11 @@
         Edit Transport Schedule
     </x-slot>
 
+    @php
+        // Get all available school vehicles
+        $schoolVehicles = App\Models\SchoolVehicle::where('availability_status', 'Available')->get();
+    @endphp
+
     <x-status-message />
 
     <!-- Back Button -->
@@ -80,8 +85,23 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
-                    
-                    {{-- TODO: Add Status, School Driver, School Vehicle --}}
+
+                    <!-- Select School Vehicle -->
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="school_vehicle_id" class="block text-sm font-medium text-gray-700">Select School
+                            Vehicle</label>
+                        <select name="school_vehicle_id" id="school_vehicle_id"
+                            class="block w-full mt-1 rounded-md shadow-sm form-select">
+                            @foreach ($schoolVehicles as $schoolVehicle)
+                                <option value="{{ $schoolVehicle->id }}"
+                                    {{ $schoolVehicle->id == $transportSchedule->school_vehicle_id ? 'selected' : '' }}>
+                                    {{ $schoolVehicle->number_plate }}</option>
+                            @endforeach
+                        </select>
+                        @error('school_vehicle_id')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
 
                     <div class="flex items-center justify-end px-4 py-3 text-right bg-gray-50 sm:px-6">
                         <button

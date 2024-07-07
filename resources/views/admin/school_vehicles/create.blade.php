@@ -67,6 +67,17 @@
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
+                    <!-- Availability Status -->
+                    <div class="px-4 py-5 bg-white sm:p-6">
+                        <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability Status</label>
+                        <select name="availability_status" id="availability_status" class="block w-full mt-1 rounded-md shadow-sm form-select">
+                            <option value="Available">Available</option>
+                            <option value="Unavailable">Unavailable</option>
+                        </select>
+                        @error('availability_status')
+                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                    </div>
                     <!-- Select School Driver -->
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="school_driver_id" class="block text-sm font-medium text-gray-700">Select School Driver</label>

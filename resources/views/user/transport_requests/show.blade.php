@@ -58,7 +58,7 @@
                     </div>
                     <!-- Status -->
                     <div class="px-4 py-2 bg-white border-b sm:p-6">
-                        <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
+                        <label for="destination" class="block text-sm font-medium text-gray-700">Status</label>
                         <div class="flex justify-between">
                             <span>{{ $transportRequest->status }}</span>
                         </div>

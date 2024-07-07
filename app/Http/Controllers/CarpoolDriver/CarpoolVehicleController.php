@@ -49,6 +49,7 @@ class CarpoolVehicleController extends Controller
                 ->withErrors($validator->errors())->withInput();
         } else {
             $input = [
+                'carpool_driver_id' => $request->carpool_driver_id,
                 'make' => $request->make,
                 'model' => $request->model,
                 'year' => $request->year,

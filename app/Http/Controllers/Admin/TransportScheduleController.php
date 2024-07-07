@@ -17,7 +17,7 @@ class TransportScheduleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $transportSchedules = TransportSchedule::paginate(10);
+        $transportSchedules = TransportSchedule::orderByDesc('id')->paginate(10);
         return view('admin.transport_schedules.index', compact('transportSchedules'));
     }
 
@@ -40,6 +40,7 @@ class TransportScheduleController extends Controller
 
         //Validate the request...
         $validator = Validator::make($request->all(), [
+            'school_vehicle_id' => 'required|exists:school_vehicles,id',
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'schedule_date' => 'required|date|before:2024-12-31|after_or_equal:today',
@@ -54,6 +55,7 @@ class TransportScheduleController extends Controller
                 ->withInput();
         } else {
             $input = [
+                'school_vehicle_id' => $request->school_vehicle_id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'schedule_date' => $request->schedule_date,
@@ -92,6 +94,7 @@ class TransportScheduleController extends Controller
     {
         // Validate the request...
         $validator = Validator::make($request->all(), [
+            'school_vehicle_id' => 'required|exists:school_vehicles,id',
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'schedule_date' => 'required|date|before:2024-12-31|after_or_equal:today',
@@ -106,6 +109,7 @@ class TransportScheduleController extends Controller
                 ->withInput();
         } else {
             $input = [
+                'school_vehicle_id' => $request->school_vehicle_id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'schedule_date' => $request->schedule_date,

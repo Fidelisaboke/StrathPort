@@ -9,6 +9,7 @@
     @php
         $carpoolRequest = $carpoolingDetail->carpoolRequest;
         $carpoolDriver = $carpoolRequest->carpoolDriver;
+        $carpoolVehicle = $carpoolDriver->carpoolVehicle;
     @endphp
 
     <div class="py-4">
@@ -68,11 +69,22 @@
                                 <span>{{ $carpoolDriver->full_name }}</span>
                             </div>
                         </div>
-                        <!-- Driver Name-->
+                        <!-- Driver Phone-->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
                             <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
                             <div class="flex justify-start">
                                 <span>{{ $carpoolDriver->user->phone }}</span>
+                            </div>
+                        </div>
+                        <!-- Vehicle Registration Number -->
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                            <div class="flex justify-between">
+                                @empty($carpoolVehicle)
+                                    <span class="text-red-600">No vehicle assigned</span>
+                                @else
+                                    <span>{{ $carpoolVehicle->number_plate }}</span>
+                                @endempty
                             </div>
                         </div>
                     </div>
