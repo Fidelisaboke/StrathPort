@@ -22,6 +22,7 @@ class SchoolVehicleSeeder extends Seeder
                 'year' => '2021',
                 'number_plate' => 'AAA 123B',
                 'capacity' => 15,
+                'availability_status' => 'Available',
             ],
             [
                 'school_driver_id' => 2,
@@ -30,6 +31,7 @@ class SchoolVehicleSeeder extends Seeder
                 'year' => '2022',
                 'number_plate' => 'BBB 123C',
                 'capacity' => 50,
+                'availability_status' => 'Available',
             ],
             [
                 'school_driver_id' => 3,
@@ -38,6 +40,7 @@ class SchoolVehicleSeeder extends Seeder
                 'year' => '2023',
                 'number_plate' => 'CCC 123D',
                 'capacity' => 50,
+                'availability_status' => 'Unavailable',
             ],
         ];
 

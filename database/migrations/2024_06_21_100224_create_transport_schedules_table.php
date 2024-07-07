@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('transport_schedules', function (Blueprint $table) {
             $table->id();
             $table->foreignId('transport_request_id')->nullable()->references('id')->on('transport_requests')->nullOnDelete();
+            $table->foreignId('school_vehicle_id')->nullable()->references('id')->on('school_vehicles')->nullOnDelete();
             $table->string('title');
             $table->string('description');
             $table->date('schedule_date');

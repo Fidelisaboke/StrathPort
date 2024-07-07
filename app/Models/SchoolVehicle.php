@@ -16,7 +16,15 @@ class SchoolVehicle extends Model
         'year',
         'number_plate',
         'capacity',
+        'availability_status'
     ];
+
+    /**
+     * Get the full name of the school vehicle
+     */
+    public function getFullNameAttribute(){
+        return $this->make . ' ' . $this->model;
+    }
 
     /**
      * Inverse one-to-one relationship between School Driver and School Vehicle
@@ -24,5 +32,13 @@ class SchoolVehicle extends Model
      */
     public function schoolDriver(){
         return $this->belongsTo(SchoolDriver::class);
+    }
+
+    /**
+     * One-to-many relationship between School Vehicle and Transport Schedule
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function transportSchedules(){
+        return $this->hasMany(TransportSchedule::class);
     }
 }

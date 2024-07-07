@@ -11,6 +11,7 @@ class TransportSchedule extends Model
 
     protected $fillable = [
         'transport_request_id',
+        'school_vehicle_id',
         'title',
         'description',
         'schedule_date',
@@ -26,5 +27,14 @@ class TransportSchedule extends Model
     public function transportRequest()
     {
         return $this->belongsTo(TransportRequest::class);
+    }
+
+    /**
+     * Get the school vehicle that owns the transport schedule.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function schoolVehicle()
+    {
+        return $this->belongsTo(SchoolVehicle::class);
     }
 }

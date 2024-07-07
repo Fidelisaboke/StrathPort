@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('year');
             $table->string('number_plate');
             $table->integer('capacity')->unsigned();
+            $table->enum('availability_status', ['Available', 'Unavailable'])->default('Unavailable');
             $table->timestamps();
         });
     }

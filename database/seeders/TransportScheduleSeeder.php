@@ -16,6 +16,7 @@ class TransportScheduleSeeder extends Seeder
     {
         $transport_schedules = [
             [
+                'school_vehicle_id' => 1,
                 'title' => 'Daily Commute',
                 'description' => 'Commute to Town',
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
@@ -24,6 +25,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'Town'
             ],
             [
+                'school_vehicle_id' => 1,
                 'title' => 'Daily Commute',
                 'description' => 'Commute to School',
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
@@ -32,6 +34,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'School'
             ],
             [
+                'school_vehicle_id' => 2,
                 'title' => 'Hiking',
                 'description' => 'Mt. Longonot Hike',
                 'schedule_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
@@ -40,14 +43,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'Longonot'
             ],
             [
-                'title' => 'Daily Commute',
-                'description' => 'Commute to School',
-                'schedule_date' => Carbon::now()->addDays(5)->format('Y-m-d'),
-                'schedule_time' => '22:00:00',
-                'starting_point' => 'Town',
-                'destination' => 'School'
-            ],
-            [
+                'school_vehicle_id' => 1,
                 'title' => 'Daily Commute',
                 'description' => 'Commute to Town',
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
@@ -56,6 +52,7 @@ class TransportScheduleSeeder extends Seeder
                 'destination' => 'Town'
             ],
             [
+                'school_vehicle_id' => 2,
                 'title' => 'Hiking',
                 'description' => 'Mt. Kenya Hike',
                 'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),

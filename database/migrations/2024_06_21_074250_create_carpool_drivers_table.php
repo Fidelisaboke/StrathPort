@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('carpool_drivers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('carpool_vehicle_id')->nullable()->references('id')->on('carpool_vehicles')->nullOnDelete();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->enum('availability_status', ['Available', 'Unavailable'])->default('Unavailable');

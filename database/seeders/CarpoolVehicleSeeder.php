@@ -15,6 +15,7 @@ class CarpoolVehicleSeeder extends Seeder
     {
         $carpool_vehicles =[
             [
+                'carpool_driver_id' => 1,
                 'make' => 'Toyota',
                 'model' => 'Corolla',
                 'year' => '2019',
@@ -22,17 +23,11 @@ class CarpoolVehicleSeeder extends Seeder
                 'capacity' => 4
             ],
             [
+                'carpool_driver_id' => 2,
                 'make' => 'Toyota',
                 'model' => 'Vitz',
                 'year' => '2018',
                 'number_plate' => 'BBB 234Y',
-                'capacity' => 4
-            ],
-            [
-                'make' => 'Toyota',
-                'model' => 'Fielder',
-                'year' => '2017',
-                'number_plate' => 'CCC 345Z',
                 'capacity' => 4
             ],
         ];

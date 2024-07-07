@@ -11,7 +11,6 @@ class CarpoolDriver extends Model
 
     protected $fillable = [
         'user_id',
-        'carpool_vehicle_id',
         'first_name',
         'last_name',
         'availability_status'
@@ -34,10 +33,10 @@ class CarpoolDriver extends Model
 
     /**
      * Define one-to-one relationship between Carpool Driver and Carpool Vehicle
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function carpoolVehicle(){
-        return $this->belongsTo(CarpoolVehicle::class);
+        return $this->hasOne(CarpoolVehicle::class);
     }
 
     /**

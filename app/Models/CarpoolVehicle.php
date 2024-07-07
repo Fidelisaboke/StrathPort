@@ -11,6 +11,7 @@ class CarpoolVehicle extends Model
 
     protected $fillable = [
         'make',
+        'carpool_driver_id',
         'model',
         'year',
         'number_plate',
@@ -28,9 +29,9 @@ class CarpoolVehicle extends Model
 
     /**
      * Inverse one-to-one relationship between Carpool Vehicle and Carpool Driver
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function carpoolDriver(){
-        return $this->hasOne(CarpoolDriver::class);
+        return $this->belongsTo(CarpoolDriver::class);
     }
 }
