@@ -10,6 +10,8 @@ use App\Models\TransportRequest;
 use App\Models\TransportSchedule;
 use App\Models\SchoolVehicle;
 use App\Models\SchoolDriver;
+use App\Models\CarpoolDriver;
+use App\Models\CarpoolVehicle;
 
 class AdminDashboard extends Component
 {
@@ -20,6 +22,8 @@ class AdminDashboard extends Component
     public $totalSchoolDrivers;
     public $requestApprovalRate;
     public $peakRequestMonth;
+    public $totalcarpoolDrivers;
+    public $totalcarpoolVehicles;
     /**
      * Create a new component instance.
      */
@@ -32,6 +36,8 @@ class AdminDashboard extends Component
         $this->totalTransportSchedules = TransportSchedule::count();
         $this->totalSchoolVehicles = SchoolVehicle::count('id');
         $this->totalSchoolDrivers = SchoolDriver::count('id');
+        $this->totalcarpoolDrivers = CarpoolDriver::count('id');
+        $this->totalcarpoolVehicles = CarpoolVehicle::count('id');
 
         // Request approval rate
         $this->requestApprovalRate = number_format((TransportRequest::where('status', 'Approved')->count() / $this->totalTransportRequests) * 100, 2);
