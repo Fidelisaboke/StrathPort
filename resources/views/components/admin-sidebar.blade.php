@@ -48,6 +48,18 @@
             <span class="mx-3">School Vehicles</span>
         </x-admin-nav-link>
 
+        <!-- Carpool Drivers -->
+        <x-admin-nav-link href="{{route('admin.carpool_drivers.index')}}" :active="request()->routeIs('admin.carpool_drivers.*')">
+            <i class="w-6 h-6 fas fa-id-card" aria-hidden="true"></i>
+            <span class="mx-3">Carpool Drivers</span>
+        </x-admin-nav-link>
+
+        <!-- Carpool Vehicles -->
+        <x-admin-nav-link href="{{route('admin.carpool_vehicles.index')}}" :active="request()->routeIs('admin.carpool_vehicles.*')">
+            <i class="w-6 h-6 fas fa-bus" aria-hidden="true"></i>
+            <span class="mx-3">Carpool Vehicles</span>
+        </x-admin-nav-link>
+
         <!-- Settings -->
         <x-admin-nav-link href="{{url('user/profile')}}" :active="request()->routeIs('profile.show')">
             <i class="w-6 h-6 fas fa-cog"></i>
