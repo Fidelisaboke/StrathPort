@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('staff', function($user){
             return $user->hasRole('staff');
         });
-        Gate::define('carpoolDriver', function($user){
+        Gate::define('carpool_driver', function($user){
             return $user->hasRole('carpool_driver');
         });
     }
