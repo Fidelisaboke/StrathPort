@@ -6,12 +6,12 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Table-carpool-drivers-edit extends Component
+class TableCarpoolVehiclesEdit extends Component
 {
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct( public $carpoolVehicles)
     {
         //
     }
@@ -21,6 +21,6 @@ class Table-carpool-drivers-edit extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.tables.table-carpool-drivers-edit');
+        return view('components.tables.table-carpool-vehicles-edit');
     }
 }
