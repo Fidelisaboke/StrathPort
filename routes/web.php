@@ -91,6 +91,14 @@ Route::middleware([
                 // School Vehicles
                 Route::get('school_vehicles/search', [Admin\SchoolVehicleController::class, 'search'])->name('admin.school_vehicles.search');
                 Route::resource('school_vehicles', Admin\SchoolVehicleController::class)->names('admin.school_vehicles');
+
+                //Carpool Vehicles
+                Route::get('carpool_vehicles/search', [Admin\CarpoolVehicleController::class, 'search'])->name('admin.carpool_vehicles.search');
+                Route::resource('carpool_vehicles', Admin\CarpoolVehicleController::class)->names('admin.carpool_vehicles');
+
+                //Carpool Drivers
+                Route::get('carpool_drivers/search', [Admin\CarpoolDriverController::class, 'search'])->name('admin.carpool_drivers.search');
+                Route::resource('carpool_drivers', Admin\CarpoolDriverController::class)->names('admin.carpool_drivers');
             });
 
             Route::get('/lock', [LockScreenController::class, 'show'])->name('lock');
