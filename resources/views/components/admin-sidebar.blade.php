@@ -56,7 +56,7 @@
 
         <!-- Carpool Vehicles -->
         <x-admin-nav-link href="{{route('admin.carpool_vehicles.index')}}" :active="request()->routeIs('admin.carpool_vehicles.*')">
-            <i class="w-6 h-6 fas fa-bus" aria-hidden="true"></i>
+            <i class="w-6 h-6 fas fa-car" aria-hidden="true"></i>
             <span class="mx-3">Carpool Vehicles</span>
         </x-admin-nav-link>
 

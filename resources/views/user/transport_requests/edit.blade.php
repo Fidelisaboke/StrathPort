@@ -12,14 +12,20 @@
                     @csrf
                     @method('PUT')
                     <div class="overflow-hidden shadow sm:rounded-md">
-                        <!-- Title -->
+                        <!-- Title Dropdown -->
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" name="title" id="title" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
-                                   value="{{ old('title', $transportRequest->title) }}" />
+                            <select id="title" name="title" class="block w-full mt-1 rounded-md shadow-sm form-select">
+                                <option value="Club Competition" {{ old('title', $transportRequest->title) == 'Club Competition' ? 'selected' : '' }}>Club Competition</option>
+                                <option value="Conference" {{ old('title', $transportRequest->title) == 'Conference' ? 'selected' : '' }}>Conference</option>
+                                <option value="COP Activity" {{ old('title', $transportRequest->title) == 'COP Activity' ? 'selected' : '' }}>COP Activity</option>
+                                <option value="Excursion" {{ old('title', $transportRequest->title) == 'Excursion' ? 'selected' : '' }}>Excursion</option>
+                                <option value="Festival" {{ old('title', $transportRequest->title) == 'Festival' ? 'selected' : '' }}>Festival</option>
+                            </select>
                             @error('title')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
+                        </div>
                         </div>
                         <!-- Description -->
                         <div class="px-4 py-5 bg-white sm:p-6">

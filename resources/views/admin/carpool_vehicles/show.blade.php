@@ -3,10 +3,6 @@
         Carpool Vehicle Details
     </x-slot>
 
-    @php
-        $carpoolDriver = $carpoolVehicle->carpoolDriver
-    @endphp
-
     <x-status-message />
 
     <!-- Back Button -->
@@ -31,10 +27,10 @@
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="driver" class="block text-sm font-medium text-gray-700">Carpool Driver</label>
                     <div class="flex justify-between">
-                        @empty($carpoolDriver)
+                        @empty($carpoolVehicle->carpoolDriver)
                             <span class="text-red-600">No driver assigned</span>
                         @else
-                            <span>{{ $carpoolDriver->carpool_driver_id }}</span>
+                            <span>{{ $carpoolVehicle->carpoolDriver->full_name }}</span>
                         @endempty
                     </div>
                 </div>
@@ -70,7 +66,7 @@
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
                     <div class="flex justify-between">
-                        <span>{{ $schoolVehicle->capacity }}</span>
+                        <span>{{ $carpoolVehicle->capacity }}</span>
                     </div>
                 </div>
                 <!-- Vehicle Photo -->

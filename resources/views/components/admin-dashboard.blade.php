@@ -1,12 +1,13 @@
 <x-admin-app-layout>
-    <x-slot name="title">
+    <x-slot name="title" class="mb-4">
         Admin Dashboard
     </x-slot>
 
+    <x-admin-section-border />
     <!-- Dashboard Content -->
-    <div class="flex flex-col">
+    <div class="flex flex-col py-2 mb-4">
         <h1 class="text-3xl font-medium text-gray-700">Quick Overview</h1>
-        <div class="justify-center md:flex-row md:flex">
+        <div>
             <div class="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2 lg:grid-cols-3">
                 <!-- Total Users Card -->
                 <div class="p-6 bg-white rounded-lg shadow-md hover:bg-gray-50">
@@ -101,7 +102,7 @@
                                 <span class="ml-4 font-semibold text-gray-600">Carpool Vehicles</span>
                             </div>
                             <div class="p-2 ml-2 rounded-full bg-fuchsia-100 text-fuchsia-600">
-                                <i class="fas fa-bus"></i>
+                                <i class="fas fa-car"></i>
                             </div>
                         </div>
                     </a>
@@ -109,7 +110,10 @@
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-1 gap-4 py-6">
+    <x-admin-section-border />
+    <!-- Analytics Section -->
+    <div class="grid grid-cols-1 gap-4">
+        <h1 class="text-3xl font-medium text-gray-700">Analytics</h1>
         <div class="w-full space-x-4 md:flex md:flex-row">
             <div class="grid-cols-1 space-y-4 md:w-1/2">
                 <div class="grid gap-4 md:grid-cols-2">

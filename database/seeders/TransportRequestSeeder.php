@@ -17,7 +17,7 @@ class TransportRequestSeeder extends Seeder
         $transport_requests = [
             [
                 'user_id' => 2,
-                'title' => 'Transport Request 1',
+                'title' => 'Club Competition',
                 'description' => 'Transport request for a school event',
                 'event_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'event_time' => '08:00:00',
@@ -27,7 +27,7 @@ class TransportRequestSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
-                'title' => 'Trip to Central Park',
+                'title' => 'Excursion',
                 'description' => 'Transport request for a school trip to Central Park',
                 'event_date' => Carbon::now()->addDays(2)->format('Y-m-d'),
                 'event_time' => '09:00:00',
@@ -37,7 +37,7 @@ class TransportRequestSeeder extends Seeder
             ],
             [
                 'user_id' => 2,
-                'title' => 'Transport Request 3',
+                'title' => 'COP Activity',
                 'description' => 'Transport request for a school event',
                 'event_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
                 'event_time' => '10:00:00',

@@ -21,6 +21,13 @@
                             <span>{{ $transportRequest->id }}</span>
                         </div>
                     </div>
+                    <!-- Title -->
+                    <div class="px-4 py-2 bg-white border-b sm:p-6">
+                        <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
+                        <div class="flex justify-between">
+                            <span>{{ $transportRequest->title }}</span>
+                        </div>
+                    </div>
                     <!-- Description -->
                     <div class="px-4 py-2 bg-white border-b sm:p-6">
                         <label for="description" class="block text-sm font-medium text-gray-700">Description</label>

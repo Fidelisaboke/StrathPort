@@ -9,7 +9,7 @@
     @endphp
 
     <div>
-        <div class="w-3/5 max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-4xl py-10 mx-auto md:w-3/5 sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <form method="post" action="{{ route('driver.carpool_vehicles.update', $carpoolVehicle->id) }}">
                     @csrf
