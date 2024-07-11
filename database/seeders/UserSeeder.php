@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         // Admin
         $admin = User::create([
             'name' => 'Admin',
-            'email' => 'user1@email.com',
+            'email' => 'user1@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'account_status' => 'active',
@@ -31,7 +31,7 @@ class UserSeeder extends Seeder
         // Student
         $student = User::create([
             'name' => 'Student One',
-            'email' => 'user2@email.com',
+            'email' => 'user2@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'account_status' => 'active',
@@ -43,7 +43,7 @@ class UserSeeder extends Seeder
         // Staff
         $staff = User::create([
             'name' => 'Staff One',
-            'email' => 'user3@email.com',
+            'email' => 'user3@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'account_status' => 'active',
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
         // Carpool Driver
         $carpoolDriver = User::create( [
             'name' => 'Carpool Driver',
-            'email' => 'user4@email.com',
+            'email' => 'user4@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'account_status' => 'active',
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
         // Another Carpool Driver
         $carpoolDriver = User::create( [
             'name' => 'Carpool Driver Two',
-            'email' => 'user5@email.com',
+            'email' => 'user5@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'email_verified_at' => time(),
@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
         // User without role
         User::create([
             'name' => 'User One',
-            'email' => 'user6@email.com',
+            'email' => 'user6@example.com',
             'password' => bcrypt('Password123*'),
             'phone' => '+254712345678',
             'email_verified_at' => time(),

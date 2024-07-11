@@ -10,6 +10,11 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TransportRequestDeclined;
+use App\Notifications\TransportRequestApproved;
+use Spatie\Permission\Models\Role;
+
 
 class TransportRequestController extends Controller
 {
@@ -140,6 +145,17 @@ class TransportRequestController extends Controller
                 if(!$requestUpdated){
                     return redirect('admin/transport_requests/'.$id)->with('error', 'An error occurred while updating the transport request status!');
                 }
+
+                // Send notification to the user that made the request
+                $transportRequest = TransportRequest::find($id);
+                $user = $transportRequest->user;
+                Notification::send($user, new TransportRequestDeclined($transportRequest));
+
+                // Send a notification to all admins
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TransportRequestDeclined($transportRequest));
+
             }
 
             // If status changed to pending, delete the corresponding transport schedule
@@ -180,7 +196,17 @@ class TransportRequestController extends Controller
                     return redirect('admin/transport_requests/'.$id)->with('error', 'An error occurred while updating the transport request status!');
                 }
 
-                return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request updated successfully! A transport schedule has been created.');
+                // Send notification to the user that made the request
+                $transportRequest = TransportRequest::find($id);
+                $user = $transportRequest->user;
+                Notification::send($user, new TransportRequestApproved($transportRequest));
+
+                // Send a notification to all admins
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TransportRequestApproved($transportRequest));
+
+                return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request approved successfully! A transport schedule has been created.');
             }
 
             $requestUpdated = TransportRequest::find($id)->update($input);
@@ -266,17 +292,24 @@ class TransportRequestController extends Controller
 
         $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
 
-        if($request->status == 'Declined' && !empty($transportSchedule)){
-            // Delete the corresponding transport schedule if exists
-            $transportSchedule::where('transport_request_id', $id)->delete();
-
-            $requestUpdated = TransportRequest::find($id)->update($input);
+        if($request->status == 'Declined'){
+                $requestUpdated = TransportRequest::find($id)->update($input);
 
             if(!$requestUpdated){
                 return redirect('admin/transport_requests/'.$id)->with('error', 'An error occurred while updating the transport request status!');
             }
 
-            return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status updated successfully! The corresponding transport schedule has been deleted.');
+            // Send notification to the user that made the request
+            $transportRequest = TransportRequest::find($id);
+            $user = $transportRequest->user;
+            Notification::send($user, new TransportRequestDeclined($transportRequest));
+
+            // Send a notification to all admins
+            $adminRole = Role::findByName('admin', 'web');
+            $admins = $adminRole->users;
+            Notification::send($admins, new TransportRequestDeclined($transportRequest));
+
+            return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status declined successfully.');
         }
 
         if($request->status == 'Approved' && empty($transportSchedule)){
@@ -311,7 +344,17 @@ class TransportRequestController extends Controller
                 return redirect('admin/transport_requests/'.$id)->with('error', 'An error occurred while updating the transport request status!');
             }
 
-            return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status updated successfully! A transport schedule has been created.');
+            // Send notification to the user that made the request
+            $transportRequest = TransportRequest::find($id);
+            $user = $transportRequest->user;
+            Notification::send($user, new TransportRequestApproved($transportRequest));
+
+            // Send a notification to all admins
+            $adminRole = Role::findByName('admin', 'web');
+            $admins = $adminRole->users;
+            Notification::send($admins, new TransportRequestApproved($transportRequest));
+
+            return redirect('admin/transport_requests/'.$id)->with('success', 'Transport request status approved successfully! A transport schedule has been created.');
         }
 
         $requestUpdated = TransportRequest::find($id)->update($input);
@@ -320,7 +363,6 @@ class TransportRequestController extends Controller
             return redirect('admin/transport_requests/'.$id)->with('error', 'An error occurred while updating the transport request status!');
         }
 
-        $message = $request->status == 'Declined' ? 'Request Declined.' : 'Request updated.';
-        return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status updated successfully! ' . $message);
+        return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status updated successfully! Request Updated.');
     }
 }

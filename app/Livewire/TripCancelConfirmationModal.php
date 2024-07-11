@@ -3,6 +3,10 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Notifications\TripCancelledNotification;
+use Illuminate\Support\Facades\Notification;
+use Spatie\Permission\Models\Role;
+use App\Models\User;
 
 class TripCancelConfirmationModal extends Component
 {
@@ -32,11 +36,36 @@ class TripCancelConfirmationModal extends Component
         $model = $modelClass::find($this->id);
         if ($model) {
             $model->status = 'Cancelled';
-            $model->save();
+            if($model->save()){
+                if($model->transportRequest){
+                    $transportRequest = $model->transportRequest;
+                    $user = $transportRequest->user;
+                    // Notify the user that the trip has been cancelled
+                    Notification::send($user, new TripCancelledNotification($model));
+
+                    // Notify all admins that the trip has been cancelled
+                    $adminRole = Role::findByName('admin', 'web');
+                    $admins = $adminRole->users;
+                    Notification::send($admins, new TripCancelledNotification($model));
+
+                    session()->flash('success', 'Trip has been cancelled successfully.');
+                }
+
+                if(!$model->transportRequest){
+                    // Notify all users that are students and staff
+                    $roles = Role::whereIn('name', ['student', 'staff'])->get();
+                    $users = User::role($roles, 'web')->get();
+                    Notification::send($users, new TripCancelledNotification($model));
+
+                    // Notify all admins that the trip has been cancelled
+                    $adminRole = Role::findByName('admin', 'web');
+                    $admins = $adminRole->users;
+                    Notification::send($admins, new TripCancelledNotification($model));
+                }
 
             session()->flash('success', 'Trip has been cancelled successfully.');
         }
-        else {
+    }else {
             session()->flash('error', 'Failed to cancel trip.');
         }
 

@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TransportRequestSubmittedNotification;
+use App\Notifications\NewTransportRequestNotification;
+
 
 class TransportRequestController extends Controller
 {
@@ -64,7 +69,15 @@ class TransportRequestController extends Controller
                 'no_of_people' => $request->no_of_people,
             ];
 
-            TransportRequest::create($input);
+            $transportRequest = TransportRequest::create($input);
+
+            // Send notification to the user
+            Notification::send(Auth::user(), new TransportRequestSubmittedNotification($transportRequest));
+
+            // Send notification to the admins
+            $adminRole = Role::findByName('admin', 'web');
+            $admins = $adminRole->users;
+            Notification::send($admins, new NewTransportRequestNotification($transportRequest));
 
             // Return with success message
             return redirect('transport_requests')->with('success', 'Transport Request created successfully.');
@@ -172,7 +185,7 @@ class TransportRequestController extends Controller
     public function filter(Request $request)
     {
         abort_unless(Gate::allows('student'), 403, 'Forbidden');
-        
+
         $filter = $request->input('status');
         if($filter == 'All'){
             $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);

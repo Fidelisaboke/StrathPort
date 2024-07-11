@@ -11,6 +11,8 @@ use App\Models\CarpoolDriver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\AccountActivatedNotification;
 
 class UserController extends Controller
 {
@@ -131,10 +133,12 @@ class UserController extends Controller
                 'account_status' => $request->account_status,
             ];
 
+            $user = User::find($id);
+            $previousStatus = $user->account_status;
+
             User::find($id)->update($input);
 
             // Prevent changing of roles if the user already has a role
-            $user = User::find($id);
             if ($user->roles->count() == 0 || $request->roles[0] == $user->roles[0]->name) {
                 $user->assignRole($request->roles);
 
@@ -155,6 +159,11 @@ class UserController extends Controller
             } else {
                 // Return error message if user already has a role
                 return redirect('admin/users/' . $id . '/edit')->with('error', 'Cannot change roles for a user with existing roles!');
+            }
+
+            // Check if account was inactive and has now been changed to active
+            if ($previousStatus == 'inactive' && $request->account_status == 'active') {
+                Notification::send($user, new AccountActivatedNotification());
             }
 
             return redirect('admin/users')->with('success', 'User updated successfully!');
@@ -185,7 +194,7 @@ class UserController extends Controller
     public function search(Request $request)
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
-        
+
         $search = $request->input('search');
         $users = User::where(function ($query) use ($search) {
             $query->where('name', 'like', '%' . $search . '%')

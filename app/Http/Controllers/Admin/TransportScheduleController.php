@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\TransportSchedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\TripCancelledNotification;
+use Spatie\Permission\Models\Role;
+use App\Notifications\TripCompletedNotification;
 
 class TransportScheduleController extends Controller
 {
@@ -169,9 +174,40 @@ class TransportScheduleController extends Controller
 
         $transportSchedule = TransportSchedule::find($id);
         $transportSchedule->status = 'Cancelled';
-        $transportSchedule->save();
 
-        return redirect('admin/transport_schedules')->with('success', 'Transport Schedule cancelled successfully.');
+        if($transportSchedule->save()){
+            // Get the transport request that was used to create the transport schedule
+            if($transportSchedule->transportRequest){
+                $transportRequest = $transportSchedule->transportRequest;
+
+                // Get the user that made the request
+                $user = $transportRequest->user;
+
+                // Notify the user that the trip has been cancelled
+                Notification::send($user, new TripCancelledNotification($transportSchedule));
+
+                // Notify all admins that the trip has been cancelled
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TripCancelledNotification($transportSchedule));
+            }
+
+            if(!$transportSchedule->transportRequest){
+                // Notify all users that are students and staff
+                $roles = Role::whereIn('name', ['student', 'staff'])->get();
+                $users = User::role($roles, 'web')->get();
+                Notification::send($users, new TripCancelledNotification($transportSchedule));
+
+                // Notify all admins that the trip has been cancelled
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TripCancelledNotification($transportSchedule));
+            }
+
+            return redirect('admin/transport_schedules')->with('success', 'Transport Schedule cancelled successfully.');
+        }
+
+        return redirect('admin/transport_schedules')->with('error', 'Error cancelling transport schedule.');
     }
 
     /**
@@ -183,12 +219,45 @@ class TransportScheduleController extends Controller
 
         // Check if a vehicle is assigned to the transport schedule
         $transportSchedule = TransportSchedule::find($id);
-        if (is_null($transportSchedule->school_vehicle_id)) {
-            return redirect('transport_schedules')->with('error', 'Vehicle has not been assigned to this schedule. It cannot be completed.');
-        }
-        $transportSchedule->status = 'Completed';
-        $transportSchedule->save();
 
-        return redirect('admin/transport_schedules')->with('success', 'Transport Schedule completed successfully.');
+        if (is_null($transportSchedule->school_vehicle_id)) {
+            return redirect()->back()->with('error', 'Vehicle has not been assigned to this schedule. It cannot be completed.');
+        }
+
+        $transportSchedule->status = 'Completed';
+
+        if($transportSchedule->save()){
+            // Get the transport request that was used to create the transport schedule
+            if($transportSchedule->transportRequest){
+                $transportRequest = $transportSchedule->transportRequest;
+
+                // Get the user that made the request
+                $user = $transportRequest->user;
+
+                // Notify the user that the trip has been cancelled
+                Notification::send($user, new TripCompletedNotification($transportSchedule));
+
+                // Notify all admins that the trip has been cancelled
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TripCompletedNotification($transportSchedule));
+            }
+
+            if(!$transportSchedule->transportRequest){
+                // Notify all users that are students and staff
+                $roles = Role::whereIn('name', ['student', 'staff'])->get();
+                $users = User::role($roles, 'web')->get();
+                Notification::send($users, new TripCompletedNotification($transportSchedule));
+
+                // Notify all admins that the trip has been cancelled
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+                Notification::send($admins, new TripCompletedNotification($transportSchedule));
+            }
+
+            return redirect('admin/transport_schedules')->with('success', 'Transport Schedule completed successfully.');
+        }
+
+        return redirect('admin/transport_schedules')->with('error', 'Error completing transport schedule.');
     }
 }
