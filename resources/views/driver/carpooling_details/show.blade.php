@@ -96,10 +96,10 @@
                         </div>
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <div class="flex justify-between">
+                            <div class="flex flex-col">
                                 <span>{{ $carpoolingDetail->status }}</span>
                                 @if($carpoolingDetail->carpoolRequest && $carpoolingDetail->status == 'In Progress')
-                                    <div class="flex items-center">
+                                    <div class="flex justify-center mt-4">
                                         <form action="{{ route('driver.carpooling_details.completeTrip', $carpoolingDetail->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')

@@ -98,6 +98,7 @@ Route::middleware([
 
                 //Carpool Drivers
                 Route::get('carpool_drivers/search', [Admin\CarpoolDriverController::class, 'search'])->name('admin.carpool_drivers.search');
+                Route::get('carpool_drivers/filter', [Admin\CarpoolDriverController::class, 'filter'])->name('admin.carpool_drivers.filter');
                 Route::resource('carpool_drivers', Admin\CarpoolDriverController::class)->names('admin.carpool_drivers');
             });
 

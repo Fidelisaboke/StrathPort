@@ -14,7 +14,7 @@
     @php
         $roles = Spatie\Permission\Models\Role::all();
     @endphp
-    <div class="container grid w-3/5 px-6 mx-auto">
+    <div class="container grid px-6 mx-auto md:w-3/5">
         <div class="items-center p-4 my-6">
             <form method="post" action="{{ route('admin.users.store') }}">
                 @csrf

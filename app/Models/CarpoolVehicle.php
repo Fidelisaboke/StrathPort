@@ -10,8 +10,8 @@ class CarpoolVehicle extends Model
     use HasFactory;
 
     protected $fillable = [
-        'make',
         'carpool_driver_id',
+        'make',
         'model',
         'year',
         'number_plate',
@@ -33,5 +33,12 @@ class CarpoolVehicle extends Model
      */
     public function carpoolDriver(){
         return $this->belongsTo(CarpoolDriver::class);
+    }
+
+    /**
+     * Get the full name of the vehicle (make + model)
+     */
+    public function getFullNameAttribute(){
+        return $this->make . ' ' . $this->model;
     }
 }

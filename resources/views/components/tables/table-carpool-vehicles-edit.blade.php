@@ -1,4 +1,4 @@
-@empty($schoolVehicles)
+@empty($carpoolVehicles)
     <div class="flex items-center justify-center">
         <div class="w-1/2 p-4 mx-auto my-16 text-center bg-white border border-gray-300 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold text-gray-700">No carpool vehicles found!</h2>
@@ -147,7 +147,7 @@
                                 <a href="{{ route('admin.carpool_vehicles.show', $carpoolVehicle->id) }}"
                                     class="text-green-600 rounded hover:text-green-800">View</a>
                                 <!-- edit -->
-                                <a href="{{ route('admin.carpool_vehicles.edit', $caroolVehicle->id) }}"
+                                <a href="{{ route('admin.carpool_vehicles.edit', $carpoolVehicle->id) }}"
                                     class="ml-2 text-indigo-600 rounded hover:text-indigo-800">Edit</a>
                                 <!-- delete -->
                                 <form class="inline-block"

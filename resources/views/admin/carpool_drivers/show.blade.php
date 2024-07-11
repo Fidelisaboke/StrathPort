@@ -23,6 +23,19 @@
                         <span>{{ $carpoolDriver->id }}</span>
                     </div>
                 </div>
+                <!-- User ID -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="user_id" class="block text-sm font-medium text-gray-700">Driver User ID</label>
+                    <div class="flex justify-between">
+                        <span>
+                            @empty($carpoolDriver->user_id)
+                                N/A
+                            @else
+                                {{ $carpoolDriver->user_id }}
+                            @endempty
+                        </span>
+                    </div>
+                </div>
                 <!-- First Name-->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
@@ -37,6 +50,20 @@
                         <span>{{ $carpoolDriver->last_name }}</span>
                     </div>
                 </div>
+                <!-- Phone Number -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="phone" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <div class="flex justify-between">
+                        <span>{{ $carpoolDriver->user->phone }}</span>
+                    </div>
+                </div>
+                <!-- Email -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="email" class="block text-sm font-medium text-gray-700">Last Name</label>
+                    <div class="flex justify-between">
+                        <span>{{ $carpoolDriver->user->email }}</span>
+                    </div>
+                </div>
                 <!-- Availability Status -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability Status</label>
@@ -44,5 +71,8 @@
                         <span>{{ $carpoolDriver->availability_status }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
 </x-admin-app-layout>

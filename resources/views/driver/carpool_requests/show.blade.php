@@ -66,10 +66,10 @@
                             <!-- Status -->
                             <div class="px-4 py-2 bg-white border-b sm:p-6">
                                 <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                                <div class="flex justify-between">
+                                <div class="flex flex-col">
                                     <span>{{ $carpoolRequest->status }}</span>
                                     @if($carpoolRequest->status == 'Pending')
-                                        <div class="flex items-center">
+                                        <div class="flex justify-center mt-4">
                                             <form action="{{ route('driver.carpool_requests.update_status', $carpoolRequest->id) }}" method="POST">
                                                 @csrf
                                                 <input type="hidden" name="status" value="Approved">

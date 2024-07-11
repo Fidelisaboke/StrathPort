@@ -11,11 +11,16 @@
                 <form method="post" action="{{ route('transport_requests.store') }}">
                     @csrf
                     <div class="overflow-hidden shadow sm:rounded-md">
-                        <!-- Title -->
+                        <!-- Title Dropdown -->
                         <div class="px-4 py-5 bg-white sm:p-6">
                             <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                            <input type="text" name="title" id="title" type="text" class="block w-full mt-1 rounded-md shadow-sm form-input"
-                                   value="{{ old('title', '') }}" />
+                            <select id="title" name="title" class="block w-full mt-1 rounded-md shadow-sm form-select">
+                                <option value="Club Competition">Club Competition</option>
+                                <option value="Conference">Conference</option>
+                                <option value="COP Activity">COP Activity</option>
+                                <option value="Excursion">Excursion</option>
+                                <option value="Festival">Festival</option>
+                            </select>
                             @error('title')
                                 <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror

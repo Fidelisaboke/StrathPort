@@ -24,7 +24,7 @@
         </a>
     </div>
 
-    <div class="container grid w-3/5 px-6 mx-auto">
+    <div class="container grid px-6 mx-auto md:w-3/5">
         <div class="items-center p-4 my-6">
             <div class="overflow-hidden shadow sm:rounded-md">
                 <!-- Request From -->
@@ -85,10 +85,10 @@
                 <!-- Status -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                    <div class="flex justify-between">
+                    <div class="flex flex-col">
                         <span>{{ $transportRequest->status }}</span>
                         @if($transportRequest->status == 'Pending')
-                            <div class="flex items-center">
+                            <div class="flex justify-center mt-4">
                                 <form action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}" method="POST">
                                     @csrf
                                     <input type="hidden" name="status" value="Approved">

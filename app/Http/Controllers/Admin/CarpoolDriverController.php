@@ -17,7 +17,7 @@ class CarpoolDriverController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $carpoolDrivers = carpoolDriver::paginate(10);
+        $carpoolDrivers = carpoolDriver::latest()->paginate(10);
         return view('admin.carpool_drivers.index', compact('carpoolDrivers'));
     }
 
@@ -46,8 +46,8 @@ class CarpoolDriverController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $carpoolDrivers = carpoolDriver::paginate(10);
-        return view('admin.carpool_drivers.index', compact('carpoolDrivers'));
+        $carpoolDriver = CarpoolDriver::findOrFail($id);
+        return view('admin.carpool_drivers.show', compact('carpoolDriver'));
     }
 
     /**
@@ -57,8 +57,8 @@ class CarpoolDriverController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $carpoolDrivers = carpoolDriver::paginate(10);
-        return view('admin.carpool_drivers.index', compact('carpoolDrivers'));
+        $carpoolDriver = carpoolDriver::findOrFail($id);
+        return view('admin.carpool_drivers.edit', compact('carpoolDriver'));
     }
 
     /**
@@ -66,7 +66,30 @@ class CarpoolDriverController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        // Validate the request...
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|alpha|max:255',
+            'last_name' => 'required|alpha|max:255',
+            'availability_status' => 'required|string|in:Available,Unavailable',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()
+                ->withErrors($validator->errors())
+                ->withInput();
+        }
+
+        $input = [
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'availability_status' => $request->availability_status,
+        ];
+
+        CarpoolDriver::find($id)->update($input);
+
+        return redirect('admin/carpool_drivers')->with('success', 'Carpool Driver updated successfully');
     }
 
     /**
@@ -81,10 +104,32 @@ class CarpoolDriverController extends Controller
     }
 
      /**
-     * Search for a school driver.
+     * Search for a carpool driver.
      */
     public function search(Request $request)
     {
-        //
+        $search = $request->search;
+
+        $carpoolDrivers = CarpoolDriver::where('first_name', 'like', '%'.$search.'%')
+            ->orWhere('last_name', 'like', '%'.$search.'%')
+            ->latest()->paginate(10);
+
+        return view('admin.carpool_drivers.index', compact('carpoolDrivers'));
+    }
+
+    /**
+     * Filter carpool drivers by availability status.
+     */
+    public function filter(Request $request)
+    {
+        $filter = $request->get('status');
+
+        if($filter == 'All'){
+            $carpoolDrivers = CarpoolDriver::latest()->paginate(10);
+        }else{
+            $carpoolDrivers = CarpoolDriver::where('availability_status', $filter)->latest()->paginate(10);
+        }
+
+        return view('admin.carpool_drivers.index', compact('carpoolDrivers'));
     }
 }

@@ -77,8 +77,8 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $carpoolVehicles = carpoolVehicle::paginate(10);
-        return view('admin.carpool_vehicles.index', compact('carpoolVehicles'));
+        $carpoolVehicle = CarpoolVehicle::findOrFail($id);
+        return view('admin.carpool_vehicles.show', compact('carpoolVehicle'));
     }
 
     /**
@@ -88,8 +88,8 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $carpoolVehicles = carpoolVehicle::paginate(10);
-        return view('admin.carpool_vehicles.index', compact('carpoolVehicles'));
+        $carpoolVehicle = CarpoolVehicle::findOrFail($id);
+        return view('admin.carpool_vehicles.edit', compact('carpoolVehicle'));
     }
 
     /**
@@ -101,13 +101,11 @@ class CarpoolVehicleController extends Controller
 
         // Validate the request...
         $validator = Validator::make($request->all(), [
-            'carpool_driver_id' => 'nullable|exists:carpool_drivers,id',
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',
             'year' => 'required|string|max:255',
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
             'capacity' => 'required|integer|max:255',
-            'availability_status' => 'required|string|in:Available,Unavailable',
         ]);
 
         if ($validator->fails()) {
@@ -116,18 +114,20 @@ class CarpoolVehicleController extends Controller
                 ->withInput();
         } else {
             $input = [
-                'carpool_driver_id' => $request->carpool_driver_id,
                 'make' => $request->make,
                 'model' => $request->model,
                 'year' => $request->year,
                 'number_plate' => $request->number_plate,
                 'capacity' => $request->capacity,
-                'availability_status' => $request->availability_status,
             ];
 
-            CarpoolVehicle::create($input);
+            $vehicleUpdated = CarpoolVehicle::find($id)->update($input);
 
-            return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle created successfully.');
+            if(!$vehicleUpdated){
+                return redirect('admin/carpool_vehicles')->with('error', 'Error updating the carpool vehicle');
+            }
+
+            return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle updateed successfully.');
         }
     }
 

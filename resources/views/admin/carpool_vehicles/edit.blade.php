@@ -63,40 +63,15 @@
                     <div class="px-4 py-5 bg-white sm:p-6">
                         <label for="capacity" class="block text-sm font-medium text-gray-700">Capacity</label>
                         <input type="number" name="capacity" id="capacity" class="block w-full mt-1 rounded-md shadow-sm form-input"
-                               value="{{ old('capacity', $schoolVehicle->capacity) }}" />
+                               value="{{ old('capacity', $carpoolVehicle->capacity) }}" />
                         @error('capacity')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <!-- Availability Status -->
-                    <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability Status</label>
-                        <select name="availability_status" id="availability_status" class="block w-full mt-1 rounded-md shadow-sm form-select">
-                            <option value="Available" {{ $schoolVehicle->availability_status == 'Available' ? 'selected' : '' }}>Available</option>
-                            <option value="Unavailable" {{ $schoolVehicle->availability_status == 'Unavailable' ? 'selected' : '' }}>Unavailable</option>
-                        </select>
-                        @error('availability_status')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <!-- Select School Driver -->
-                    <div class="px-4 py-5 bg-white sm:p-6">
-                        <label for="carpool_driver_id" class="block text-sm font-medium text-gray-700">Select Carpool Vehicle</label>
-                        <select name="carpool_driver_id" id="carpool_driver_id" class="block w-full mt-1 rounded-md shadow-sm form-select">
-                            @foreach($carpoolVehicles as $carpoolVehicle)
-                                <option value="{{ $carpoolVehicle->id }}" {{ $carpoolVehicle->id == $carpoolVehicle->carpool_driver_id ? 'selected' : '' }}>
-                                    {{ $carpoolDriver->full_name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('carpool_vehicle_id')
                             <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
                     <div class="flex items-center justify-end px-4 py-3 text-right bg-gray-50 sm:px-6">
                         <button
                             class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase transition duration-150 ease-in-out border border-transparent rounded-md bg-fuchsia-700 hover:bg-fuchsia-800 active:border-fuchsia-500 focus:outline-none focus:border-fuchsia-500 focus:shadow-outline-fuchsia disabled:opacity-25">
-                            Submit
+                            Update
                         </button>
                     </div>
                 </div>

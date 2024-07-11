@@ -1,12 +1,11 @@
-<!-- Transport request filter -->
+<!-- Availability filter -->
 <div class="flex flex-col mb-4 ml-2">
     <label for="status" class="block mb-2 text-sm font-bold text-gray-700">Filter by status:</label>
     <div class="flex items-center space-x-4">
         <select name="status" id="status" class="px-8 py-2 border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-fuchsia-100 focus:border-fuchsia-300">
             <option value="All" @if(request('status') == 'All' || empty(request('status'))) selected @endif>All</option>
-            <option value="Pending" @if(request('status') == 'Pending') selected @endif>Pending</option>
-            <option value="Approved" @if(request('status') == 'Approved') selected @endif>Approved</option>
-            <option value="Declined" @if(request('status') == 'Declined') selected @endif>Declined</option>
+            <option value="Available" @if(request('status') == 'Available') selected @endif>Available</option>
+            <option value="Unavailable" @if(request('status') == 'Unavailable') selected @endif>Unavailable</option>
         </select>
         <button type="submit" class="flex items-center justify-center px-3 py-2 font-bold bg-gray-300 rounded hover:bg-gray-400">
             <svg class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
