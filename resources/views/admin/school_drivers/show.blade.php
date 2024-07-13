@@ -46,10 +46,14 @@
                 </div>
                 <!-- Availability Status -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability Status</label>
+                    <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability
+                        Status</label>
                     <div class="flex justify-between">
                         <span>{{ $schoolDriver->availability_status }}</span>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
 
 </x-admin-app-layout>

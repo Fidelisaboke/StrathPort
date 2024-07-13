@@ -41,27 +41,27 @@ class CarpoolTripCompletedNotification extends Notification
             return (new MailMessage)
                 ->subject(__('Carpool Trip Completed'))
                 ->greeting(__('Hello, ' . $notifiable->name . '!'))
-                ->line(__('Your carpool trip has been completed.'))
-                ->line(__('Title: ' . $this->carpoolingDetail->title))
-                ->line(__('Description: ' . $this->carpoolingDetail->description))
-                ->line(__('Schedule Date: ' . $this->carpoolingDetail->schedule_date))
-                ->line(__('Schedule Time: ' . $this->carpoolingDetail->schedule_time))
-                ->line(__('Starting Point: ' . $this->carpoolingDetail->starting_point))
-                ->line(__('Destination: ' . $this->carpoolingDetail->destination))
+                ->line(__('A carpool trip has been completed.'))
+                ->line(__('Title: ' . $this->carpoolingDetail->carpoolRequest->title))
+                ->line(__('Description: ' . $this->carpoolingDetail->carpoolRequest->description))
+                ->line(__('Schedule Date: ' . $this->carpoolingDetail->carpoolRequest->departure_date))
+                ->line(__('Schedule Time: ' . $this->carpoolingDetail->carpoolRequest->departure_time))
+                ->line(__('Starting Point: ' . $this->carpoolingDetail->carpoolRequest->starting_point))
+                ->line(__('Destination: ' . $this->carpoolingDetail->carpoolRequest->destination))
                 ->line(__('Please login to your account to view the trip.'))
-                ->action(__('View Trip'), url('driver/carpooling_details/' . $this->carpoolingDetail->id));
+                ->action(__('View Trip'), url('driver/carpooling_details/' . $this->carpoolingDetail->carpoolRequest->id));
         }
 
         return (new MailMessage)
             ->subject(__('Carpool Trip Completed'))
             ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your carpool trip has been completed.'))
-            ->line(__('Title: ' . $this->carpoolingDetail->title))
-            ->line(__('Description: ' . $this->carpoolingDetail->description))
-            ->line(__('Schedule Date: ' . $this->carpoolingDetail->schedule_date))
-            ->line(__('Schedule Time: ' . $this->carpoolingDetail->schedule_time))
-            ->line(__('Starting Point: ' . $this->carpoolingDetail->starting_point))
-            ->line(__('Destination: ' . $this->carpoolingDetail->destination))
+            ->line(__('Title: ' . $this->carpoolingDetail->carpoolRequest->title))
+            ->line(__('Description: ' . $this->carpoolingDetail->carpoolRequest->description))
+            ->line(__('Schedule Date: ' . $this->carpoolingDetail->carpoolRequest->departure_date))
+            ->line(__('Schedule Time: ' . $this->carpoolingDetail->carpoolRequest->departure_time))
+            ->line(__('Starting Point: ' . $this->carpoolingDetail->carpoolRequest->starting_point))
+            ->line(__('Destination: ' . $this->carpoolingDetail->carpoolRequest->destination))
             ->line(__('Please login to your account to view the trip.'))
             ->action(__('View Trip'), url('carpooling_details/' . $this->carpoolingDetail->id));
     }
@@ -73,9 +73,18 @@ class CarpoolTripCompletedNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
+        if($notifiable->hasRole('carpool_driver'))
+        {
+            return [
+                'subject' => 'Carpool Trip Completed',
+                'message' => 'A carpool trip has been completed. Click this message to view the trip.',
+                'action' => url('driver/carpooling_details/' . $this->carpoolingDetail->id)
+            ];
+        }
+
         return [
             'subject' => 'Carpool Trip Completed',
-            'message' => 'Your carpool trip has been completed.',
+            'message' => 'Your carpool trip has been completed. Click this message to view the trip.',
             'action' => url('carpooling_details/' . $this->carpoolingDetail->id)
         ];
     }

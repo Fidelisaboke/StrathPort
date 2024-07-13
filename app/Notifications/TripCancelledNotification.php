@@ -74,14 +74,14 @@ class TripCancelledNotification extends Notification
         if($notifiable->hasRole('admin')){
             return [
                 'subject' => 'Trip Cancelled',
-                'message' => 'A trip has been cancelled.',
-                'action' => route('admin.transport_schedules.index'),
+                'message' => 'A trip has been cancelled. Click this message to view the trip.',
+                'action' => url('admin/transport_schedules/' . $this->transportSchedule->id),
             ];
         }
         return [
             'subject' => 'Trip Cancelled',
-            'message' => 'Your trip has been cancelled.',
-            'action' => route('transport_schedules.index'),
+            'message' => 'Your trip has been cancelled. Click this message to view the trip.',
+            'action' => url('transport_schedules/' . $this->transportSchedule->id),
         ];
     }
 }

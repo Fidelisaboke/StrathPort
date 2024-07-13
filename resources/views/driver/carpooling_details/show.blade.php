@@ -9,9 +9,12 @@
     <x-status-message />
 
     @php
+    if(!empty($carpoolingDetail->carpoolRequest)) {
         $carpoolRequest = $carpoolingDetail->carpoolRequest;
         $carpoolDriver = $carpoolRequest->carpoolDriver;
         $carpoolVehicle = $carpoolDriver->carpoolVehicle;
+    }
+
     @endphp
 
     <div class="py-12">
@@ -23,100 +26,102 @@
                     Back to Carpool Schedule List
                 </a>
             </div>
-
-            <div class="container grid px-6 mx-auto md:w-3/5">
-                <div class="items-center p-4 my-6">
-                    <div class="overflow-hidden shadow sm:rounded-md">
-                        <!-- ID -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="id" class="block text-sm font-medium text-gray-700">ID</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolingDetail->id }}</span>
+            @if(!empty($carpoolingDetail))
+                <div class="container grid px-6 mx-auto md:w-3/5">
+                    <div class="items-center p-4 my-6">
+                        <div class="overflow-hidden shadow sm:rounded-md">
+                            <!-- ID -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="id" class="block text-sm font-medium text-gray-700">ID</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolingDetail->id }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Description -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolRequest->description }}</span>
+                            <!-- Description -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->description }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Departure Date -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="departure_date" class="block text-sm font-medium text-gray-700">Date</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolRequest->departure_date }}</span>
+                            <!-- Departure Date -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="departure_date" class="block text-sm font-medium text-gray-700">Date</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->departure_date }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Departure Time -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="departure_time" class="block text-sm font-medium text-gray-700">Time</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolRequest->departure_time }}</span>
+                            <!-- Departure Time -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="departure_time" class="block text-sm font-medium text-gray-700">Time</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->departure_time }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Departure Location -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="departure_location" class="block text-sm font-medium text-gray-700">Departure Location</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolRequest->departure_location }}</span>
+                            <!-- Departure Location -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="departure_location" class="block text-sm font-medium text-gray-700">Departure Location</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->departure_location }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Destination -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolRequest->destination }}</span>
+                            <!-- Destination -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolRequest->destination }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Driver Name-->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="driver_full_name" class="block text-sm font-medium text-gray-700">Driver Name</label>
-                            <div class="flex justify-between">
-                                <span>{{ $carpoolDriver->full_name }}</span>
+                            <!-- Driver Name-->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="driver_full_name" class="block text-sm font-medium text-gray-700">Driver Name</label>
+                                <div class="flex justify-between">
+                                    <span>{{ $carpoolDriver->full_name }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Driver Phone-->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
-                            <div class="flex justify-start">
-                                <span>{{ $carpoolDriver->user->phone }}</span>
+                            <!-- Driver Phone-->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="driver_phone" class="block text-sm font-medium text-gray-700">Mobile Phone</label>
+                                <div class="flex justify-start">
+                                    <span>{{ $carpoolDriver->user->phone }}</span>
+                                </div>
                             </div>
-                        </div>
-                        <!-- Vehicle Registration Number -->
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
-                            <div class="flex justify-between">
-                                @empty($carpoolVehicle)
-                                    <span class="text-red-600">No vehicle assigned</span>
-                                @else
-                                    <span>{{ $carpoolVehicle->number_plate }}</span>
-                                @endempty
+                            <!-- Vehicle Registration Number -->
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                                <div class="flex justify-between">
+                                    @empty($carpoolVehicle)
+                                        <span class="text-red-600">No vehicle assigned</span>
+                                    @else
+                                        <span>{{ $carpoolVehicle->number_plate }}</span>
+                                    @endempty
+                                </div>
                             </div>
-                        </div>
-                        <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                            <div class="flex flex-col">
-                                <span>{{ $carpoolingDetail->status }}</span>
-                                @if($carpoolingDetail->carpoolRequest && $carpoolingDetail->status == 'In Progress')
-                                    <div class="flex justify-center mt-4">
-                                        <form action="{{ route('driver.carpooling_details.completeTrip', $carpoolingDetail->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
-                                        </form>
-                                        <form action="{{ route('driver.carpooling_details.cancelTrip', $carpoolingDetail->id) }}" method="POST" x-data>
-                                            @csrf
-                                            @method('PUT')
-                                            <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'carpooling_details', id: {{ $carpoolingDetail->id }}, modelClass: 'App\\Models\\CarpoolingDetails' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
-                                        </form>
-                                    </div>
-                                @endif
+                            <div class="px-4 py-2 bg-white border-b sm:p-6">
+                                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                                <div class="flex flex-col">
+                                    <span>{{ $carpoolingDetail->status }}</span>
+                                    @if($carpoolingDetail->carpoolRequest && $carpoolingDetail->status == 'In Progress')
+                                        <div class="flex justify-center mt-4">
+                                            <form action="{{ route('driver.carpooling_details.completeTrip', $carpoolingDetail->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
+                                            </form>
+                                            <form action="{{ route('driver.carpooling_details.cancelTrip', $carpoolingDetail->id) }}" method="POST" x-data>
+                                                @csrf
+                                                @method('PUT')
+                                                <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'driver/carpooling_details', id: {{ $carpoolingDetail->id }}, modelClass: 'App\\Models\\CarpoolingDetails' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
+                                            </form>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </x-app-layout>
+@livewire('trip-cancel-confirmation-modal')

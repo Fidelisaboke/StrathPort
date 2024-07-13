@@ -56,7 +56,7 @@ class NewUserRegisteredNotification extends Notification
     {
         return [
             'subject' => 'New User Registered',
-            'message' => 'A new user has registered.',
+            'message' => 'A new user has registered. Click this message to view the user.',
             'action' => url('admin/users/'. $this->user->id),
             'user' => $this->user,
         ];

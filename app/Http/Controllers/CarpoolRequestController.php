@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CarpoolRequestSubmittedNotification;
+use App\Notifications\CarpoolRequestUpdatedNotification;
 
 class CarpoolRequestController extends Controller
 {
@@ -73,9 +76,25 @@ class CarpoolRequestController extends Controller
                 'status' => 'Pending',
             ];
 
-            CarpoolRequest::create($input);
+            $carpoolRequest = CarpoolRequest::create($input);
 
-            return redirect('carpool_requests')->with('success', 'Carpool Request created successfully.');
+            // Check if request has been created
+            if($carpoolRequest){
+                // Send notification to the carpool drivers and user
+                $requestOwner = Auth::user();
+
+                // Get the user account of the carpool driver
+                $carpoolDriver = $carpoolRequest->carpoolDriver;
+                $carpoolDriverUser = $carpoolDriver->user;
+
+                Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolRequestSubmittedNotification($carpoolRequest));
+
+                return redirect('carpool_requests')->with('success', 'Carpool Request created successfully.');
+
+            }
+
+            return redirect()->back()->with('error', 'An error occurred while creating the carpool request.');
+
         }
     }
 
@@ -140,7 +159,21 @@ class CarpoolRequestController extends Controller
                 'status' => 'Pending',
             ];
 
-            CarpoolRequest::find($id)->update($input);
+            $carpoolRequest = CarpoolRequest::find($id)->update($input);
+
+            if($carpoolRequest){
+                 // Send notification to the carpool drivers and user
+                 $requestOwner = Auth::user();
+
+                 // Get the user account of the carpool driver
+                 $carpoolDriver = $carpoolRequest->carpoolDriver;
+                 $carpoolDriverUser = $carpoolDriver->user;
+
+                 Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolRequestUpdatedNotification($carpoolRequest));
+
+                 return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
+
+            }
 
             return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
         }

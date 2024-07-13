@@ -26,7 +26,7 @@ class LogoutConfirmationModal extends Component
         Auth::guard('web')->logout();
 
         // Send a notification to the user
-        Notification::send(Auth::user(), new LogoutNotification(Auth::user()));
+        // Notification::send(Auth::user(), new LogoutNotification(Auth::user()));
 
         return redirect()->route('home');
     }

@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\TransportRequestSubmittedNotification;
-use App\Notifications\NewTransportRequestNotification;
 
 
 class TransportRequestController extends Controller
@@ -48,7 +47,7 @@ class TransportRequestController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
-            'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'event_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
@@ -56,9 +55,9 @@ class TransportRequestController extends Controller
 
         if ($validator->fails()) {
             return redirect('transport_requests/create')
-                        ->withErrors($validator->errors())
-                        ->withInput();
-        }else{
+                ->withErrors($validator->errors())
+                ->withInput();
+        } else {
             $input = [
                 'user_id' => Auth::id(),
                 'title' => $request->title,
@@ -71,18 +70,21 @@ class TransportRequestController extends Controller
 
             $transportRequest = TransportRequest::create($input);
 
-            // Send notification to the user
+            if (!$transportRequest) {
+                return redirect('transport_requests/create')->with('error', 'Failed to create Transport Request.');
+            }
+
+            // Notify the authenticated user
             Notification::send(Auth::user(), new TransportRequestSubmittedNotification($transportRequest));
 
             // Send notification to the admins
             $adminRole = Role::findByName('admin', 'web');
             $admins = $adminRole->users;
-            Notification::send($admins, new NewTransportRequestNotification($transportRequest));
+            Notification::send($admins, new TransportRequestSubmittedNotification($transportRequest));
 
             // Return with success message
             return redirect('transport_requests')->with('success', 'Transport Request created successfully.');
         }
-
     }
 
     /**
@@ -118,17 +120,17 @@ class TransportRequestController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
-            'event_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'event_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required',
             'no_of_people' => 'required|integer|between:1,200',
         ]);
 
         if ($validator->fails()) {
-            return redirect('transport_requests/'.$id.'/edit')
-                        ->withErrors($validator->errors())
-                        ->withInput();
-        }else{
+            return redirect('transport_requests/' . $id . '/edit')
+                ->withErrors($validator->errors())
+                ->withInput();
+        } else {
             $input = [
                 'title' => $request->title,
                 'description' => $request->description,
@@ -143,7 +145,6 @@ class TransportRequestController extends Controller
             // Return with success message
             return redirect('transport_requests')->with('success', 'Transport Request updated successfully.');
         }
-
     }
 
     /**
@@ -168,12 +169,12 @@ class TransportRequestController extends Controller
 
         // Search for transport requests for the user
         $transportRequests = TransportRequest::where('user_id', Auth::id())
-                ->where('title', 'LIKE', "%$search%")
-                ->orWhere('description', 'LIKE', "%$search%")
-                ->orWhere('event_date', 'LIKE', "%$search%")
-                ->orWhere('event_time', 'LIKE', "%$search%")
-                ->orWhere('event_location', 'LIKE', "%$search%")
-                ->orWhere('no_of_people', 'LIKE', "%$search%")
+            ->where('title', 'LIKE', "%$search%")
+            ->orWhere('description', 'LIKE', "%$search%")
+            ->orWhere('event_date', 'LIKE', "%$search%")
+            ->orWhere('event_time', 'LIKE', "%$search%")
+            ->orWhere('event_location', 'LIKE', "%$search%")
+            ->orWhere('no_of_people', 'LIKE', "%$search%")
             ->paginate(10);
 
         return view('user.transport_requests.index', compact('transportRequests'));
@@ -187,14 +188,12 @@ class TransportRequestController extends Controller
         abort_unless(Gate::allows('student'), 403, 'Forbidden');
 
         $filter = $request->input('status');
-        if($filter == 'All'){
+        if ($filter == 'All') {
             $transportRequests = TransportRequest::where('user_id', Auth::id())->paginate(10);
-        }else{
+        } else {
             $transportRequests = TransportRequest::where('user_id', Auth::id())->where('status', $filter)->paginate(10);
         }
 
         return view('user.transport_requests.index', compact('transportRequests'));
     }
-
-
 }

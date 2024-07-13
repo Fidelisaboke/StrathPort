@@ -74,14 +74,14 @@ class TripCompletedNotification extends Notification
         if($notifiable->hasRole('admin')){
             return [
                 'subject' => 'Trip Completed',
-                'message' => 'A trip has been completed.',
-                'action' => route('admin.transport_schedules.index'),
+                'message' => 'A trip has been completed. Click this message to view the trip.',
+                'action' => url('admin/transport_schedules/' . $this->transportSchedule->id),
             ];
         }
         return [
             'subject' => 'Trip Completed',
-            'message' => 'Your trip has been completed.',
-            'action' => route('transport_schedules.index'),
+            'message' => 'Your trip has been completed. Click this message to view the trip.',
+            'action' => url('transport_schedules/' . $this->transportSchedule->id),
         ];
     }
 }

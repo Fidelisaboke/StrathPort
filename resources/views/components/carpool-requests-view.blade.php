@@ -73,7 +73,6 @@
                     <div class="flex flex-col justify-end space-y-2 md:flex-row md:space-x-2 md:space-y-0">
                         @if(Auth::user()->hasRole('carpool_driver'))
                             <a href="{{ route('driver.carpool_requests.show', $carpoolRequest->id) }}" class="px-4 py-2 font-medium text-green-600 rounded-md hover:text-green-500 hover:bg-gray-100">View</a>
-                            <a href="{{ route('driver.carpool_requests.edit', $carpoolRequest->id) }}" class="px-4 py-2 font-medium text-indigo-600 rounded-md hover:text-indigo-500 hover:bg-gray-100">Edit</a>
                             <!-- delete -->
                             <form class="inline-block" action="{{ route('driver.carpool_requests.destroy', $carpoolRequest->id) }}" method="POST" x-data>
                                 @csrf

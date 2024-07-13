@@ -49,7 +49,7 @@ class CarpoolVehicleController extends Controller
             'model' => 'required|string|max:255',
             'year' => 'required|string|numeric|before:' . Carbon::now()->format('Y'),
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
-            'capacity' => 'required|integer|unsigned|between:1,20'
+            'capacity' => 'required|integer|between:1,20'
         ]);
 
         if ($validator->fails()) {
@@ -65,15 +65,12 @@ class CarpoolVehicleController extends Controller
                 'capacity' => $request->capacity
             ];
 
-            // Insert and return latest id to save to carpool driver
-            $carpoolVehicleId = CarpoolVehicle::insertGetId($input);
+            $carpoolVehicle = CarpoolVehicle::create($input);
+            if($carpoolVehicle){
+                return redirect('driver/carpool_vehicles')->with('success', 'Vehicle added successfully.');
+            }
 
-            // Update the user's carpool driver record to include the carpool vehicle id
-            $carpoolDriver = CarpoolDriver::where('user_id', Auth::id())->first();
-            $carpoolDriver->carpool_vehicle_id = $carpoolVehicleId;
-            $carpoolDriver->save();
-
-            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle created successfully');
+            return redirect('driver/carpool_vehicles')->with('error', 'Error adding vehicle.');
         }
     }
 
@@ -129,7 +126,7 @@ class CarpoolVehicleController extends Controller
 
             CarpoolVehicle::find($id)->update($input);
 
-            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully');
+            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully.');
         }
     }
 
@@ -139,8 +136,8 @@ class CarpoolVehicleController extends Controller
     public function destroy(string $id)
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
-        
+
         CarpoolVehicle::find($id)->delete();
-        return redirect('driver/carpool_vehicles')->with('success', 'Vehicle deleted successfully');
+        return redirect('driver/carpool_vehicles')->with('success', 'Vehicle deleted successfully.');
     }
 }

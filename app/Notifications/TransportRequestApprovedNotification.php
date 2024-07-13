@@ -6,9 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
-use App\Models\TransportRequest;
 
-class TransportRequestSubmittedNotification extends Notification
+class TransportRequestApprovedNotification extends Notification
 {
     use Queueable;
 
@@ -37,11 +36,14 @@ class TransportRequestSubmittedNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        if($notifiable->hasRole('admin')){
+        if ($notifiable->hasRole('admin')) {
+            // Get the user that made the request
+            $user = $this->transportRequest->user;
+
             return (new MailMessage)
-                ->subject(__('Transport Request Submitted'))
+                ->subject(__('Transport Request Approved'))
                 ->greeting(__('Hello, ' . $notifiable->name . '!'))
-                ->line(__('A new transport request has been submitted.'))
+                ->line(__('Transport request has been approved for ' . $user->name . '. A transport schedule has been created.'))
                 ->line(__('Title: ' . $this->transportRequest->title))
                 ->line(__('Description: ' . $this->transportRequest->description))
                 ->line(__('Event Date: ' . $this->transportRequest->event_date))
@@ -52,16 +54,15 @@ class TransportRequestSubmittedNotification extends Notification
         }
 
         return (new MailMessage)
-            ->subject(__('Transport Request Submitted'))
+            ->subject(__('Transport Request Approved'))
             ->greeting(__('Hello, ' . $notifiable->name . '!'))
-            ->line(__('Your transport request has been submitted successfully.'))
+            ->line(__('Your transport request has been approved. A transport schedule has been created for you.'))
             ->line(__('Title: ' . $this->transportRequest->title))
             ->line(__('Description: ' . $this->transportRequest->description))
             ->line(__('Event Date: ' . $this->transportRequest->event_date))
             ->line(__('Event Time: ' . $this->transportRequest->event_time))
             ->line(__('Event Location: ' . $this->transportRequest->event_location))
             ->line(__('Number of People: ' . $this->transportRequest->no_of_people))
-            ->line(__('You will receive an email once your request has been approved.'))
             ->action(__('View Request'), url('transport_requests'));
     }
 
@@ -72,18 +73,17 @@ class TransportRequestSubmittedNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
-        if($notifiable->hasRole('admin')){
+        if ($notifiable->hasRole('admin')) {
             return [
-                'subject' => 'Transport Request Submitted',
-                'message' => 'A new transport request has been submitted. Click this message to view the request.',
+                'subject' => 'Transport Request Approved',
+                'message' => 'A Transport request has been approved. A transport schedule has been created.',
                 'action' => url('admin/transport_requests/' . $this->transportRequest->id),
             ];
         }
-
         return [
-            'subject' => 'Transport Request Submitted',
-            'message' => 'Your transport request has been submitted successfully. You will receive a notification once your request has been approved.',
-            'action' => url('transport_requests/'. $this->transportRequest->id),
+            'subject' => 'Transport Request Approved',
+            'message' => 'Your transport request has been approved. A transport schedule has been created for you.',
+            'action' => url('transport_requests/' . $this->transportRequest->id),
         ];
     }
 }
