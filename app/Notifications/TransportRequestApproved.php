@@ -43,7 +43,7 @@ class TransportRequestApproved extends Notification
 
             return (new MailMessage)
                 ->subject(__('Transport Request Approved'))
-                ->greeting(__('Hello!'))
+                ->greeting(__('Hello, ' . $notifiable->name . '!'))
                 ->line(__('Transport request has been approved for '.$user->name. '. A transport schedule has been created.'))
                 ->line(__('Title: ' . $this->transportRequest->title))
                 ->line(__('Description: ' . $this->transportRequest->description))
@@ -56,7 +56,7 @@ class TransportRequestApproved extends Notification
 
         return (new MailMessage)
             ->subject(__('Transport Request Approved'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your transport request has been approved. A transport schedule has been created for you.'))
             ->line(__('Title: ' . $this->transportRequest->title))
             ->line(__('Description: ' . $this->transportRequest->description))
@@ -77,13 +77,15 @@ class TransportRequestApproved extends Notification
         if($notifiable->hasRole('admin'))
         {
             return [
-                'message' => 'Transport request has been approved. A transport schedule has been created for you.',
-                'action' => route('admin.transport_requests.index'),
+                'subject' => 'Transport Request Approved',
+                'message' => 'A Transport request has been approved. A transport schedule has been created for you.',
+                'action' => url('admin/transport_requests/' . $this->transportRequest->id),
             ];
         }
         return [
+            'subject' => 'Transport Request Approved',
             'message' => 'Your transport request has been approved.',
-            'action' => route('transport_requests.index'),
+            'action' => url('transport_requests/' . $this->transportRequest->id),
         ];
     }
 }

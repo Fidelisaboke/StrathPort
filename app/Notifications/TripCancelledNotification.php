@@ -39,7 +39,7 @@ class TripCancelledNotification extends Notification
         if($notifiable->hasRole('admin')){
             return (new MailMessage)
                 ->subject(__('Trip Cancelled'))
-                ->greeting(__('Hello!'))
+                ->greeting(__('Hello, ' . $notifiable->name . '!'))
                 ->line(__('A trip has been cancelled.'))
                 ->line(__('Title:' . $this->transportSchedule->title))
                 ->line(__('Description:' . $this->transportSchedule->description))
@@ -52,7 +52,7 @@ class TripCancelledNotification extends Notification
         }
         return (new MailMessage)
             ->subject(__('Trip Cancelled'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your trip has been cancelled.'))
             ->line(__('Title:' . $this->transportSchedule->title))
             ->line(__('Description:' . $this->transportSchedule->description))
@@ -73,12 +73,14 @@ class TripCancelledNotification extends Notification
     {
         if($notifiable->hasRole('admin')){
             return [
-                'message' => 'A trip has been cancelled. Please login to your account to view the trip.',
+                'subject' => 'Trip Cancelled',
+                'message' => 'A trip has been cancelled.',
                 'action' => route('admin.transport_schedules.index'),
             ];
         }
         return [
-            'message' => 'Your trip has been cancelled. Please login to your account to view the trip.',
+            'subject' => 'Trip Cancelled',
+            'message' => 'Your trip has been cancelled.',
             'action' => route('transport_schedules.index'),
         ];
     }

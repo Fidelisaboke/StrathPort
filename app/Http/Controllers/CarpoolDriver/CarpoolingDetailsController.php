@@ -9,6 +9,9 @@ use App\Models\CarpoolRequest;
 use App\Models\CarpoolDriver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CarpoolTripCancelledNotification;
+use App\Notifications\CarpoolTripCompletedNotification;
 
 class CarpoolingDetailsController extends Controller
 {
@@ -116,7 +119,6 @@ class CarpoolingDetailsController extends Controller
             ->paginate(10);
 
         return view('driver.carpooling_details.index', compact('carpoolingDetails'));
-
     }
 
     /**
@@ -128,9 +130,19 @@ class CarpoolingDetailsController extends Controller
 
         $carpoolingDetail = CarpoolingDetails::find($id);
         $carpoolingDetail->status = 'Cancelled';
-        $carpoolingDetail->save();
+        if ($carpoolingDetail->save()) {
+            $requestOwner = $carpoolingDetail->carpoolRequest->user;
 
-        return redirect('driver/carpooling_details/'.$id)->with('success', 'Trip cancelled successfully.');
+            // Notify the request owner that the carpool schedule has been cancelled
+            $requestOwner->notify(new CarpoolTripCancelledNotification($carpoolingDetail));
+
+            // Notify the driver that the carpool schedule has been cancelled
+            $carpoolingDetail->carpoolDriver->notify(new CarpoolTripCancelledNotification($carpoolingDetail));
+
+            return redirect('driver/carpooling_details/' . $id)->with('success', 'Trip cancelled successfully.');
+        }
+
+        return redirect('driver/carpooling_details/' . $id)->with('error', 'Error cancelling trip.');
     }
 
     /**
@@ -139,11 +151,23 @@ class CarpoolingDetailsController extends Controller
     public function completeTrip(string $id)
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
-        
+
         $carpoolingDetail = CarpoolingDetails::find($id);
         $carpoolingDetail->status = 'Completed';
-        $carpoolingDetail->save();
+        if($carpoolingDetail->save()){
+            $requestOwner = $carpoolingDetail->carpoolRequest->user;
 
-        return redirect('driver/carpooling_details/'.$id)->with('success', 'Trip completed successfully.');
+            // Notify the request owner that the carpool schedule has been completed
+            $requestOwner->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
+
+            // Notify the driver that the carpool schedule has been completed
+            // Get the carpool driver (TODO: Check if this is the correct way to get the carpool driver)
+            $carpoolDriver = Auth::user();
+            Notification::send($carpoolDriver, new CarpoolTripCompletedNotification($carpoolingDetail));
+
+            return redirect('driver/carpooling_details/' . $id)->with('success', 'Trip completed successfully.');
+
+        }
+        return redirect('driver/carpooling_details/' . $id)->with('error', 'Error completing trip.');
     }
 }

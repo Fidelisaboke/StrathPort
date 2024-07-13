@@ -26,7 +26,7 @@ class AccountActivatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -36,7 +36,7 @@ class AccountActivatedNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('Account Activated'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your account has been activated successfully.'))
             ->line(__('You can now login to your account and access other features.'))
             ->action(__('Login'), route('login'));
@@ -50,7 +50,8 @@ class AccountActivatedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'Your account has been activated successfully. You can now login to your account and access other features.'
+            'subject' => 'Account Activated',
+            'message' => 'Your account has been activated successfully. You can access other features.',
         ];
     }
 }

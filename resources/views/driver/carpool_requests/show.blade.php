@@ -72,11 +72,13 @@
                                         <div class="flex justify-center mt-4">
                                             <form action="{{ route('driver.carpool_requests.update_status', $carpoolRequest->id) }}" method="POST">
                                                 @csrf
+                                                @method('PUT')
                                                 <input type="hidden" name="status" value="Approved">
                                                 <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Approve</button>
                                             </form>
                                             <form action="{{ route('driver.carpool_requests.update_status', $carpoolRequest->id) }}" method="POST">
                                                 @csrf
+                                                @method('PUT')
                                                 <input type="hidden" name="status" value="Declined">
                                                 <button type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
                                             </form>
@@ -91,3 +93,4 @@
         </div>
     </div>
 </x-app-layout>
+@livewire('trip-cancel-confirmation-modal')

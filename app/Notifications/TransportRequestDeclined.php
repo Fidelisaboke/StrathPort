@@ -42,7 +42,7 @@ class TransportRequestDeclined extends Notification
 
             return (new MailMessage)
                 ->subject(__('Transport Request Declined'))
-                ->greeting(__('Hello!'))
+                ->greeting(__('Hello, ' . $notifiable->name . '!'))
                 ->line(__('Transport request has been declined for '.$user->name. '.'))
                 ->line(__('Title: ' . $this->transportRequest->title))
                 ->line(__('Description: ' . $this->transportRequest->description))
@@ -55,7 +55,7 @@ class TransportRequestDeclined extends Notification
 
         return (new MailMessage)
             ->subject(__('Transport Request Declined'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your transport request has been declined.'))
             ->line(__('Title: ' . $this->transportRequest->title))
             ->line(__('Description: ' . $this->transportRequest->description))
@@ -75,13 +75,15 @@ class TransportRequestDeclined extends Notification
     {
         if($notifiable->hasRole('admin')){
             return [
-                'message' => 'Transport request has been declined.',
-                'action' => route('admin.transport_requests.index'),
+                'subject' => 'Transport Request Declined',
+                'message' => 'A Transport request has been declined.',
+                'action' => url('admin/transport_requests/' . $this->transportRequest->id),
             ];
         }
         return [
+            'subject' => 'Transport Request Declined',
             'message' => 'Your transport request has been declined.',
-            'action' => route('transport_requests.index'),
+            'action' => url('transport_requests/' . $this->transportRequest->id),
         ];
     }
 }

@@ -182,13 +182,13 @@ class TransportScheduleController extends Controller
                 // Get the user that made the request
                 $user = $transportRequest->user;
 
-                // Notify the user that the trip has been cancelled
-                Notification::send($user, new TripCancelledNotification($transportSchedule));
+                // Notify the user that the trip has been completed
+                Notification::send($user, new TripCompletedNotification($transportSchedule));
 
-                // Notify all admins that the trip has been cancelled
+                // Notify all admins that the trip has been completed
                 $adminRole = Role::findByName('admin', 'web');
                 $admins = $adminRole->users;
-                Notification::send($admins, new TripCancelledNotification($transportSchedule));
+                Notification::send($admins, new TripCompletedNotification($transportSchedule));
             }
 
             if(!$transportSchedule->transportRequest){
@@ -197,7 +197,7 @@ class TransportScheduleController extends Controller
                 $users = User::role($roles, 'web')->get();
                 Notification::send($users, new TripCompletedNotification($transportSchedule));
 
-                // Notify all admins that the trip has been cancelled
+                // Notify all admins that the trip has been completed
                 $adminRole = Role::findByName('admin', 'web');
                 $admins = $adminRole->users;
                 Notification::send($admins, new TripCompletedNotification($transportSchedule));

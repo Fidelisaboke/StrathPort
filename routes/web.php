@@ -10,6 +10,7 @@ use App\Http\Controllers\CarpoolRequestController;
 use App\Http\Controllers\CarpoolingDetailsController;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\CarpoolDriver;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('home');
@@ -29,6 +30,9 @@ Route::middleware([
             Route::get('/dashboard', function () {
                 return view('dashboard');
             })->name('dashboard');
+
+            /* Notification Route */
+            Route::post('/notifications/mark-as-read/{id}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
             /* Student and Staff Routes */
             Route::get('/transport_requests/search', [TransportRequestController::class, 'search'])->name('transport_requests.search');

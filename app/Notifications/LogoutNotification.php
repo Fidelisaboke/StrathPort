@@ -36,7 +36,7 @@ class LogoutNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('Logout Notification'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('You have been logged out of your StrathPort account.'))
             ->line(__('If you did not perform this action, please contact us immediately.'));
     }
@@ -49,6 +49,7 @@ class LogoutNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'subject' => 'Logout Notification',
             'message' => __('You have been logged out of your account.'),
             'action' => route('login'),
         ];

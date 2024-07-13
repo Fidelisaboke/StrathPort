@@ -26,9 +26,12 @@ class UserRegisteredNotification
     {
         $user = $event->user;
 
-        // Find admin users and send them a notification
-        $adminRole = Role::findByName('admin');
-        $admins = $adminRole->users;
-        Notification::send($admins, new NewUserRegisteredNotification($user));
+        try {
+            $adminRole = Role::findByName('admin');
+            $admins = $adminRole->users;
+            Notification::send($admins, new NewUserRegisteredNotification($user));
+        } catch (\Spatie\Permission\Exceptions\RoleDoesNotExist $e) {
+            return;
+        }
     }
 }

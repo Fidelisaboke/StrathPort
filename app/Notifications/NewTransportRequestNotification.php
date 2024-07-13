@@ -28,7 +28,7 @@ class NewTransportRequestNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['mail', 'database'];
     }
 
     /**
@@ -38,7 +38,7 @@ class NewTransportRequestNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('New Transport Request'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('A new transport request has been created.'))
             ->line(__('Title: ' . $this->transportRequest->title))
             ->line(__('Description: ' . $this->transportRequest->description))
@@ -57,6 +57,7 @@ class NewTransportRequestNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'subject' => 'New Transport Request',
             'message' => 'A new transport request has been created. Please login to your account to view the request.',
             'action' => url('admin/transport_requests/' . $this->transportRequest->id),
         ];

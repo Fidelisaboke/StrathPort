@@ -1,6 +1,6 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
-    <div class="px-4 mx-auto max-w-7xl lg:px-6 lg:px-8">
+    <div class="px-4 mx-auto max-w-7xl lg:px-6">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -117,6 +117,9 @@
                 <!-- Lock Screen Button -->
                 <x-lock-screen-button />
 
+                <!-- Notification Button -->
+                <x-notification-button />
+
                 <!-- Settings Dropdown -->
                 <div class="relative ms-3">
                     <x-dropdown align="right" width="48">
@@ -188,9 +191,13 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <!-- Lock Screen Button -->
-            <div class="flex justify-center">
+
+            <div class="flex items-center justify-center space-x-4">
+                <!-- Lock Screen Button -->
                 <x-lock-screen-button />
+
+                <!-- Notification Button -->
+                <x-notification-button />
             </div>
 
             <!-- Responsive Navigation Links-->

@@ -6,6 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use App\Models\TransportRequest;
 
 class TransportRequestSubmittedNotification extends Notification
 {
@@ -38,7 +39,7 @@ class TransportRequestSubmittedNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('Transport Request Submitted'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your transport request has been submitted successfully.'))
             ->line(__('Title: ' . $this->transportRequest->title))
             ->line(__('Description: ' . $this->transportRequest->description))
@@ -54,8 +55,9 @@ class TransportRequestSubmittedNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'subject' => 'Transport Request Submitted',
             'message' => 'Your transport request has been submitted successfully. You will receive an email once your request has been approved.',
-            'action' => route('transport_requests.index'),
+            'action' => url('transport_requests/'. $this->transportRequest->id),
         ];
     }
 }

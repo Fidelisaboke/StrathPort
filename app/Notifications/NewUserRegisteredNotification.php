@@ -40,7 +40,7 @@ class NewUserRegisteredNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('New User Registered'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('A new user has registered.'))
             ->line('User Email: ' . $this->user->email)
             ->line(__('Please login to your account to view the user.'))
@@ -55,9 +55,10 @@ class NewUserRegisteredNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'subject' => 'New User Registered',
             'message' => 'A new user has registered.',
-            'user' => $this->user->name,
-            'action' => route('users.show', $this->user->id),
+            'action' => url('admin/users/'. $this->user->id),
+            'user' => $this->user,
         ];
     }
 }

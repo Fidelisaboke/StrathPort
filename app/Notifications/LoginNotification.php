@@ -36,7 +36,7 @@ class LoginNotification extends Notification
     {
         return (new MailMessage)
             ->subject(__('Login Notification'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('You have logged into your StrathPort account.'))
             ->line(__('If you did not perform this action, please contact us immediately.'));
     }
@@ -49,6 +49,7 @@ class LoginNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'subject' => 'Login Notification',
             'message' => __('You have logged into your account.'),
         ];
     }

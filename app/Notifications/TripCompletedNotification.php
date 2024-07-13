@@ -39,7 +39,7 @@ class TripCompletedNotification extends Notification
         if($notifiable->hasRole('admin')){
             return (new MailMessage)
                 ->subject(__('Trip Completed'))
-                ->greeting(__('Hello!'))
+                ->greeting(__('Hello, ' . $notifiable->name . '!'))
                 ->line(__('A trip has been completed.'))
                 ->line(__('Title:' . $this->transportSchedule->title))
                 ->line(__('Description:' . $this->transportSchedule->description))
@@ -52,7 +52,7 @@ class TripCompletedNotification extends Notification
         }
         return (new MailMessage)
             ->subject(__('Trip Completed'))
-            ->greeting(__('Hello!'))
+            ->greeting(__('Hello, ' . $notifiable->name . '!'))
             ->line(__('Your trip has been completed.'))
             ->line(__('Title:' . $this->transportSchedule->title))
             ->line(__('Description:' . $this->transportSchedule->description))
@@ -73,12 +73,14 @@ class TripCompletedNotification extends Notification
     {
         if($notifiable->hasRole('admin')){
             return [
-                'message' => 'A trip has been completed. Please login to your account to view the trip.',
+                'subject' => 'Trip Completed',
+                'message' => 'A trip has been completed.',
                 'action' => route('admin.transport_schedules.index'),
             ];
         }
         return [
-            'message' => 'A trip has been completed. Please login to your account to view the trip.',
+            'subject' => 'Trip Completed',
+            'message' => 'Your trip has been completed.',
             'action' => route('transport_schedules.index'),
         ];
     }

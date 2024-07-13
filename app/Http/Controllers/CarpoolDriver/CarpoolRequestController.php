@@ -128,7 +128,7 @@ class CarpoolRequestController extends Controller
     public function updateStatus(Request $request, string $id)
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
-        
+
         $carpoolRequest = CarpoolRequest::find($id);
 
         //Vadidate the request

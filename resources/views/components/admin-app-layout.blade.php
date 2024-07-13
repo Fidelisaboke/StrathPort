@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -16,7 +19,7 @@
 </head>
 
 <body>
-    <div x-data="{ sidebarOpen: false, notificationOpen: false, dropdownOpen: false, hasNotification: true }" class="flex h-screen bg-gray-200">
+    <div x-data="{ sidebarOpen: false, dropdownOpen: false }" class="flex h-screen bg-gray-200">
         <x-admin-sidebar />
 
         <!-- Main Content -->
@@ -44,13 +47,7 @@
                 <div class="flex items-center">
                     <x-lock-screen-button />
 
-                    <button @click="notificationOpen = !notificationOpen"
-                        class="relative text-gray-600 focus:outline-none">
-                        <i class="text-2xl fas fa-bell"></i>
-                        <template x-if="hasNotification">
-                            <span class="absolute top-0 right-0 w-2 h-2 mt-1 mr-2 bg-red-600 rounded-full"></span>
-                        </template>
-                    </button>
+                    <x-notification-button />
 
                     <!-- Settings Dropdown -->
                     <div class="relative ms-3">
