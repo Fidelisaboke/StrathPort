@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\CarpoolDriver;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use App\Models\CarpoolDriver;
 use App\Models\CarpoolVehicle;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -32,7 +33,8 @@ class CarpoolVehicleController extends Controller
      */
     public function create()
     {
-        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+        // Check if the user is a carpool driver and has not added a vehicle
+        abort_unless(Gate::allows('carpool_driver') && !CarpoolVehicle::where('carpool_driver_id', Auth::user()->carpoolDriver->id)->exists(), 403, 'Forbidden');
 
         return view('driver.carpool_vehicles.create');
     }
@@ -47,9 +49,10 @@ class CarpoolVehicleController extends Controller
         $validator = Validator::make($request->all(), [
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',
-            'year' => 'required|string|numeric|before:' . Carbon::now()->format('Y'),
+            'year' => 'required|string|integer|before:' . Carbon::now()->format('Y'),
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
-            'capacity' => 'required|integer|between:1,20'
+            'capacity' => 'required|integer|between:1,20',
+            'vehicle_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -65,8 +68,26 @@ class CarpoolVehicleController extends Controller
                 'capacity' => $request->capacity
             ];
 
+            if ($request->hasFile('vehicle_photo')) {
+                $directory = 'carpool_vehicles';
+
+                // Create the directory if it doesn't exist
+                Storage::disk('public')->makeDirectory($directory);
+
+                $file = $request->file('vehicle_photo');
+
+                // Rename the file to prevent overriding
+                $fileName = time() . '_' . str_replace(' ', '_', $input['number_plate']) . '.' . $file->getClientOriginalExtension();
+
+                // Store the file on the public disk
+                $path = Storage::disk('public')->putFileAs($directory, $file, $fileName);
+
+                $input['vehicle_photo_path'] = $path;
+            }
+
             $carpoolVehicle = CarpoolVehicle::create($input);
-            if($carpoolVehicle){
+
+            if ($carpoolVehicle) {
                 return redirect('driver/carpool_vehicles')->with('success', 'Vehicle added successfully.');
             }
 
@@ -103,20 +124,21 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
 
-        // Validate the request...
         $validator = Validator::make($request->all(), [
             'make' => 'required|string|max:255',
             'model' => 'required|string|max:255',
-            'year' => 'required|string|numeric|before:' . Carbon::now()->format('Y'),
+            'year' => 'required|string|integer|before:' . Carbon::now()->format('Y'),
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
-            'capacity' => 'required|integer|between:1,20'
+            'capacity' => 'required|integer|between:1,20',
+            'vehicle_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
-            return redirect('carpool_vehicles/'.$id.'/edit')
+            return redirect()->back()
                 ->withErrors($validator->errors())->withInput();
         } else {
             $input = [
+                'carpool_driver_id' => $request->carpool_driver_id,
                 'make' => $request->make,
                 'model' => $request->model,
                 'year' => $request->year,
@@ -124,9 +146,30 @@ class CarpoolVehicleController extends Controller
                 'capacity' => $request->capacity
             ];
 
-            CarpoolVehicle::find($id)->update($input);
+            if ($request->hasFile('vehicle_photo')) {
+                $directory = 'carpool_vehicles';
 
-            return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully.');
+                // Create the directory if it doesn't exist
+                Storage::disk('public')->makeDirectory($directory);
+
+                $file = $request->file('vehicle_photo');
+
+                // Rename the file to prevent overriding
+                $fileName = time() . '_' . str_replace(' ', '_', $input['number_plate']) . '.' . $file->getClientOriginalExtension();
+
+                // Store the file on the public disk
+                $path = Storage::disk('public')->putFileAs($directory, $file, $fileName);
+
+                $input['vehicle_photo_path'] = $path;
+            }
+
+            $carpoolVehicle = CarpoolVehicle::find($id)->update($input);
+
+            if($carpoolVehicle){
+                return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully.');
+            }
+
+            return redirect('driver/carpool_vehicles')->with('error', 'Failed to update vehicle.');
         }
     }
 

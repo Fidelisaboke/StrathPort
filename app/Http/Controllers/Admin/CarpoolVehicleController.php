@@ -38,6 +38,8 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
+        dd($request->file('vehicle_photo'));
+
         // Validate the request...
         $validator = Validator::make($request->all(), [
             'carpool_driver_id' => 'nullable|exists:carpool_drivers,id',
@@ -46,7 +48,7 @@ class CarpoolVehicleController extends Controller
             'year' => 'required|string|max:255',
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
             'capacity' => 'required|integer|max:255',
-            'availability_status' => 'required|string|in:Available,Unavailable',
+            'vehicle_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -61,7 +63,6 @@ class CarpoolVehicleController extends Controller
                 'year' => $request->year,
                 'number_plate' => $request->number_plate,
                 'capacity' => $request->capacity,
-                'availability_status' => $request->availability_status,
             ];
 
             CarpoolVehicle::create($input);

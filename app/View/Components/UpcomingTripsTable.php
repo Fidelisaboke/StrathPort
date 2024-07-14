@@ -16,8 +16,9 @@ class UpcomingTripsTable extends Component
      */
     public function __construct()
     {
-        // Get at most 4 upcoming trips
+        // Get the upcoming trip with 'status' as 'In Progress'
         $this->transportSchedules = TransportSchedule::where('schedule_date', '>=', now())
+            ->where('status', 'In Progress')
             ->orderBy('schedule_date', 'asc')
             ->limit(3)
             ->get();

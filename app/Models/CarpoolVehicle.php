@@ -16,6 +16,7 @@ class CarpoolVehicle extends Model
         'year',
         'number_plate',
         'capacity',
+        'vehicle_photo_path',
     ];
 
     /**
@@ -25,7 +26,22 @@ class CarpoolVehicle extends Model
      */
     protected $appends = [
         'vehicle_photo_url',
+        'full_name',
     ];
+
+    /**
+     * Get the vehicle photo URL within carpool_vehicles directory in storage
+     */
+    public function getVehiclePhotoUrlAttribute(){
+        return $this->vehicle_photo_path ? asset("storage/{$this->vehicle_photo_path}") : null;
+    }
+
+    /**
+     * Get the full name of the vehicle (make + model)
+     */
+    public function getFullNameAttribute(){
+        return "{$this->make} {$this->model}";
+    }
 
     /**
      * Inverse one-to-one relationship between Carpool Vehicle and Carpool Driver
@@ -33,12 +49,5 @@ class CarpoolVehicle extends Model
      */
     public function carpoolDriver(){
         return $this->belongsTo(CarpoolDriver::class);
-    }
-
-    /**
-     * Get the full name of the vehicle (make + model)
-     */
-    public function getFullNameAttribute(){
-        return $this->make . ' ' . $this->model;
     }
 }

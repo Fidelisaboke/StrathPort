@@ -65,10 +65,11 @@ class TripCancelConfirmationModal extends Component
             if ($model instanceof TransportSchedule) {
                 $studentStaffRoles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($studentStaffRoles, 'web')->get();
+                Notification::send($users, new TripCancelledNotification($model));
 
                 $adminRole = Role::findByName('admin', 'web');
                 $admins = $adminRole->users;
-                Notification::send([$admins, $users], new TripCancelledNotification($model));
+                Notification::send($admins, new TripCancelledNotification($model));
 
                 return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Transport Schedule cancelled successfully.');
             }

@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class CarpoolVehicleInfoCard extends Component
+class CarpoolVehicleIndexCard extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class CarpoolVehicleInfoCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.carpool-vehicle-info-card');
+        return view('components.carpool-vehicle-index-card');
     }
 }
