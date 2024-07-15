@@ -23,6 +23,7 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_time' => '08:00:00',
                 'starting_point' => 'School',
                 'destination' => 'Nairobi National Park',
+                'no_of_people' => 30,
                 'status' => 'Completed',
             ],
             [
@@ -33,49 +34,20 @@ class TransportScheduleSeeder extends Seeder
                 'schedule_time' => '08:00:00',
                 'starting_point' => 'School',
                 'destination' => 'Town',
-                'status' => 'Completed'
+                'no_of_people' => 20,
+                'status' => 'Cancelled',
             ],
             [
-                'school_vehicle_id' => 1,
+                'school_vehicle_id' => 3,
                 'title' => 'Daily Commute',
                 'description' => 'Commute to School',
                 'schedule_date' => Carbon::now()->addDays(1)->format('Y-m-d'),
                 'schedule_time' => '16:00:00',
                 'starting_point' => 'Town',
                 'destination' => 'School',
+                'no_of_people' => 10,
                 'status' => 'In Progress'
             ],
-            [
-                'school_vehicle_id' => 2,
-                'title' => 'Hiking',
-                'description' => 'Mt. Longonot Hike',
-                'schedule_date' => Carbon::now()->addDays(3)->format('Y-m-d'),
-                'schedule_time' => '18:00:00',
-                'starting_point' => 'School',
-                'destination' => 'Longonot',
-                'status' => 'Cancelled'
-            ],
-            [
-                'school_vehicle_id' => 1,
-                'title' => 'Daily Commute',
-                'description' => 'Commute to Town',
-                'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
-                'schedule_time' => '08:00:00',
-                'starting_point' => 'School',
-                'destination' => 'Town',
-                'status' => 'In Progress'
-            ],
-            [
-                'school_vehicle_id' => 2,
-                'title' => 'Hiking',
-                'description' => 'Mt. Kenya Hike',
-                'schedule_date' => Carbon::now()->addDays(9)->format('Y-m-d'),
-                'schedule_time' => '16:00:00',
-                'starting_point' => 'Town',
-                'destination' => 'Central Kenya',
-                'status' => 'In Progress',
-            ]
-
         ];
 
         TransportSchedule::insert($transport_schedules);

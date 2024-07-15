@@ -18,6 +18,7 @@ class TransportSchedule extends Model
         'schedule_time',
         'starting_point',
         'destination',
+        'no_of_people',
         'status',
     ];
 

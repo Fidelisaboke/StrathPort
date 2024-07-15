@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\TransportSchedule;
+use App\Models\SchoolVehicle;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
@@ -52,6 +53,7 @@ class TransportScheduleController extends Controller
             'schedule_time' => 'required|after:05:00|before:19:00',
             'starting_point' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
+            'no_of_people' => 'required|integer|min:1',
         ]);
 
         if ($validator->fails()) {
@@ -60,7 +62,6 @@ class TransportScheduleController extends Controller
                 ->withInput();
         } else {
             $input = [
-                'school_vehicle_id' => $request->school_vehicle_id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'schedule_date' => $request->schedule_date,
@@ -69,8 +70,24 @@ class TransportScheduleController extends Controller
                 'destination' => $request->destination,
             ];
 
-            TransportSchedule::create($input);
-            return redirect('admin/transport_schedules')->with('success', 'Transport Schedule created successfully');
+            $schoolVehicle = SchoolVehicle::find($request->school_vehicle_id);
+
+            // Check if the number of people is greater than the school vehicle capacity
+            if($request->no_of_people > $schoolVehicle->capacity){
+                return redirect()->back()->with('error', 'Number of people exceeds selected vehicle\'s capacity.');
+            }
+
+            $input['school_vehicle_id'] = $request->school_vehicle_id;
+            $input['no_of_people'] = $request->no_of_people;
+
+            $transportSchedule = TransportSchedule::create($input);
+
+            if ($transportSchedule) {
+                return redirect('admin/transport_schedules')->with('success', 'Transport Schedule created successfully');
+            }
+
+
+            return redirect('admin/transport_schedules')->with('error', 'Failed to update transport schedule');
         }
     }
 
@@ -121,7 +138,6 @@ class TransportScheduleController extends Controller
                 ->withInput();
         } else {
             $input = [
-                'school_vehicle_id' => $request->school_vehicle_id,
                 'title' => $request->title,
                 'description' => $request->description,
                 'schedule_date' => $request->schedule_date,
@@ -131,8 +147,40 @@ class TransportScheduleController extends Controller
                 'status' => $request->status
             ];
 
-            TransportSchedule::find($id)->update($input);
-            return redirect('admin/transport_schedules')->with('success', 'Transport Schedule updated successfully');
+            $schoolVehicle = SchoolVehicle::find($request->school_vehicle_id);
+
+            // Check if the number of people is greater than the school vehicle capacity
+            if($request->no_of_people > $schoolVehicle->capacity){
+                return redirect()->back()->with('error', 'Number of people exceeds selected vehicle capacity.');
+            }
+
+            $input['school_vehicle_id'] = $request->school_vehicle_id;
+            $input['no_of_people'] = $request->no_of_people;
+
+            $transportSchedule = TransportSchedule::find($id);
+
+            // Check if the school vehicle has been changed
+            if ($transportSchedule->school_vehicle_id != $request->school_vehicle_id) {
+
+                // Update the availibility of the previous school vehicle
+                $previousSchoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
+                $previousSchoolVehicle->availability_status = 'Available';
+                if(!$previousSchoolVehicle->save()){
+                    return redirect()->back()->with('error', 'Failed to update availability status of previous school vehicle.');
+                }
+
+                // Update the availability of the new school vehicle
+                $schoolVehicle->availability_status = 'Unavailable';
+                if(!$schoolVehicle->save()){
+                    return redirect()->back()->with('error', 'Failed to update availability status of newly allocated school vehicle.');
+                }
+            }
+
+            if ($transportSchedule->update($input)) {
+                return redirect('admin/transport_schedules')->with('success', 'Transport Schedule updated successfully.');
+            }
+
+            return redirect('admin/transport_schedules')->with('error', 'Failed to update transport schedule.');
         }
     }
 
@@ -176,6 +224,14 @@ class TransportScheduleController extends Controller
         $transportSchedule->status = 'Cancelled';
 
         if ($transportSchedule->save()) {
+
+            // Update the availability of the school vehicle
+            $schoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
+            $schoolVehicle->availability_status = 'Available';
+            if(!$schoolVehicle->save()){
+                return redirect()->back()->with('error', 'Failed to update availability status of school vehicle.');
+            }
+
             // Get the transport request that was used to create the transport schedule
             if ($transportSchedule->transportRequest) {
                 $transportRequest = $transportSchedule->transportRequest;
@@ -231,6 +287,13 @@ class TransportScheduleController extends Controller
         $transportSchedule->status = 'Completed';
 
         if ($transportSchedule->save()) {
+            // Update the availability of the school vehicle
+            $schoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
+            $schoolVehicle->availability_status = 'Available';
+            if(!$schoolVehicle->save()){
+                return redirect()->back()->with('error', 'Failed to update availability status of school vehicle.');
+            }
+
             // Get the transport request that was used to create the transport schedule
             if ($transportSchedule->transportRequest) {
                 $transportRequest = $transportSchedule->transportRequest;

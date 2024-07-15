@@ -99,14 +99,20 @@ class CarpoolingDetailsController extends Controller
         // Search for carpooling details for the user based on carpool request details of the user
         $carpoolRequestIds = CarpoolRequest::where('user_id', Auth::id())->get('id');
         $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
-            ->where('title', 'like', "%$search%")
-            ->orWhere('description', 'like', "%$search%")
-            ->orWhere('carpool_driver_id', 'like', "%$search%")
-            ->orWhere('departure_date', 'like', "%$search%")
-            ->orWhere('departure_time', 'like', "%$search%")
-            ->orWhere('departure_location', 'like', "%$search%")
-            ->orWhere('destination', 'like', "%$search%")
-            ->orWhere('no_of_people', 'like', "%$search%")
+            ->where(function ($query) use ($search) {
+                $query->whereHas('carpoolRequest', function ($query) use ($search) {
+                    $query->where('title', 'like', "%$search%")
+                        ->orWhere('description', 'like', "%$search%");
+                })
+                    ->orWhereHas('carpoolRequest', function ($query) use ($search) {
+                        $query->where('carpool_driver_id', 'like', "%$search%")
+                            ->orWhere('departure_date', 'like', "%$search%")
+                            ->orWhere('departure_time', 'like', "%$search%")
+                            ->orWhere('departure_location', 'like', "%$search%")
+                            ->orWhere('destination', 'like', "%$search%")
+                            ->orWhere('no_of_people', 'like', "%$search%");
+                    });
+            })
             ->paginate(10);
 
         return view('user.carpooling_details.index', compact('carpoolingDetails'));
@@ -121,17 +127,17 @@ class CarpoolingDetailsController extends Controller
 
         $carpoolingDetail = CarpoolingDetails::find($id);
         $carpoolingDetail->status = 'Cancelled';
-        if($carpoolingDetail->save()){
+        if ($carpoolingDetail->save()) {
             $requestOwner = $carpoolingDetail->carpoolRequest->user;
+            $carpoolDriver = $carpoolingDetail->carpoolRequest->carpoolDriver->user;
 
             // Notify the request owner that the carpool schedule has been cancelled
             $requestOwner->notify(new CarpoolTripCancelledNotification($carpoolingDetail));
 
             // Notify the driver that the carpool schedule has been cancelled
-            $carpoolingDetail->carpoolDriver->notify(new CarpoolTripCancelledNotification($carpoolingDetail));
+            $carpoolDriver->notify(new CarpoolTripCancelledNotification($carpoolingDetail));
 
             return redirect('carpooling_details')->with('success', 'Carpooling schedule cancelled successfully.');
-
         }
 
         return redirect('carpooling_details')->with('error', 'Error cancelling carpooling schedule.');
@@ -146,14 +152,15 @@ class CarpoolingDetailsController extends Controller
 
         $carpoolingDetail = CarpoolingDetails::find($id);
         $carpoolingDetail->status = 'Completed';
-        if($carpoolingDetail->save()){
+        if ($carpoolingDetail->save()) {
             $requestOwner = $carpoolingDetail->carpoolRequest->user;
+            $carpoolDriver = $carpoolingDetail->carpoolRequest->carpoolDriver->user;
 
             // Notify the request owner that the carpool schedule has been completed
             $requestOwner->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
 
             // Notify the driver that the carpool schedule has been completed
-            $carpoolingDetail->carpoolDriver->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
+            $carpoolDriver->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
 
             return redirect('carpooling_details')->with('success', 'Carpooling schedule completed successfully.');
         }

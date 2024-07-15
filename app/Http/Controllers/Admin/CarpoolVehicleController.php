@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\CarpoolVehicle;
 use Illuminate\Http\Request;
+use App\Models\CarpoolVehicle;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class CarpoolVehicleController extends Controller
@@ -38,8 +39,6 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        dd($request->file('vehicle_photo'));
-
         // Validate the request...
         $validator = Validator::make($request->all(), [
             'carpool_driver_id' => 'nullable|exists:carpool_drivers,id',
@@ -65,7 +64,28 @@ class CarpoolVehicleController extends Controller
                 'capacity' => $request->capacity,
             ];
 
-            CarpoolVehicle::create($input);
+            if ($request->hasFile('vehicle_photo')) {
+                $directory = 'carpool_vehicles';
+
+                // Create the directory if it doesn't exist
+                Storage::disk('public')->makeDirectory($directory);
+
+                $file = $request->file('vehicle_photo');
+
+                // Rename the file to prevent overriding
+                $fileName = time() . '_' . str_replace(' ', '_', $input['number_plate']) . '.' . $file->getClientOriginalExtension();
+
+                // Store the file on the public disk
+                $path = Storage::disk('public')->putFileAs($directory, $file, $fileName);
+
+                $input['vehicle_photo_path'] = $path;
+            }
+
+            $carpoolVehicle = CarpoolVehicle::create($input);
+
+            if(!$carpoolVehicle){
+                return redirect('admin/carpool_vehicles')->with('error', 'Error creating the carpool vehicle');
+            }
 
             return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle created successfully.');
         }
@@ -107,6 +127,7 @@ class CarpoolVehicleController extends Controller
             'year' => 'required|string|max:255',
             'number_plate' => 'required|string|regex:/^[A-Z]{3}\s\d{3}[A-Z]$/',
             'capacity' => 'required|integer|max:255',
+            'vehicle_photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($validator->fails()) {
@@ -122,13 +143,44 @@ class CarpoolVehicleController extends Controller
                 'capacity' => $request->capacity,
             ];
 
+            $carpoolVehicle = CarpoolVehicle::findOrFail($id);
+
+            // Check if the user wants to remove the photo
+            $removePhoto = $request->boolean('remove_photo');
+
+            if ($removePhoto) {
+                // Remove the existing photo if it exists
+                if ($carpoolVehicle->vehicle_photo_path) {
+                    Storage::disk('public')->delete($carpoolVehicle->vehicle_photo_path);
+                }
+
+                $input['vehicle_photo_path'] = null;
+            }
+
+            if ($request->hasFile('vehicle_photo')) {
+                $directory = 'carpool_vehicles';
+
+                // Create the directory if it doesn't exist
+                Storage::disk('public')->makeDirectory($directory);
+
+                $file = $request->file('vehicle_photo');
+
+                // Rename the file to prevent overriding
+                $fileName = time() . '_' . str_replace(' ', '_', $input['number_plate']) . '.' . $file->getClientOriginalExtension();
+
+                // Store the file on the public disk
+                $path = Storage::disk('public')->putFileAs($directory, $file, $fileName);
+
+                $input['vehicle_photo_path'] = $path;
+            }
+
             $vehicleUpdated = CarpoolVehicle::find($id)->update($input);
 
             if(!$vehicleUpdated){
                 return redirect('admin/carpool_vehicles')->with('error', 'Error updating the carpool vehicle');
             }
 
-            return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle updateed successfully.');
+            return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle updated successfully.');
         }
     }
 

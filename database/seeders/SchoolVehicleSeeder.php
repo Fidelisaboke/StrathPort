@@ -21,7 +21,7 @@ class SchoolVehicleSeeder extends Seeder
                 'model' => 'Hiace',
                 'year' => '2021',
                 'number_plate' => 'AAA 123B',
-                'capacity' => 15,
+                'capacity' => 50,
                 'availability_status' => 'Available',
             ],
             [
@@ -39,7 +39,7 @@ class SchoolVehicleSeeder extends Seeder
                 'model' => 'Camry',
                 'year' => '2023',
                 'number_plate' => 'CCC 123D',
-                'capacity' => 50,
+                'capacity' => 15,
                 'availability_status' => 'Unavailable',
             ],
         ];

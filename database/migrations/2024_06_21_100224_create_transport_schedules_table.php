@@ -21,6 +21,7 @@ return new class extends Migration
             $table->time('schedule_time');
             $table->string('starting_point');
             $table->string('destination');
+            $table->string('no_of_people');
             $table->enum('status', ['In Progress', 'Completed', 'Cancelled'])->default('In Progress');
             $table->timestamps();
         });

@@ -109,13 +109,17 @@ class CarpoolingDetailsController extends Controller
         // Get carpool details based on search parameter and carpool request ids
         $search = $request->search;
         $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
-            ->where('title', 'like', '%' . $search . '%')
-            ->orWhere('description', 'like', '%' . $search . '%')
-            ->orWhere('departure_date', 'like', '%' . $search . '%')
-            ->orWhere('departure_time', 'like', '%' . $search . '%')
-            ->orWhere('departure_location', 'like', '%' . $search . '%')
-            ->orWhere('destination', 'like', '%' . $search . '%')
-            ->orWhere('no_of_people', 'like', '%' . $search . '%')
+            ->where(function ($query) use ($search) {
+            $query->whereHas('carpoolRequest', function ($subQuery) use ($search) {
+                $subQuery->where('title', 'like', '%' . $search . '%')
+                ->orWhere('description', 'like', '%' . $search . '%')
+                ->orWhere('departure_date', 'like', '%' . $search . '%')
+                ->orWhere('departure_time', 'like', '%' . $search . '%')
+                ->orWhere('departure_location', 'like', '%' . $search . '%')
+                ->orWhere('destination', 'like', '%' . $search . '%')
+                ->orWhere('no_of_people', 'like', '%' . $search . '%');
+            });
+            })
             ->paginate(10);
 
         return view('driver.carpooling_details.index', compact('carpoolingDetails'));

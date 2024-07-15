@@ -332,6 +332,7 @@ class TransportRequestController extends Controller
                 'schedule_time' => TransportRequest::find($id)->event_time,
                 'starting_point' => 'Strathmore University',
                 'destination' => TransportRequest::find($id)->event_location,
+                'no_of_people' => TransportRequest::find($id)->no_of_people,
             ];
 
             TransportSchedule::create($schedule);

@@ -73,6 +73,10 @@ class CarpoolRequestController extends Controller
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
 
+        if(CarpoolDriver::doesntHave('carpoolVehicle')->where('user_id', Auth::id())->exists()){
+            return redirect()->back()->with('error', 'You need to add a vehicle before you can approve a carpool request.');
+        }
+
         $carpoolRequest = CarpoolRequest::find($id);
 
         //Vadidate the request

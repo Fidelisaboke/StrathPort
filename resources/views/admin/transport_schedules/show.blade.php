@@ -5,10 +5,11 @@
 
     @php
         $schoolVehicle = $transportSchedule->schoolVehicle;
-        if(empty($schoolVehicle))
+        if (empty($schoolVehicle)) {
             $schoolDriver = null;
-        else
+        } else {
             $schoolDriver = $schoolVehicle->schoolDriver;
+        }
     @endphp
 
     <x-status-message />
@@ -33,7 +34,8 @@
                 </div>
                 <!-- Transport Request ID -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="transport_request_id" class="block text-sm font-medium text-gray-700">Transport Request ID</label>
+                    <label for="transport_request_id" class="block text-sm font-medium text-gray-700">Transport Request
+                        ID</label>
                     <div class="flex justify-between">
                         <span>
                             @empty($transportSchedule->transport_request_id)
@@ -79,15 +81,25 @@
                         <span>{{ $transportSchedule->starting_point }}</span>
                     </div>
                 </div>
+                <!-- Destination -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
                     <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
                     <div class="flex justify-between">
                         <span>{{ $transportSchedule->destination }}</span>
                     </div>
                 </div>
+                <!-- No of Passengers -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="no_of_passengers" class="block text-sm font-medium text-gray-700">No of
+                        Passengers</label>
+                    <div class="flex justify-between">
+                        <span>{{ $transportSchedule->no_of_people }}</span>
+                    </div>
+                </div>
                 <!-- Vehicle Registration Number -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                    <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle
+                        Registration Number</label>
                     <div class="flex justify-between">
                         @empty($schoolVehicle)
                             <span class="text-red-600">No vehicle assigned</span>
@@ -112,17 +124,27 @@
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                     <div class="flex flex-col">
                         <span>{{ $transportSchedule->status }}</span>
-                        @if($transportSchedule->status == 'In Progress')
+                        @if ($transportSchedule->status == 'In Progress')
                             <div class="flex justify-center mt-4">
-                                <form action="{{ route('admin.transport_schedules.completeTrip', $transportSchedule->id) }}" method="POST">
+                                <form
+                                    action="{{ route('admin.transport_schedules.completeTrip', $transportSchedule->id) }}"
+                                    method="POST">
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as
+                                        Completed</button>
                                 </form>
-                                <form action="{{ route('admin.transport_schedules.cancelTrip', $transportSchedule->id) }}" method="POST" x-data>
+                                <form
+                                    action="{{ route('admin.transport_schedules.cancelTrip', $transportSchedule->id) }}"
+                                    method="POST" x-data>
                                     @csrf
                                     @method('PUT')
-                                    <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'admin/transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
+                                    <button
+                                        @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'admin/transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })"
+                                        type="submit"
+                                        class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel
+                                        Trip</button>
                                 </form>
                             </div>
                         @endif

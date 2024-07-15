@@ -69,14 +69,31 @@
                         <span>{{ $carpoolVehicle->capacity }}</span>
                     </div>
                 </div>
-                <!-- Vehicle Photo -->
+                <!-- Vehicle Photo Preview -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="vehicle_photo_path" class="block text-sm font-medium text-gray-700">Vehicle Photo</label>
+                    <label for="vehicle_photo_preview" class="block text-sm font-medium text-gray-700">Vehicle Photo
+                        Preview</label>
                     <div class="flex justify-between">
-                        <span>{{ $carpoolVehicle->vehicle_photo_path }}</span>
+                        @empty($carpoolVehicle->vehicle_photo_url)
+                            <span class="text-red-600">No photo uploaded</span>
+                        @else
+                            <img src="{{ $carpoolVehicle->vehicle_photo_url }}" alt="Vehicle Photo Preview"
+                                class="w-1/2 h-auto mx-auto mt-4 rounded shadow-lg" />
+                        @endempty
+                    </div>
+                </div>
+                <!-- Vehicle Photo URL -->
+                <div class="px-4 py-2 bg-white border-b sm:p-6">
+                    <label for="vehicle_photo_path" class="block text-sm font-medium text-gray-700">Vehicle
+                        Photo URL</label>
+                    <div class="flex justify-between">
+                        @empty($carpoolVehicle->vehicle_photo_url)
+                            <span class="text-red-600">No photo uploaded</span>
+                        @else
+                            <span>{{ $carpoolVehicle->vehicle_photo_url }}</span>
+                        @endempty
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 </x-admin-app-layout>

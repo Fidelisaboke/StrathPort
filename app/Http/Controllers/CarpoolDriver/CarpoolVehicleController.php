@@ -135,16 +135,30 @@ class CarpoolVehicleController extends Controller
 
         if ($validator->fails()) {
             return redirect()->back()
-                ->withErrors($validator->errors())->withInput();
+                ->withErrors($validator->errors())
+                ->withInput();
         } else {
             $input = [
-                'carpool_driver_id' => $request->carpool_driver_id,
                 'make' => $request->make,
                 'model' => $request->model,
                 'year' => $request->year,
                 'number_plate' => $request->number_plate,
                 'capacity' => $request->capacity
             ];
+
+            $carpoolVehicle = CarpoolVehicle::findOrFail($id);
+
+            // Check if the user wants to remove the photo
+            $removePhoto = $request->boolean('remove_photo');
+
+            if ($removePhoto) {
+                // Remove the existing photo if it exists
+                if ($carpoolVehicle->vehicle_photo_path) {
+                    Storage::disk('public')->delete($carpoolVehicle->vehicle_photo_path);
+                }
+
+                $input['vehicle_photo_path'] = null;
+            }
 
             if ($request->hasFile('vehicle_photo')) {
                 $directory = 'carpool_vehicles';
@@ -165,7 +179,7 @@ class CarpoolVehicleController extends Controller
 
             $carpoolVehicle = CarpoolVehicle::find($id)->update($input);
 
-            if($carpoolVehicle){
+            if ($carpoolVehicle) {
                 return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully.');
             }
 

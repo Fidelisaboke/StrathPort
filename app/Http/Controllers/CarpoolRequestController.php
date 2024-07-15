@@ -33,8 +33,9 @@ class CarpoolRequestController extends Controller
     {
         abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
 
-        $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
-        ->get(['id', 'first_name', 'last_name', 'availability_status']);
+        $carpoolDrivers = CarpoolDriver::has('carpoolVehicle')
+            ->where('availability_status', 'Available')
+            ->get(['id', 'first_name', 'last_name', 'availability_status']);
 
         return view('user.carpool_requests.create', compact('carpoolDrivers'));
     }
@@ -51,18 +52,18 @@ class CarpoolRequestController extends Controller
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'carpool_driver_id' => 'required|integer',
-            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'departure_time' => 'required',
             'departure_location' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect('carpool_requests/create')
                 ->withErrors($validator->errors())
                 ->withInput();
-        }else{
+        } else {
             $input = [
                 'user_id' => Auth::id(),
                 'title' => $request->title,
@@ -76,10 +77,17 @@ class CarpoolRequestController extends Controller
                 'status' => 'Pending',
             ];
 
+            // Check if carpool driver's vehicle capacity is enough
+            $carpoolDriver = CarpoolDriver::find($request->carpool_driver_id);
+
+            if ($carpoolDriver->carpoolVehicle->capacity < $request->no_of_people) {
+                return redirect()->back()->with('error', 'The carpool driver\'s vehicle capacity is not enough. Please select another carpool driver.');
+            }
+
             $carpoolRequest = CarpoolRequest::create($input);
 
             // Check if request has been created
-            if($carpoolRequest){
+            if ($carpoolRequest) {
                 // Send notification to the carpool drivers and user
                 $requestOwner = Auth::user();
 
@@ -90,11 +98,9 @@ class CarpoolRequestController extends Controller
                 Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolRequestSubmittedNotification($carpoolRequest));
 
                 return redirect('carpool_requests')->with('success', 'Carpool Request created successfully.');
-
             }
 
             return redirect()->back()->with('error', 'An error occurred while creating the carpool request.');
-
         }
     }
 
@@ -118,7 +124,7 @@ class CarpoolRequestController extends Controller
 
         $carpoolRequest = CarpoolRequest::find($id);
         $carpoolDrivers = CarpoolDriver::where('availability_status', 'Available')
-        ->get(['id', 'first_name', 'last_name', 'availability_status']);
+            ->get(['id', 'first_name', 'last_name', 'availability_status']);
 
         return view('user.carpool_requests.edit', compact('carpoolRequest', 'carpoolDrivers'));
     }
@@ -135,18 +141,18 @@ class CarpoolRequestController extends Controller
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'carpool_driver_id' => 'required|integer',
-            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:'.Carbon::now()->format('Y-m-d'),
+            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'departure_time' => 'required',
             'departure_location' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
         ]);
 
-        if($validator->fails()){
-            return redirect('carpool_requests/'.$id.'/edit')
+        if ($validator->fails()) {
+            return redirect('carpool_requests/' . $id . '/edit')
                 ->withErrors($validator->errors())
                 ->withInput();
-        }else{
+        } else {
             $input = [
                 'title' => $request->title,
                 'description' => $request->description,
@@ -161,18 +167,17 @@ class CarpoolRequestController extends Controller
 
             $carpoolRequest = CarpoolRequest::find($id)->update($input);
 
-            if($carpoolRequest){
-                 // Send notification to the carpool drivers and user
-                 $requestOwner = Auth::user();
+            if ($carpoolRequest) {
+                // Send notification to the carpool drivers and user
+                $requestOwner = Auth::user();
 
-                 // Get the user account of the carpool driver
-                 $carpoolDriver = $carpoolRequest->carpoolDriver;
-                 $carpoolDriverUser = $carpoolDriver->user;
+                // Get the user account of the carpool driver
+                $carpoolDriver = $carpoolRequest->carpoolDriver;
+                $carpoolDriverUser = $carpoolDriver->user;
 
-                 Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolRequestUpdatedNotification($carpoolRequest));
+                Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolRequestUpdatedNotification($carpoolRequest));
 
-                 return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
-
+                return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
             }
 
             return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
@@ -186,7 +191,7 @@ class CarpoolRequestController extends Controller
     {
         abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
 
-       CarpoolRequest::find($id)->delete();
+        CarpoolRequest::find($id)->delete();
         return redirect('carpool_requests')->with('success', 'Carpool Request deleted successfully.');
     }
 
@@ -199,10 +204,10 @@ class CarpoolRequestController extends Controller
 
         $search = $request->get('search');
         $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())
-            ->where('title', 'like', '%'.$search.'%')
-            ->orWhere('description', 'like', '%'.$search.'%')
-            ->orWhere('departure_location', 'like', '%'.$search.'%')
-            ->orWhere('destination', 'like', '%'.$search.'%')
+            ->where('title', 'like', '%' . $search . '%')
+            ->orWhere('description', 'like', '%' . $search . '%')
+            ->orWhere('departure_location', 'like', '%' . $search . '%')
+            ->orWhere('destination', 'like', '%' . $search . '%')
             ->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
@@ -215,13 +220,13 @@ class CarpoolRequestController extends Controller
         abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
 
         $filter = $request->get('status');
-        if($filter == 'All'){
+        if ($filter == 'All') {
             $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())->orderByDesc('id')->paginate(10);
-        }else{
+        } else {
             $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())
-            ->where('status', $filter)
-            ->orderByDesc('id')
-            ->paginate(10);
+                ->where('status', $filter)
+                ->orderByDesc('id')
+                ->paginate(10);
         }
 
         return view('user.carpool_requests.index', compact('carpoolRequests'));

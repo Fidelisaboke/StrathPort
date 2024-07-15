@@ -31,7 +31,8 @@
                             @empty($carpoolDriver->user_id)
                                 N/A
                             @else
-                                {{ $carpoolDriver->user_id }}
+                                <a
+                                    class="hover:underline" href="{{ url('admin/users/' . $carpoolDriver->user_id) }}">{{ $carpoolDriver->user_id }}</a>
                             @endempty
                         </span>
                     </div>
@@ -66,7 +67,8 @@
                 </div>
                 <!-- Availability Status -->
                 <div class="px-4 py-2 bg-white border-b sm:p-6">
-                    <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability Status</label>
+                    <label for="availability_status" class="block text-sm font-medium text-gray-700">Availability
+                        Status</label>
                     <div class="flex justify-between">
                         <span>{{ $carpoolDriver->availability_status }}</span>
                     </div>

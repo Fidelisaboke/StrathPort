@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
+    <x-status-message />
+
     @php
         $schoolVehicle = $transportSchedule->schoolVehicle;
         if(empty($schoolVehicle))

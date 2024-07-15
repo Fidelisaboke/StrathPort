@@ -32,7 +32,7 @@
                     <a class="flex flex-col px-4 py-3 -mx-2 text-gray-600 hover:text-white hover:bg-fuchsia-600"
                         href="{{ $notification->data['action'] }}"
                         @click.prevent="markNotificationAsRead('{{ $notification->id }}', '{{ $notification->data['action']}}')">
-                        <h1 class="text-sm font-semibold">{{ $notification->data['subject'] }}</h1>
+                        <h1 class="font-semibold">{{ $notification->data['subject'] }}</h1>
                         <p class="mx-2 ">
                             <span class="text-sm text-wrap">{{ $notification->data['message'] }}</span>
                         </p>

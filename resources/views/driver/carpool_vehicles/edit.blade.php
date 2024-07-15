@@ -12,7 +12,7 @@
                 arrowType="left" />
         </div>
 
-        <div class="max-w-4xl py-10 mx-auto xl:w-3/5 sm:px-6 lg:px-8">
+        <div class="max-w-4xl py-10 mx-auto sm:px-6 lg:px-8">
             <div class="mt-5 md:mt-0 md:col-span-2">
                 <div class="flex flex-col items-center md:flex-row">
                     <div class="md:w-3/5 md:mr-6">
@@ -90,6 +90,12 @@
                                     @error('vehicle_photo')
                                         <p class="text-sm text-red-600">{{ $message }}</p>
                                     @enderror
+                                </div>
+                                <!-- Remove existing photo -->
+                                <div class="px-4 py-5 bg-white sm:p-6">
+                                    <x-checkbox name="remove_photo" id="remove_photo" />
+                                    <label for="remove_photo" class="text-sm font-medium text-gray-700">Remove Existing
+                                        Photo</label>
                                 </div>
                                 <div class="flex items-center justify-end px-4 py-3 text-right bg-gray-50 sm:px-6">
                                     <button
