@@ -43,6 +43,7 @@ Route::middleware([
         Route::put('/transport_schedules/cancel_trip/{id}', [TransportScheduleController::class, 'cancelTrip'])->name('transport_schedules.cancelTrip');
         Route::put('/transport_schedules/complete_trip/{id}', [TransportScheduleController::class, 'completeTrip'])->name('transport_schedules.completeTrip');
         Route::get('/transport_schedules/search', [TransportScheduleController::class, 'search'])->name('transport_schedules.search');
+        Route::get('/transport_schedules/filter', [TransportScheduleController::class, 'filter'])->name('transport_schedules.filter');
         Route::resource('transport_schedules', TransportScheduleController::class);
 
         Route::get('/carpool_requests/search', [CarpoolRequestController::class, 'search'])->name('carpool_requests.search');
@@ -52,6 +53,7 @@ Route::middleware([
         Route::put('/carpooling_details/cancel_trip/{id}', [CarpoolingDetailsController::class, 'cancelTrip'])->name('carpooling_details.cancelTrip');
         Route::put('/carpooling_details/complete_trip/{id}', [CarpoolingDetailsController::class, 'completeTrip'])->name('carpooling_details.completeTrip');
         Route::get('/carpooling_details/search', [CarpoolingDetailsController::class, 'search'])->name('carpooling_details.search');
+        Route::get('/carpooling_details/filter', [CarpoolingDetailsController::class, 'filter'])->name('carpooling_details.filter');
         Route::resource('/carpooling_details', CarpoolingDetailsController::class)->names('carpooling_details');
 
         /* Carpool Driver Routes */
@@ -62,6 +64,7 @@ Route::middleware([
             Route::put('/carpooling_details/cancel_trip/{id}', [CarpoolDriver\CarpoolingDetailsController::class, 'cancelTrip'])->name('driver.carpooling_details.cancelTrip');
             Route::put('/carpooling_details/complete_trip/{id}', [CarpoolDriver\CarpoolingDetailsController::class, 'completeTrip'])->name('driver.carpooling_details.completeTrip');
             Route::get('/carpooling_details/search', [CarpoolDriver\CarpoolingDetailsController::class, 'search'])->name('driver.carpooling_details.search');
+            Route::get('/carpooling_details/filter', [CarpoolDriver\CarpoolingDetailsController::class, 'filter'])->name('driver.carpooling_details.filter');
             Route::resource('/carpooling_details', CarpoolDriver\CarpoolingDetailsController::class)->names('driver.carpooling_details');
 
             Route::get('/carpool_requests/search', [CarpoolDriver\CarpoolRequestController::class, 'search'])->name('driver.carpool_requests.search');
@@ -84,17 +87,19 @@ Route::middleware([
 
             // Transport Schedules
             Route::get('transport_schedules/search', [Admin\TransportScheduleController::class, 'search'])->name('admin.transport_schedules.search');
+            Route::get('/transport_schedules/filter', [Admin\TransportScheduleController::class, 'filter'])->name('admin.transport_schedules.filter');
             Route::resource('transport_schedules', Admin\TransportScheduleController::class)->names('admin.transport_schedules');
 
             // School Drivers
-
             Route::put('/transport_schedules/cancel_trip/{id}', [Admin\TransportScheduleController::class, 'cancelTrip'])->name('admin.transport_schedules.cancelTrip');
             Route::put('/transport_schedules/complete_trip/{id}', [Admin\TransportScheduleController::class, 'completeTrip'])->name('admin.transport_schedules.completeTrip');
             Route::get('school_drivers/search', [Admin\SchoolDriverController::class, 'search'])->name('admin.school_drivers.search');
+            Route::get('school_drivers/filter', [Admin\SchoolDriverController::class, 'filter'])->name('admin.school_drivers.filter');
             Route::resource('school_drivers', Admin\SchoolDriverController::class)->names('admin.school_drivers');
 
             // School Vehicles
             Route::get('school_vehicles/search', [Admin\SchoolVehicleController::class, 'search'])->name('admin.school_vehicles.search');
+            Route::get('school_vehicles/filter', [Admin\SchoolVehicleController::class, 'filter'])->name('admin.school_vehicles.filter');
             Route::resource('school_vehicles', Admin\SchoolVehicleController::class)->names('admin.school_vehicles');
 
             //Carpool Vehicles

@@ -110,18 +110,51 @@ class CarpoolingDetailsController extends Controller
         $search = $request->search;
         $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
             ->where(function ($query) use ($search) {
-            $query->whereHas('carpoolRequest', function ($subQuery) use ($search) {
-                $subQuery->where('title', 'like', '%' . $search . '%')
-                ->orWhere('description', 'like', '%' . $search . '%')
-                ->orWhere('departure_date', 'like', '%' . $search . '%')
-                ->orWhere('departure_time', 'like', '%' . $search . '%')
-                ->orWhere('departure_location', 'like', '%' . $search . '%')
-                ->orWhere('destination', 'like', '%' . $search . '%')
-                ->orWhere('no_of_people', 'like', '%' . $search . '%')
-                ->orWhere('status', 'like', '%' . $search . '%');
-            });
+                $query->whereHas('carpoolRequest', function ($subQuery) use ($search) {
+                    $subQuery->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('departure_date', 'like', '%' . $search . '%')
+                        ->orWhere('departure_time', 'like', '%' . $search . '%')
+                        ->orWhere('departure_location', 'like', '%' . $search . '%')
+                        ->orWhere('destination', 'like', '%' . $search . '%')
+                        ->orWhere('no_of_people', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%');
+                });
             })
             ->paginate(10);
+
+        return view('driver.carpooling_details.index', compact('carpoolingDetails'));
+    }
+
+    /**
+     * Filter carpooling details.
+     */
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
+
+        $status = $request->status;
+        if ($status === 'All') {
+            // Get all carpooling details belonging to the carpool driver
+            $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
+            $carpoolRequestIds = CarpoolRequest::where('carpool_driver_id', $carpoolDriverId)->pluck('id');
+            $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)->paginate(10);
+        } else {
+            // Get carpool driver id based on user id
+            $carpoolDriverId = CarpoolDriver::where('user_id', Auth::id())->pluck('id');
+
+            // Get carpool request ids based on carpool driver id
+            $carpoolRequestIds = CarpoolRequest::where('carpool_driver_id', $carpoolDriverId)->pluck('id');
+
+            // Get carpool details based on filter parameters and carpool request ids
+            $departureDate = $request->departure_date;
+            $departureLocation = $request->departure_location;
+            $destination = $request->destination;
+
+            $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
+                ->where('status', 'like', '%' . $status . '%')
+                ->paginate(10);
+        }
 
         return view('driver.carpooling_details.index', compact('carpoolingDetails'));
     }
@@ -143,7 +176,7 @@ class CarpoolingDetailsController extends Controller
 
             // Make carpool driver available
             $carpoolDriver->availability_status = 'Available';
-            if(!$carpoolDriver->save()){
+            if (!$carpoolDriver->save()) {
                 return redirect('driver/carpooling_details/' . $id)->with('error', 'Error updating carpool driver availability status. Trip cancelled.');
             }
 
@@ -162,7 +195,7 @@ class CarpoolingDetailsController extends Controller
 
         $carpoolingDetail = CarpoolingDetails::find($id);
         $carpoolingDetail->status = 'Completed';
-        if($carpoolingDetail->save()){
+        if ($carpoolingDetail->save()) {
             $requestOwner = $carpoolingDetail->carpoolRequest->user;
 
             $requestOwner->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
@@ -173,12 +206,11 @@ class CarpoolingDetailsController extends Controller
 
             // Make carpool driver available
             $carpoolDriver->availability_status = 'Available';
-            if(!$carpoolDriver->save()){
+            if (!$carpoolDriver->save()) {
                 return redirect('driver/carpooling_details/' . $id)->with('error', 'Error updating carpool driver availability status. Trip completed.');
             }
 
             return redirect('driver/carpooling_details/' . $id)->with('success', 'Trip completed successfully.');
-
         }
         return redirect('driver/carpooling_details/' . $id)->with('error', 'Error completing trip.');
     }

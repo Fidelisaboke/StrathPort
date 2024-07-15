@@ -20,6 +20,11 @@
             <x-search-field />
         </form>
 
+        <!-- Availability filter -->
+        <form action="{{ route('admin.school_vehicles.filter') }}" method="GET">
+            <x-availability-filter />
+        </form>
+
         <x-tables.table-school-vehicles-edit :school-vehicles='$schoolVehicles'/>
     </div>
 </x-admin-app-layout>

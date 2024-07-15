@@ -18,7 +18,7 @@
 
 <body class="font-sans antialiased text-gray-900 bg-gray-100 ">
     <div class="container p-6 mx-auto">
-        <h1 class="mb-6 text-4xl font-bold text-center">Transport Requests Report</h1>
+        <h1 class="mb-6 text-4xl font-bold text-center">Monthly Transport Requests Report</h1>
         <p class="mb-8 text-sm text-center text-gray-600">Generated on: {{ date('Y-m-d') }}</p>
 
         <div class="flex justify-between mb-6">
@@ -34,15 +34,15 @@
             <h2 class="mb-4 text-3xl font-semibold">Summary</h2>
             <div class="grid grid-cols-2 gap-16">
                 <div class="flex flex-col items-center">
-                    <p class="p-2 mb-2 text-lg font-semibold">Requests and Users:</p>
-                    <ul class="pl-4 text-lg text-gray-700 list-disc list-inside">
+                    <p class="p-2 mb-2 font-semibold md:text-lg">Totals:</p>
+                    <ul class="pl-4 text-gray-700 list-disc list-inside md:text-lg">
                         <li>Total Requests: {{ $totalRequests }}</li>
                         <li>Unique Users: {{ $uniqueUsers }}</li>
                     </ul>
                 </div>
                 <div>
-                    <p class="p-2 mb-2 text-lg font-semibold">Status Breakdown:</p>
-                    <ul class="pl-4 text-lg text-gray-700 list-disc list-inside">
+                    <p class="p-2 mb-2 font-semibold md:text-lg">Status Breakdown:</p>
+                    <ul class="pl-4 text-gray-700 list-disc list-inside md:text-lg">
                         @foreach ($statusCounts as $status => $count)
                             <li>{{ $status }}: {{ $count }}</li>
                         @endforeach

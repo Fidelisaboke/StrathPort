@@ -12,6 +12,11 @@
                 <x-search-field />
             </form>
 
+            <!-- trip status filter -->
+            <form action="{{ route('carpooling_details.filter')}}" method="GET">
+                <x-trip-status-filter />
+            </form>
+
             <!-- Display carpooling details from search -->
             @if ($carpoolingDetails->count() > 0)
                 <div class="mt-8">

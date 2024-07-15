@@ -12,6 +12,11 @@
                 <x-search-field />
             </form>
 
+            <!-- trip status filter -->
+            <form action="{{ route('transport_schedules.filter')}}" method="GET">
+                <x-trip-status-filter />
+            </form>
+
             <!-- Display transport schedules from search -->
             @if ($transportSchedules->count() > 0)
                 <div class="mt-8">

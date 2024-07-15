@@ -326,6 +326,26 @@ class TransportScheduleController extends Controller
     }
 
     /**
+     * Filter transport schedules.
+     */
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+
+        $filter = $request->input('status');
+
+        if($filter === 'All') {
+            $transportSchedules = TransportSchedule::paginate(10);
+        } else{
+            $transportSchedules = TransportSchedule::where('status', $filter)
+                ->orderByDesc('schedule_date')
+                ->paginate(10);
+        }
+        
+        return view('admin.transport_schedules.index', compact('transportSchedules'));
+    }
+
+    /**
      * Cancel a transport schedule.
      */
     public function cancelTrip(string $id)

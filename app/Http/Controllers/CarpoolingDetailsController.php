@@ -119,6 +119,29 @@ class CarpoolingDetailsController extends Controller
     }
 
     /**
+     * Filter carpooling details.
+     */
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
+        $status = $request->input('status');
+
+        if ($status === 'All') {
+            // Get all carpooling details
+            $carpoolRequestIds = CarpoolRequest::where('user_id', Auth::id())->get('id');
+            $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)->paginate(10);
+        } else {
+            // Filter carpooling details based on status
+            $carpoolRequestIds = CarpoolRequest::where('user_id', Auth::id())->get('id');
+            $carpoolingDetails = CarpoolingDetails::whereIn('carpool_request_id', $carpoolRequestIds)
+                ->where('status', $status)
+                ->paginate(10);
+        }
+        return view('user.carpooling_details.index', compact('carpoolingDetails'));
+    }
+
+    /**
      * Cancel a carpool schedule.
      */
     public function cancelTrip(string $id)

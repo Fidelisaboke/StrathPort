@@ -116,6 +116,40 @@ class TransportScheduleController extends Controller
     }
 
     /**
+     * Filter transport schedules.
+     */
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
+
+        $filter = $request->input('status');
+
+        if ($filter === 'All') {
+
+            $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
+
+            $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function ($query) {
+                $query->where('user_id', Auth::id());
+            });
+
+            // Combine queries using unionAll (without pagination yet)
+
+            $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->orderBy('schedule_date', 'asc')->paginate(10);
+        } else {
+            $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
+
+            $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function ($query) {
+                $query->where('user_id', Auth::id());
+            });
+
+            // Combine queries using unionAll (without pagination yet)
+            $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->where('status', $filter)->orderBy('schedule_date', 'asc')->paginate(10);
+        }
+
+        return view('user.transport_schedules.index', compact('transportSchedules'));
+    }
+
+    /**
      * Cancel a transport schedule.
      */
     public function cancelTrip(string $id)

@@ -138,8 +138,8 @@ class SchoolDriverController extends Controller
             }
 
             return redirect('admin/school_drivers')
-            ->with('error', 'Failed to update school driver.')
-            ->withInput();
+                ->with('error', 'Failed to update school driver.')
+                ->withInput();
         }
     }
 
@@ -166,6 +166,23 @@ class SchoolDriverController extends Controller
             ->orWhere('phone', 'like', '%' . $request->search . '%')
             ->orWhere('availability_status', 'like', '%' . $request->search . '%')
             ->paginate(10);
+        return view('admin.school_drivers.index', compact('schoolDrivers'));
+    }
+
+    /**
+     * Filter school drivers.
+     */
+    public function filter(Request $request)
+    {
+        abort_unless(Gate::allows('admin'), 403, 'Forbidden');
+        $status = $request->get('status');
+        if ($status === 'All') {
+            $schoolDrivers = SchoolDriver::paginate(10);
+        } else {
+            $schoolDrivers = SchoolDriver::where('availability_status', $status)
+                ->paginate(10);
+        }
+
         return view('admin.school_drivers.index', compact('schoolDrivers'));
     }
 }

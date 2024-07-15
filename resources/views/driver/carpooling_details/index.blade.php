@@ -8,15 +8,20 @@
     <div class="py-12">
         <div class="w-4/5 mx-auto md:w-full max-w-7xl sm:px-6 lg:px-8">
             <!-- Search bar -->
-            <form action="{{ route('driver.carpooling_details.search')}}" method="GET">
+            <form action="{{ route('driver.carpooling_details.search') }}" method="GET">
                 <x-search-field />
+            </form>
+
+            <!-- Trip status filter -->
+            <form action="{{ route('driver.carpooling_details.filter') }}" method="GET">
+                <x-trip-status-filter />
             </form>
 
             <!-- Display carpooling details from search -->
             @if ($carpoolingDetails->count() > 0)
                 <div class="mt-8">
                     <div class="flex flex-row justify-center mb-4">
-                        {{$carpoolingDetails->links()}}
+                        {{ $carpoolingDetails->links() }}
                     </div>
                     <x-carpooling-details-view :carpooling-details='$carpoolingDetails' />
                 </div>
