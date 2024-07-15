@@ -81,7 +81,9 @@ class CarpoolRequestController extends Controller
             $carpoolDriver = CarpoolDriver::find($request->carpool_driver_id);
 
             if ($carpoolDriver->carpoolVehicle->capacity < $request->no_of_people) {
-                return redirect()->back()->with('error', 'The carpool driver\'s vehicle capacity is not enough. Please select another carpool driver.');
+                return redirect()->back()
+                    ->with('error', 'The carpool driver\'s vehicle capacity (' . $carpoolDriver->carpoolVehicle->capacity . ') is not enough. Please select another carpool driver.')
+                    ->withInput();
             }
 
             $carpoolRequest = CarpoolRequest::create($input);
@@ -100,7 +102,9 @@ class CarpoolRequestController extends Controller
                 return redirect('carpool_requests')->with('success', 'Carpool Request created successfully.');
             }
 
-            return redirect()->back()->with('error', 'An error occurred while creating the carpool request.');
+            return redirect()->back()
+                ->with('error', 'An error occurred while creating the carpool request.')
+                ->withInput();
         }
     }
 
@@ -180,7 +184,9 @@ class CarpoolRequestController extends Controller
                 return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
             }
 
-            return redirect('carpool_requests')->with('success', 'Carpool Request updated successfully.');
+            return redirect('carpool_requests')
+                ->with('error', 'An error occurred while updating the carpool request.')
+                ->withInput();
         }
     }
 
@@ -208,6 +214,7 @@ class CarpoolRequestController extends Controller
             ->orWhere('description', 'like', '%' . $search . '%')
             ->orWhere('departure_location', 'like', '%' . $search . '%')
             ->orWhere('destination', 'like', '%' . $search . '%')
+            ->orderByDesc('id')
             ->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }

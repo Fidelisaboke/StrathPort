@@ -1,12 +1,14 @@
 <div class="flex flex-col justify-between mb-8 bg-white rounded-lg shadow-xl">
     <h2 class="p-4 text-lg font-semibold">Upcoming Carpool Trips</h2>
-    <div class="p-6 px-0 mt-4 space-y-4 overflow-scroll md:mt-0">
-        @if (empty($carpoolingDetails) || $carpoolingDetails->isEmpty())
+    @if (empty($carpoolingDetails) || $carpoolingDetails->isEmpty())
+        <div class="p-6 px-0 mt-4 space-y-4 md:mt-0">
             <div class="flex flex-col items-center justify-center">
                 <p class="p-2 mx-auto text-lg font-semibold text-center text-gray-900 bg-gray-200 rounded-full">
                     No upcoming carpool trips!</p>
             </div>
-        @else
+        </div>
+    @else
+        <div class="p-6 px-0 mt-4 space-y-4 overflow-scroll md:mt-0">
             <h2 class="p-2 font-semibold text-gray-600 text-md">Next 3 trips...</h2>
             <table class="w-full mt-4 text-left table-auto min-w-max">
                 <thead>
@@ -100,8 +102,9 @@
                     @endforeach
                 </tbody>
             </table>
-        @endif
-    </div>
+        </div>
+    @endif
+
     <!-- View Full Schedule Button -->
     <div class="flex flex-row items-center justify-end px-2 py-4">
         <a href="{{ route('driver.carpooling_details.index') }}"

@@ -113,7 +113,7 @@
                                 @foreach ($schoolVehicles as $schoolVehicle)
                                     <option value="{{ $schoolVehicle->id }}"
                                         {{ old('school_vehicle_id') == $schoolVehicle->id ? 'selected' : '' }}>
-                                        {{ $schoolVehicle->number_plate }}</option>
+                                        {{ $schoolVehicle->number_plate }} - Capacity: {{$schoolVehicle->capacity}} </option>
                                 @endforeach
                             </select>
                             @error('school_vehicle_id')

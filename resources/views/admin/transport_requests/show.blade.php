@@ -7,9 +7,9 @@
         $roles = Spatie\Permission\Models\Role::all();
         $user = $transportRequest->user;
         $fullName;
-        if($user->hasRole('student') && !empty($user->student->full_name)) {
+        if ($user->hasRole('student') && !empty($user->student->full_name)) {
             $fullName = $user->student->full_name;
-        } elseif($user->hasRole('staff') && !empty($user->staff->full_name)) {
+        } elseif ($user->hasRole('staff') && !empty($user->staff->full_name)) {
             $fullName = $user->staff->full_name;
         }
     @endphp
@@ -33,9 +33,9 @@
                     <div class="flex justify-between">
                         <span>
                             @empty($fullName)
-                                {{$user->name}}
+                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}" class="hover:underline">{{ $user->name }}</a>
                             @else
-                                {{ $fullName }}
+                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}" class="hover:underline">{{ $fullName }}</a>
                             @endempty
                         </span>
                     </div>
@@ -87,17 +87,23 @@
                     <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                     <div class="flex flex-col">
                         <span>{{ $transportRequest->status }}</span>
-                        @if($transportRequest->status == 'Pending')
+                        @if ($transportRequest->status == 'Pending')
                             <div class="flex justify-center mt-4">
-                                <form action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}" method="POST">
+                                <form
+                                    action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}"
+                                    method="POST">
                                     @csrf
                                     <input type="hidden" name="status" value="Approved">
-                                    <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Approve</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Approve</button>
                                 </form>
-                                <form action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}" method="POST">
+                                <form
+                                    action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}"
+                                    method="POST">
                                     @csrf
                                     <input type="hidden" name="status" value="Declined">
-                                    <button type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
+                                    <button type="submit"
+                                        class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
                                 </form>
                             </div>
                         @endif

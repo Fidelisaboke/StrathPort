@@ -143,7 +143,9 @@ class TransportRequestController extends Controller
                 $requestUpdated = TransportRequest::find($id)->update($input);
 
                 if (!$requestUpdated) {
-                    return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
+                    return redirect('admin/transport_requests/' . $id)
+                        ->with('error', 'An error occurred while updating the transport request status!')
+                        ->withInput();
                 }
 
                 $transportRequest = TransportRequest::find($id);
@@ -194,7 +196,9 @@ class TransportRequestController extends Controller
                 $requestUpdated = TransportRequest::find($id)->update($input);
 
                 if (!$requestUpdated) {
-                    return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
+                    return redirect('admin/transport_requests/' . $id)
+                        ->with('error', 'An error occurred while updating the transport request status!')
+                        ->withInput();
                 }
 
                 $transportRequest = TransportRequest::find($id);
@@ -215,7 +219,9 @@ class TransportRequestController extends Controller
             $requestUpdated = TransportRequest::find($id)->update($input);
 
             if (!$requestUpdated) {
-                return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
+                return redirect('admin/transport_requests/' . $id)
+                ->with('error', 'An error occurred while updating the transport request status!')
+                ->withInput();
             }
 
             $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
@@ -298,7 +304,8 @@ class TransportRequestController extends Controller
             $requestUpdated = TransportRequest::find($id)->update($input);
 
             if (!$requestUpdated) {
-                return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
+                return redirect('admin/transport_requests/' . $id)
+                ->with('error', 'An error occurred while updating the transport request status!');
             }
 
             $transportRequest = TransportRequest::find($id);

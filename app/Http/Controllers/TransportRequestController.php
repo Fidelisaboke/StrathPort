@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TransportRequest;
+use App\Models\SchoolVehicle;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -65,8 +66,20 @@ class TransportRequestController extends Controller
                 'event_date' => $request->event_date,
                 'event_time' => $request->event_time,
                 'event_location' => $request->event_location,
-                'no_of_people' => $request->no_of_people,
             ];
+
+            // Get vehicle that has an availiability status of 'Available' with the highest capacity
+            $schoolVehicle = SchoolVehicle::where('availability_status', 'Available')->orderByDesc('capacity')->first();
+
+            // if the no of people is greater than the vehicle capacity, return with error message
+            if ($request->no_of_people > $schoolVehicle->capacity) {
+                return redirect('transport_requests/create')
+                    ->with('error',
+                    "The number of people exceeds the capacity of vehicles available ({$schoolVehicle->capacity}).\n
+                    Make a second request for the remaining people.");
+            }
+
+            $input['no_of_people'] = $request->no_of_people;
 
             $transportRequest = TransportRequest::create($input);
 
@@ -137,10 +150,27 @@ class TransportRequestController extends Controller
                 'event_date' => $request->event_date,
                 'event_time' => $request->event_time,
                 'event_location' => $request->event_location,
-                'no_of_people' => $request->no_of_people,
             ];
 
-            TransportRequest::find($id)->update($input);
+            // Get vehicle that has an availiability status of 'Available' with the highest capacity
+            $schoolVehicle = SchoolVehicle::where('availability_status', 'Available')->orderByDesc('capacity')->first();
+
+            // if the no of people is greater than the vehicle capacity, return with error message
+            if ($request->no_of_people > $schoolVehicle->capacity) {
+                return redirect('transport_requests/create')
+                    ->with('error',
+                    "The number of people exceeds the capacity of vehicles available ({$schoolVehicle->capacity}).\n
+                    Make a second request for the remaining people.");
+            }
+
+            $input['no_of_people'] = $request->no_of_people;
+
+
+            $requestUpdated = TransportRequest::find($id)->update($input);
+
+            if(!$requestUpdated){
+                return redirect()->back()->with('error', 'Failed to update request');
+            }
 
             // Return with success message
             return redirect('transport_requests')->with('success', 'Transport Request updated successfully.');
@@ -175,6 +205,7 @@ class TransportRequestController extends Controller
             ->orWhere('event_time', 'LIKE', "%$search%")
             ->orWhere('event_location', 'LIKE', "%$search%")
             ->orWhere('no_of_people', 'LIKE', "%$search%")
+            ->orderByDesc('id')
             ->paginate(10);
 
         return view('user.transport_requests.index', compact('transportRequests'));

@@ -84,7 +84,9 @@ class CarpoolVehicleController extends Controller
             $carpoolVehicle = CarpoolVehicle::create($input);
 
             if(!$carpoolVehicle){
-                return redirect('admin/carpool_vehicles')->with('error', 'Error creating the carpool vehicle');
+                return redirect('admin/carpool_vehicles')
+                ->with('error', 'Error creating the carpool vehicle')
+                ->withInput();
             }
 
             return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle created successfully.');
@@ -177,7 +179,9 @@ class CarpoolVehicleController extends Controller
             $vehicleUpdated = CarpoolVehicle::find($id)->update($input);
 
             if(!$vehicleUpdated){
-                return redirect('admin/carpool_vehicles')->with('error', 'Error updating the carpool vehicle');
+                return redirect('admin/carpool_vehicles')
+                ->with('error', 'Error updating the carpool vehicle')
+                ->withInput();
             }
 
             return redirect('admin/carpool_vehicles')->with('success', 'Carpool Vehicle updated successfully.');

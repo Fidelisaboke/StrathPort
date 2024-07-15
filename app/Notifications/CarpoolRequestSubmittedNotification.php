@@ -75,14 +75,14 @@ class CarpoolRequestSubmittedNotification extends Notification
     {
         if($notifiable->hasRole('carpool_driver')){
             return [
-                'subject' => 'New Carpool Request Submitted',
+                'subject' => 'Carpool Request Submitted',
                 'message' => 'A new carpool request has been submitted. Click this message to view the request.',
                 'action' => url('driver/carpool_requests/' . $this->carpoolRequest->id),
             ];
         }
 
         return [
-            'subject' => 'New Carpool Request Submitted',
+            'subject' => 'Carpool Request Submitted',
             'message' => 'Your carpool request has been submitted. Click this message to view the request.',
             'action' => url('carpool_requests/' . $this->carpoolRequest->id),
         ];

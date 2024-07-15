@@ -27,7 +27,7 @@ class SchoolDriver extends Model
      * Define a one-to-one relationship between School Driver and School Vehicle
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function schoolVehicle(){
+    public function schoolVehicles(){
         return $this->hasMany(SchoolVehicle::class);
     }
 }

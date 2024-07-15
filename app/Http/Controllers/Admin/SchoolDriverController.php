@@ -53,7 +53,6 @@ class SchoolDriverController extends Controller
                 ->withInput();
         } else {
             $input = [
-                'school_vehicle_id' => $request->school_vehicle_id,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'phone' => $request->phone,
@@ -108,15 +107,39 @@ class SchoolDriverController extends Controller
                 ->withInput();
         } else {
             $input = [
-                'school_vehicle_id' => $request->school_vehicle_id,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'phone' => $request->phone,
                 'availability_status' => $request->availability_status,
             ];
 
-            SchoolDriver::find($id)->update($input);
-            return redirect('admin/school_drivers')->with('success', 'School driver updated successfully');
+            // Get the school vehicles for the school driver
+            $schoolDriver = SchoolDriver::find($id);
+            $schoolVehicles = $schoolDriver->schoolVehicles;
+
+            // Prevent changing status to 'Available' if there's a school vehicle with a transport schedule in progress
+            if ($input['availability_status'] === 'Available' && $schoolVehicles->count() > 0) {
+                foreach ($schoolVehicles as $schoolVehicle) {
+                    $transportSchedules = $schoolVehicle->transportSchedules;
+                    foreach ($transportSchedules as $transportSchedule) {
+                        if ($transportSchedule->status === 'In Progress') {
+                            return redirect('admin/school_drivers/' . $id . '/edit')
+                                ->withErrors(['availability_status' => 'You cannot change driver availability status to "Available". They have a transport schedule in progress.'])
+                                ->withInput();
+                        }
+                    }
+                }
+            }
+
+            $schoolDriverUpdated = SchoolDriver::find($id)->update($input);
+
+            if ($schoolDriverUpdated) {
+                return redirect('admin/school_drivers')->with('success', 'School driver updated successfully.');
+            }
+
+            return redirect('admin/school_drivers')
+            ->with('error', 'Failed to update school driver.')
+            ->withInput();
         }
     }
 

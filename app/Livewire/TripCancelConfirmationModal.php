@@ -9,7 +9,6 @@ use App\Notifications\CarpoolTripCancelledNotification;
 use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\TransportSchedule;
-use App\Models\TransportRequest;
 use App\Models\CarpoolingDetails;
 
 
@@ -47,22 +46,35 @@ class TripCancelConfirmationModal extends Component
 
         $model->status = 'Cancelled';
         if ($model->save()) {
-            if ($model instanceof TransportRequest) {
-                $transportRequest = $model->transportRequest;
-
-                $user = $transportRequest->user;
-
-                $adminRole = Role::findByName('admin', 'web');
-                $admins = $adminRole->users;
-
-                Notification::send([$admins, $user], new TripCancelledNotification($model));
-
-                session()->flash('success', 'Trip has been cancelled successfully.');
-
-                return redirect("{$this->redirectUrl}/{$this->id}")->with('success', "Your scheduled trip has been cancelled successfully.");
-            }
-
             if ($model instanceof TransportSchedule) {
+                // Change availability status of the school vehicle if the transport schedule has a school vehicle
+                if ($model->schoolVehicle) {
+                    $schoolVehicle = $model->schoolVehicle;
+                    $schoolVehicle->availability_status = 'Available';
+                    if (!$schoolVehicle->save()) {
+                        return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school vehicle availability status. Trip cancelled.');
+                    }
+
+                    // Change availability status of the driver
+                    $schoolDriver = $schoolVehicle->schoolDriver;
+                    $schoolDriver->availability_status = 'Available';
+                    if (!$schoolDriver->save()) {
+                        return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school driver availability status. Trip cancelled.');
+                    }
+                }
+
+
+                if ($model->transportRequest) {
+                    $user = $model->transportRequest->user;
+                    Notification::send($user, new TripCancelledNotification($model));
+
+                    $adminRole = Role::findByName('admin', 'web');
+                    $admins = $adminRole->users;
+                    Notification::send($admins, new TripCancelledNotification($model));
+
+                    return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Transport Schedule cancelled successfully.');
+                }
+
                 $studentStaffRoles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($studentStaffRoles, 'web')->get();
                 Notification::send($users, new TripCancelledNotification($model));
@@ -79,11 +91,19 @@ class TripCancelConfirmationModal extends Component
 
                 // Get the user account of the carpool driver
                 $carpoolDriver = $model->carpoolRequest->carpoolDriver;
+
+                // Change availability status of the carpool driver
+                $carpoolDriver->availability_status = 'Available';
+
+                if (!$carpoolDriver->save()) {
+                    return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating carpool driver availability status. Trip cancelled.');
+                }
+
                 $carpoolDriverUser = $carpoolDriver->user;
 
                 Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolTripCancelledNotification($model));
 
-                return redirect("$this->redirectUrl/$this->id}")->with('success', 'Carpool Trip cancelled successfully.');
+                return redirect("$this->redirectUrl/{$this->id}")->with('success', 'Carpool Trip cancelled successfully.');
             }
 
             return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Trip cancelled successfully.');

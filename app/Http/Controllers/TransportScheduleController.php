@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\TransportSchedule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class TransportScheduleController extends Controller
 
         $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
 
-        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function($query) {
+        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function ($query) {
             $query->where('user_id', Auth::id());
         });
 
@@ -98,18 +99,18 @@ class TransportScheduleController extends Controller
 
         $noRequestIdSchedules = TransportSchedule::whereNull('transport_request_id');
 
-        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function($query) {
+        $userRequestIdSchedulesQuery = TransportSchedule::whereHas('transportRequest', function ($query) {
             $query->where('user_id', Auth::id());
         });
 
         // Combine queries using unionAll (without pagination yet)
-        $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->where(function($query) use ($search){
+        $transportSchedules = $noRequestIdSchedules->unionAll($userRequestIdSchedulesQuery)->where(function ($query) use ($search) {
             $query->where('description', 'like', '%' . $search . '%')
-            ->orWhere('schedule_date', 'like', '%' . $search . '%')
-            ->orWhere('schedule_time', 'like', '%' . $search . '%')
-            ->orWhere('starting_point', 'like', '%' . $search . '%')
-            ->orWhere('destination', 'like', '%' . $search . '%');
-        })->paginate(10);
+                ->orWhere('schedule_date', 'like', '%' . $search . '%')
+                ->orWhere('schedule_time', 'like', '%' . $search . '%')
+                ->orWhere('starting_point', 'like', '%' . $search . '%')
+                ->orWhere('destination', 'like', '%' . $search . '%');
+        })->orderBy('schedule_date', 'asc')->paginate(10);
 
         return view('user.transport_schedules.index', compact('transportSchedules'));
     }
@@ -123,9 +124,9 @@ class TransportScheduleController extends Controller
 
         $transportSchedule = TransportSchedule::find($id);
         $transportSchedule->status = 'Cancelled';
-        if($transportSchedule->save()){
+        if ($transportSchedule->save()) {
             // Get the transport request that was used to create the transport schedule
-            if($transportSchedule->transportRequest){
+            if ($transportSchedule->transportRequest) {
                 $transportRequest = $transportSchedule->transportRequest;
 
                 // Get the user that made the request
@@ -140,7 +141,7 @@ class TransportScheduleController extends Controller
                 Notification::send($admins, new TripCancelledNotification($transportSchedule));
             }
 
-            if(!$transportSchedule->transportRequest){
+            if (!$transportSchedule->transportRequest) {
                 // Notify all users that are students and staff
                 $roles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($roles, 'web')->get();
@@ -174,9 +175,9 @@ class TransportScheduleController extends Controller
 
         $transportSchedule->status = 'Completed';
 
-        if($transportSchedule->save()){
+        if ($transportSchedule->save()) {
             // Get the transport request that was used to create the transport schedule
-            if($transportSchedule->transportRequest){
+            if ($transportSchedule->transportRequest) {
                 $transportRequest = $transportSchedule->transportRequest;
 
                 // Get the user that made the request
@@ -191,7 +192,7 @@ class TransportScheduleController extends Controller
                 Notification::send($admins, new TripCompletedNotification($transportSchedule));
             }
 
-            if(!$transportSchedule->transportRequest){
+            if (!$transportSchedule->transportRequest) {
                 // Notify all users that are students and staff
                 $roles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($roles, 'web')->get();
@@ -207,6 +208,5 @@ class TransportScheduleController extends Controller
         }
 
         return redirect('transport_schedules')->with('error', 'Error cancelling schedule.');
-
     }
 }

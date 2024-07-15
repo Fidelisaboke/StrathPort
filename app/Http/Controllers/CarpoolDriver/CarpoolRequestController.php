@@ -73,7 +73,7 @@ class CarpoolRequestController extends Controller
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
 
-        if(CarpoolDriver::doesntHave('carpoolVehicle')->where('user_id', Auth::id())->exists()){
+        if (CarpoolDriver::doesntHave('carpoolVehicle')->where('user_id', Auth::id())->exists()) {
             return redirect()->back()->with('error', 'You need to add a vehicle before you can approve a carpool request.');
         }
 
@@ -109,6 +109,14 @@ class CarpoolRequestController extends Controller
                 return redirect()->back()->with('error', 'You are currently unavailable. Change your availability status before you can approve a carpool request.');
             }
 
+            // Check if a driver has at least one carpool schedule in progress
+            $pendingCarpoolSchedules = CarpoolingDetails::whereHas('carpoolRequest', function ($query) use ($carpoolDriverId) {
+                $query->where('carpool_driver_id', $carpoolDriverId);
+            })->where('status', 'In Progress')->count();
+            if ($pendingCarpoolSchedules > 0) {
+                return redirect()->back()->with('error', 'You have a carpool schedule in progress. Complete the schedule before you can approve another carpool request.');
+            }
+
             // Create a carpool schedule
             $carpoolSchedule = new CarpoolingDetails();
             $carpoolSchedule->carpool_request_id = $id;
@@ -125,11 +133,17 @@ class CarpoolRequestController extends Controller
                 return redirect('driver/carpool_requests/' . $id)->with('error', 'Failed to update carpool request status.');
             }
 
+            // Notify the carpool request owner
             $requestOwner = $carpoolRequest->user;
             Notification::send($requestOwner, new CarpoolRequestApprovedNotification($carpoolRequest));
 
+            // Notify the carpool driver and update the availability status
             $carpoolDriver = CarpoolDriver::find($carpoolRequest->carpool_driver_id);
             Notification::send($carpoolDriver->user, new CarpoolRequestApprovedNotification($carpoolRequest));
+            $carpoolDriver->availability_status = 'Unavailable';
+            if (!$carpoolDriver->save()) {
+                return redirect('driver/carpool_requests/' . $id)->with('error', 'Failed to update carpool driver availability status.');
+            }
 
             return redirect('driver/carpool_requests/' . $id)->with('success', 'Carpool request approved successfully.');
         }

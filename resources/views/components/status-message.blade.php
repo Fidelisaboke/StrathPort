@@ -20,7 +20,7 @@
                     errorMessage.classList.add('animate-slide-out');
                     setTimeout(() => errorMessage.remove(), 500);
                 }
-            }, 3000);
+            }, 3500);
         });
     </script>
     <!-- Status messages -->

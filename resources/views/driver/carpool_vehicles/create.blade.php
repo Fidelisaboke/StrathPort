@@ -106,7 +106,7 @@
                                 <div class="px-4 py-5 sm:p-6">
                                     <label for="vehicle_photo" class="block text-sm font-medium text-gray-700">Vehicle
                                         Photo</label>
-                                    <img id='vehicle_photo_preview' src="{{ asset('images/car_placeholder.png') }}"
+                                    <img id="vehicle_photo_preview" src="{{ asset('images/car_placeholder.png') }}"
                                         alt="Vehicle Photo" class="w-full h-auto mt-2">
                                 </div>
                             </div>

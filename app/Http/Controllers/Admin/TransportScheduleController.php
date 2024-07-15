@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\TransportSchedule;
 use App\Models\SchoolVehicle;
+use App\Notifications\TransportScheduleUpdatedNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
@@ -23,7 +24,7 @@ class TransportScheduleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $transportSchedules = TransportSchedule::orderByDesc('id')->paginate(10);
+        $transportSchedules = TransportSchedule::orderByDesc('schedule_date')->paginate(10);
         return view('admin.transport_schedules.index', compact('transportSchedules'));
     }
 
@@ -73,21 +74,69 @@ class TransportScheduleController extends Controller
             $schoolVehicle = SchoolVehicle::find($request->school_vehicle_id);
 
             // Check if the number of people is greater than the school vehicle capacity
-            if($request->no_of_people > $schoolVehicle->capacity){
-                return redirect()->back()->with('error', 'Number of people exceeds selected vehicle\'s capacity.');
+            if ($request->no_of_people > $schoolVehicle->capacity) {
+                return redirect()->back()
+                    ->with('error', 'Number of people exceeds selected vehicle\'s capacity.')
+                    ->withInput();
             }
 
             $input['school_vehicle_id'] = $request->school_vehicle_id;
             $input['no_of_people'] = $request->no_of_people;
 
+            // Prevent the creation of a transport schedule if the school vehicle is unavailable
+            if ($schoolVehicle->availability_status === 'Unavailable') {
+                return redirect()->back()
+                    ->with('error', 'Selected vehicle is unavailable.')
+                    ->withInput();
+            }
+
+            // Prevent the creation of a transport schedule if the school driver is unavailable
+            if ($schoolVehicle->schoolDriver->availability_status === 'Unavailable') {
+                return redirect()->back()
+                    ->with('error', 'The driver of the selected vehicle is unavailable.')
+                    ->withInput();
+            }
+
+
+            // Update the availability of the school vehicle
+            $schoolVehicle->availability_status = 'Unavailable';
+            if (!$schoolVehicle->save()) {
+                return redirect()->back()
+                    ->with('error', 'Failed to update availability status of school vehicle.')
+                    ->withInput();
+            }
+
+            // Update driver availability status
+            $schoolDriver = $schoolVehicle->schoolDriver;
+            $schoolDriver->availability_status = 'Unavailable';
+            if (!$schoolDriver->save()) {
+                return redirect()->back()
+                    ->with('error', 'Failed to update availability status of school driver.')
+                    ->withInput();
+            }
+
             $transportSchedule = TransportSchedule::create($input);
 
             if ($transportSchedule) {
+                $roles = Role::whereIn('name', ['student', 'staff'])->get();
+                $users = User::role($roles, 'web')->get();
+
+                // Notify the users that the trip has been scheduled
+                Notification::send($users, new TransportScheduleUpdatedNotification($transportSchedule));
+
+                $adminRole = Role::findByName('admin', 'web');
+                $admins = $adminRole->users;
+
+                // Notify the admins that the trip has been scheduled
+                Notification::send($admins, new TransportScheduleUpdatedNotification($transportSchedule));
+
                 return redirect('admin/transport_schedules')->with('success', 'Transport Schedule created successfully');
             }
 
 
-            return redirect('admin/transport_schedules')->with('error', 'Failed to update transport schedule');
+            return redirect()->back()
+                ->with('error', 'Failed to update transport schedule')
+                ->withInput();
         }
     }
 
@@ -133,7 +182,7 @@ class TransportScheduleController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect('admin/transport_schedules/' . $id . '/edit')
+            return redirect("admin/transport_schedules/{$id}/edit")
                 ->withErrors($validator->errors())
                 ->withInput();
         } else {
@@ -150,8 +199,10 @@ class TransportScheduleController extends Controller
             $schoolVehicle = SchoolVehicle::find($request->school_vehicle_id);
 
             // Check if the number of people is greater than the school vehicle capacity
-            if($request->no_of_people > $schoolVehicle->capacity){
-                return redirect()->back()->with('error', 'Number of people exceeds selected vehicle capacity.');
+            if ($request->no_of_people > $schoolVehicle->capacity) {
+                return redirect()->back()
+                    ->with('error', 'Number of people exceeds selected vehicle capacity.')
+                    ->withInput();
             }
 
             $input['school_vehicle_id'] = $request->school_vehicle_id;
@@ -159,28 +210,87 @@ class TransportScheduleController extends Controller
 
             $transportSchedule = TransportSchedule::find($id);
 
+            if ($transportSchedule->school_vehicle_id == null) {
+                $input['school_vehicle_id'] = $request->school_vehicle_id;
+                $transportSchedule->school_vehicle_id = $request->school_vehicle_id;
+            }
+
             // Check if the school vehicle has been changed
             if ($transportSchedule->school_vehicle_id != $request->school_vehicle_id) {
 
                 // Update the availibility of the previous school vehicle
                 $previousSchoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
-                $previousSchoolVehicle->availability_status = 'Available';
-                if(!$previousSchoolVehicle->save()){
-                    return redirect()->back()->with('error', 'Failed to update availability status of previous school vehicle.');
-                }
 
-                // Update the availability of the new school vehicle
-                $schoolVehicle->availability_status = 'Unavailable';
-                if(!$schoolVehicle->save()){
-                    return redirect()->back()->with('error', 'Failed to update availability status of newly allocated school vehicle.');
+                if (!empty($previousSchoolVehicle)) {
+                    $previousSchoolVehicle->availability_status = 'Available';
+                    if (!$previousSchoolVehicle->save()) {
+                        return redirect()->back()
+                            ->with('error', 'Failed to update availability status of previous school vehicle.')
+                            ->withInput();
+                    }
                 }
+            }
+
+            // Update the availability of the new school vehicle
+            $schoolVehicle->availability_status = 'Unavailable';
+            if (!$schoolVehicle->save()) {
+                return redirect()->back()
+                    ->with('error', 'Failed to update availability status of newly allocated school vehicle.')
+                    ->withInput();
+            }
+
+            // Check for transport schedule status
+            if ($input['status'] === 'Cancelled' || $input['status'] === 'Completed') {
+                // Make both the vehicle and the driver available
+                $schoolVehicle->availability_status = 'Available';
+                $schoolVehicle->save();
+
+                $schoolDriver = $schoolVehicle->schoolDriver;
+                $schoolDriver->availability_status = 'Available';
+                $schoolDriver->save();
+            } else {
+                // Update driver availability status
+                $schoolDriver = $schoolVehicle->schoolDriver;
+                $schoolDriver->availability_status = 'Unavailable';
+                $schoolDriver->save();
             }
 
             if ($transportSchedule->update($input)) {
+
+                // Get the transport request that was used to create the transport schedule
+                if ($transportSchedule->transportRequest) {
+                    $transportRequest = $transportSchedule->transportRequest;
+
+                    $user = $transportRequest->user;
+
+                    // Notify the user that the trip has been cancelled
+                    Notification::send($user, new TransportScheduleUpdatedNotification($transportSchedule));
+
+                    $adminRole = Role::findByName('admin', 'web');
+                    $admins = $adminRole->users;
+
+                    // Notify the admins that the trip has been cancelled
+                    Notification::send($admins, new TransportScheduleUpdatedNotification($transportSchedule));
+                } else {
+                    $roles = Role::whereIn('name', ['student', 'staff'])->get();
+                    $users = User::role($roles, 'web')->get();
+
+                    // Notify the users that the trip has been cancelled
+                    Notification::send($users, new TransportScheduleUpdatedNotification($transportSchedule));
+
+                    $adminRole = Role::findByName('admin', 'web');
+                    $admins = $adminRole->users;
+
+                    // Notify the admins that the trip has been cancelled
+                    Notification::send($admins, new TransportScheduleUpdatedNotification($transportSchedule));
+                }
+
                 return redirect('admin/transport_schedules')->with('success', 'Transport Schedule updated successfully.');
             }
 
-            return redirect('admin/transport_schedules')->with('error', 'Failed to update transport schedule.');
+            return redirect()->back()
+                ->with('error', 'Failed to update transport schedule.')
+                ->withInput();
         }
     }
 
@@ -208,7 +318,9 @@ class TransportScheduleController extends Controller
                 ->orWhere('starting_point', 'like', '%' . $search . '%')
                 ->orWhere('destination', 'like', '%' . $search . '%')
                 ->orWhere('status', 'like', '%' . $search . '%');
-        })->paginate(10);
+        })
+            ->orderByDesc('schedule_date')
+            ->paginate(10);
 
         return view('admin.transport_schedules.index', compact('transportSchedules'));
     }
@@ -228,7 +340,12 @@ class TransportScheduleController extends Controller
             // Update the availability of the school vehicle
             $schoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
             $schoolVehicle->availability_status = 'Available';
-            if(!$schoolVehicle->save()){
+
+            // Update driver availability status
+            $schoolDriver = $schoolVehicle->schoolDriver;
+            $schoolDriver->availability_status = 'Available';
+
+            if (!$schoolVehicle->save() || !$schoolDriver->save()) {
                 return redirect()->back()->with('error', 'Failed to update availability status of school vehicle.');
             }
 
@@ -246,10 +363,7 @@ class TransportScheduleController extends Controller
 
                 // Notify the admins that the trip has been cancelled
                 Notification::send($admins, new TripCancelledNotification($transportSchedule));
-
-            }
-
-            if (!$transportSchedule->transportRequest) {
+            } else {
                 $roles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($roles, 'web')->get();
 
@@ -261,13 +375,12 @@ class TransportScheduleController extends Controller
 
                 // Notify the admins that the trip has been cancelled
                 Notification::send($admins, new TripCancelledNotification($transportSchedule));
-
             }
 
             return redirect('admin/transport_schedules')->with('success', 'Transport Schedule cancelled successfully.');
         }
 
-        return redirect('admin/transport_schedules')->with('error', 'Error cancelling transport schedule.');
+        return redirect()->back()->with('error', 'Error cancelling transport schedule.');
     }
 
     /**
@@ -290,7 +403,12 @@ class TransportScheduleController extends Controller
             // Update the availability of the school vehicle
             $schoolVehicle = SchoolVehicle::find($transportSchedule->school_vehicle_id);
             $schoolVehicle->availability_status = 'Available';
-            if(!$schoolVehicle->save()){
+
+            // Update driver availability status
+            $schoolDriver = $schoolVehicle->schoolDriver;
+            $schoolDriver->availability_status = 'Available';
+
+            if (!$schoolVehicle->save() || !$schoolDriver->save()) {
                 return redirect()->back()->with('error', 'Failed to update availability status of school vehicle.');
             }
 
@@ -308,10 +426,7 @@ class TransportScheduleController extends Controller
 
                 // Notify the admins that the trip has been completed
                 Notification::send($admins, new TripCompletedNotification($transportSchedule));
-
-            }
-
-            if (!$transportSchedule->transportRequest) {
+            } else {
                 $roles = Role::whereIn('name', ['student', 'staff'])->get();
                 $users = User::role($roles, 'web')->get();
 
@@ -328,6 +443,6 @@ class TransportScheduleController extends Controller
             return redirect('admin/transport_schedules')->with('success', 'Transport Schedule completed successfully.');
         }
 
-        return redirect('admin/transport_schedules')->with('error', 'Error completing transport schedule.');
+        return redirect()->back()->with('error', 'Error completing transport schedule.');
     }
 }

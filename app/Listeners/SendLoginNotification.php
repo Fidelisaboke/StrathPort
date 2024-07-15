@@ -23,6 +23,6 @@ class SendLoginNotification
      */
     public function handle(Login $event): void
     {
-        Notification::send($event->user, new LoginNotification($event->user));
+        // Notification::send($event->user, new LoginNotification($event->user));
     }
 }

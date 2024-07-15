@@ -114,10 +114,10 @@
                                     <label for="vehicle_photo" class="block text-sm font-medium text-gray-700">Vehicle
                                         Photo</label>
                                     @if ($carpoolVehicle->vehicle_photo_path)
-                                        <img src="{{ $carpoolVehicle->vehicle_photo_url }}" alt="Vehicle Photo"
+                                        <img id="vehicle_photo_preview" src="{{ $carpoolVehicle->vehicle_photo_url }}" alt="Vehicle Photo"
                                             class="w-full h-auto mt-2">
                                     @else
-                                        <img src="{{ asset('images/car_placeholder.png') }}" alt="Vehicle Photo"
+                                        <img id="vehicle_photo_preview" src="{{ asset('images/car_placeholder.png') }}" alt="Vehicle Photo"
                                             class="w-full h-auto mt-2">
                                     @endif
                                 </div>

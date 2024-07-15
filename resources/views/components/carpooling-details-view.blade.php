@@ -18,7 +18,7 @@
                     </div>
                     <div class="flex flex-row mb-2">
                         <x-svg.clock />
-                        Time: {{ $carpoolRequest->departure_time }}
+                        Time: {{ \Carbon\Carbon::parse($carpoolRequest->departure_time)->format('H:i') }}
                     </div>
                     <div class="flex flex-row mb-2">
                         <x-svg.location-dot />

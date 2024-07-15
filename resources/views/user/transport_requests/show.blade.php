@@ -46,7 +46,7 @@
                     <div class="px-4 py-2 bg-white border-b sm:p-6">
                         <label for="event_time" class="block text-sm font-medium text-gray-700">Time</label>
                         <div class="flex justify-between">
-                            <span>{{ $transportRequest->event_time }}</span>
+                            <span>{{ \Carbon\Carbon::parse($transportRequest->event_time)->format('H:i') }}</span>
                         </div>
                     </div>
                     <!-- Event Location -->

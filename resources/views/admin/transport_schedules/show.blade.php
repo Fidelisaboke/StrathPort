@@ -41,7 +41,10 @@
                             @empty($transportSchedule->transport_request_id)
                                 N/A
                             @else
-                                {{ $transportSchedule->transport_request_id }}
+                                <a href="{{ url('admin/transport_requests/' . $transportSchedule->transport_request_id) }}"
+                                    class="hover:underline">
+                                    {{ $transportSchedule->transport_request_id }}
+                                </a>
                             @endempty
                         </span>
                     </div>
@@ -104,7 +107,8 @@
                         @empty($schoolVehicle)
                             <span class="text-red-600">No vehicle assigned</span>
                         @else
-                            <span>{{ $schoolVehicle->number_plate }}</span>
+                            <a
+                                href="{{ url('admin/school_vehicles/' . $schoolVehicle->id) }}" class="hover:underline">{{ $schoolVehicle->number_plate }}</a>
                         @endempty
                     </div>
                 </div>
@@ -115,7 +119,8 @@
                         @empty($schoolDriver)
                             <span class="text-red-600">No driver assigned</span>
                         @else
-                            <span>{{ $schoolDriver->full_name }}</span>
+                            <a
+                                href="{{ url('admin/school_drivers/' . $schoolDriver->id) }}" class="hover:underline">{{ $schoolDriver->full_name }}</a>
                         @endempty
                     </div>
                 </div>

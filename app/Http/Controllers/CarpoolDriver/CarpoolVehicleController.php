@@ -91,7 +91,9 @@ class CarpoolVehicleController extends Controller
                 return redirect('driver/carpool_vehicles')->with('success', 'Vehicle added successfully.');
             }
 
-            return redirect('driver/carpool_vehicles')->with('error', 'Error adding vehicle.');
+            return redirect('driver/carpool_vehicles')
+            ->with('error', 'Error adding vehicle.')
+            ->withInput();
         }
     }
 
@@ -183,7 +185,9 @@ class CarpoolVehicleController extends Controller
                 return redirect('driver/carpool_vehicles')->with('success', 'Vehicle updated successfully.');
             }
 
-            return redirect('driver/carpool_vehicles')->with('error', 'Failed to update vehicle.');
+            return redirect('driver/carpool_vehicles')
+            ->with('error', 'Failed to update vehicle.')
+            ->withInput();
         }
     }
 
@@ -194,7 +198,13 @@ class CarpoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('carpool_driver'), 403, 'Forbidden');
 
-        CarpoolVehicle::find($id)->delete();
+        $vehicleDeleted = CarpoolVehicle::find($id)->delete();
+
+        if (!$vehicleDeleted) {
+            return redirect('driver/carpool_vehicles')
+            ->with('error', 'Error deleting the vehicle.');
+        }
+        
         return redirect('driver/carpool_vehicles')->with('success', 'Vehicle deleted successfully.');
     }
 }

@@ -125,6 +125,17 @@ class SchoolVehicleController extends Controller
                 'availability_status' => $request->availability_status,
             ];
 
+            // Get all transport schedules for the school vehicle
+            $schoolVehicle = SchoolVehicle::find($id)->first();
+            $transportSchedules = $schoolVehicle->transportSchedules;
+
+            // Prevent changing status to 'Available' if there's a transport schedule in progress
+            if ($input['availability_status'] === 'Available' && $transportSchedules->where('status', 'In Progress')->count() > 0) {
+                return redirect('admin/school_vehicles/'.$id.'/edit')
+                    ->withErrors(['availability_status' => 'You cannot change the vehicle\'s availability status to "Available" while a transport schedule is in progress.'])
+                    ->withInput();
+            }
+
             SchoolVehicle::find($id)->update($input);
 
             return redirect('admin/school_vehicles')->with('success', 'School Vehicle updated successfully.');

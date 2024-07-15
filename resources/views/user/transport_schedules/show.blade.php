@@ -56,7 +56,7 @@
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
                             <label for="event_time" class="block text-sm font-medium text-gray-700">Time</label>
                             <div class="flex justify-between">
-                                <span>{{ $transportSchedule->schedule_time }}</span>
+                                <span>{{ \Carbon\Carbon::parse($transportSchedule->schedule_time)->format('H:i') }}</span>
                             </div>
                         </div>
                         <!-- Starting Point -->
@@ -72,6 +72,13 @@
                             <label for="destination" class="block text-sm font-medium text-gray-700">Destination</label>
                             <div class="flex justify-between">
                                 <span>{{ $transportSchedule->destination }}</span>
+                            </div>
+                        </div>
+                        <!-- No of People -->
+                        <div class="px-4 py-2 bg-white border-b sm:p-6">
+                            <label for="no_of_people" class="block text-sm font-medium text-gray-700">No of Passengers</label>
+                            <div class="flex justify-between">
+                                <span>{{ $transportSchedule->no_of_people }}</span>
                             </div>
                         </div>
                         <!-- Vehicle Registration Number -->

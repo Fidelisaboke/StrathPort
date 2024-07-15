@@ -158,7 +158,9 @@ class UserController extends Controller
                 }
             } else {
                 // Return error message if user already has a role
-                return redirect('admin/users/' . $id . '/edit')->with('error', 'Cannot change roles for a user with existing roles!');
+                return redirect('admin/users/' . $id . '/edit')
+                ->with('error', 'Cannot change roles for a user with existing roles!')
+                ->withInput();
             }
 
             // Check if account was inactive and has now been changed to active

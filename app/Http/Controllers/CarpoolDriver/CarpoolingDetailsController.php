@@ -117,7 +117,8 @@ class CarpoolingDetailsController extends Controller
                 ->orWhere('departure_time', 'like', '%' . $search . '%')
                 ->orWhere('departure_location', 'like', '%' . $search . '%')
                 ->orWhere('destination', 'like', '%' . $search . '%')
-                ->orWhere('no_of_people', 'like', '%' . $search . '%');
+                ->orWhere('no_of_people', 'like', '%' . $search . '%')
+                ->orWhere('status', 'like', '%' . $search . '%');
             });
             })
             ->paginate(10);
@@ -140,6 +141,12 @@ class CarpoolingDetailsController extends Controller
 
             Notification::send([$requestOwner, $carpoolDriver->user], new CarpoolTripCancelledNotification($carpoolingDetail));
 
+            // Make carpool driver available
+            $carpoolDriver->availability_status = 'Available';
+            if(!$carpoolDriver->save()){
+                return redirect('driver/carpooling_details/' . $id)->with('error', 'Error updating carpool driver availability status. Trip cancelled.');
+            }
+
             return redirect('driver/carpooling_details/' . $id)->with('success', 'Trip cancelled successfully.');
         }
 
@@ -161,7 +168,14 @@ class CarpoolingDetailsController extends Controller
             $requestOwner->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
 
             $carpoolDriver = CarpoolDriver::find($carpoolingDetail->carpoolRequest->carpool_driver_id);
-            Notification::send($carpoolDriver->user, new CarpoolTripCompletedNotification($carpoolingDetail));
+
+            $carpoolDriver->user->notify(new CarpoolTripCompletedNotification($carpoolingDetail));
+
+            // Make carpool driver available
+            $carpoolDriver->availability_status = 'Available';
+            if(!$carpoolDriver->save()){
+                return redirect('driver/carpooling_details/' . $id)->with('error', 'Error updating carpool driver availability status. Trip completed.');
+            }
 
             return redirect('driver/carpooling_details/' . $id)->with('success', 'Trip completed successfully.');
 

@@ -48,7 +48,7 @@ class TransportRequestUpdatedNotification extends Notification
                 ->line(__('Event Location: ' . $this->transportRequest->event_location))
                 ->line(__('Number of People: ' . $this->transportRequest->no_of_people))
                 ->line(__('Please login to your account to view the request.'))
-                ->action(__('View Request'), url('driver/transport_requests/' . $this->transportRequest->id));
+                ->action(__('View Request'), url('admin/transport_requests/' . $this->transportRequest->id));
         }
 
         return (new MailMessage)
@@ -76,7 +76,7 @@ class TransportRequestUpdatedNotification extends Notification
             return [
                 'subject' => __('Transport Request Updated'),
                 'message' => __('A transport request has been updated.'),
-                'action' => url('driver/transport_requests/' . $this->transportRequest->id),
+                'action' => url('admin/transport_requests/' . $this->transportRequest->id),
             ];
         }
 
