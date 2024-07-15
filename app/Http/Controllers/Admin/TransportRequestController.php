@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use App\Models\SchoolVehicle;
 use App\Models\TransportRequest;
 use App\Models\TransportSchedule;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Notification;
-use App\Notifications\TransportRequestDeclinedNotification;
-use App\Notifications\TransportRequestApprovedNotification;
+use Spatie\LaravelPdf\Facades\Pdf;
 use Spatie\Permission\Models\Role;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\TransportRequestApprovedNotification;
+use App\Notifications\TransportRequestDeclinedNotification;
 
 
 class TransportRequestController extends Controller
@@ -220,8 +221,8 @@ class TransportRequestController extends Controller
 
             if (!$requestUpdated) {
                 return redirect('admin/transport_requests/' . $id)
-                ->with('error', 'An error occurred while updating the transport request status!')
-                ->withInput();
+                    ->with('error', 'An error occurred while updating the transport request status!')
+                    ->withInput();
             }
 
             $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
@@ -305,7 +306,7 @@ class TransportRequestController extends Controller
 
             if (!$requestUpdated) {
                 return redirect('admin/transport_requests/' . $id)
-                ->with('error', 'An error occurred while updating the transport request status!');
+                    ->with('error', 'An error occurred while updating the transport request status!');
             }
 
             $transportRequest = TransportRequest::find($id);
