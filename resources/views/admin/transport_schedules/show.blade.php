@@ -107,8 +107,8 @@
                         @empty($schoolVehicle)
                             <span class="text-red-600">No vehicle assigned</span>
                         @else
-                            <a
-                                href="{{ url('admin/school_vehicles/' . $schoolVehicle->id) }}" class="hover:underline">{{ $schoolVehicle->number_plate }}</a>
+                            <a href="{{ url('admin/school_vehicles/' . $schoolVehicle->id) }}"
+                                class="hover:underline">{{ $schoolVehicle->number_plate }}</a>
                         @endempty
                     </div>
                 </div>
@@ -119,8 +119,8 @@
                         @empty($schoolDriver)
                             <span class="text-red-600">No driver assigned</span>
                         @else
-                            <a
-                                href="{{ url('admin/school_drivers/' . $schoolDriver->id) }}" class="hover:underline">{{ $schoolDriver->full_name }}</a>
+                            <a href="{{ url('admin/school_drivers/' . $schoolDriver->id) }}"
+                                class="hover:underline">{{ $schoolDriver->full_name }}</a>
                         @endempty
                     </div>
                 </div>
@@ -133,10 +133,12 @@
                             <div class="flex justify-center mt-4">
                                 <form
                                     action="{{ route('admin.transport_schedules.completeTrip', $transportSchedule->id) }}"
-                                    method="POST">
+                                    method="POST" x-data>
                                     @csrf
                                     @method('PUT')
-                                    <button type="submit"
+                                    <button
+                                        @click.prevent="$dispatch('completeTrip', { redirectUrl: 'admin/transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })"
+                                        type="submit"
                                         class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as
                                         Completed</button>
                                 </form>
@@ -159,5 +161,6 @@
         </div>
     </div>
     @livewire('trip-cancel-confirmation-modal')
+    @livewire('trip-completed-confirmation-modal')
 
 </x-admin-app-layout>

@@ -81,7 +81,8 @@
                             </div>
                             <!-- Carpool Driver Phone -->
                             <div class="px-4 py-2 bg-white border-b sm:p-6">
-                                <label for="phone" class="block text-sm font-medium text-gray-700">Driver Phone</label>
+                                <label for="phone" class="block text-sm font-medium text-gray-700">Driver
+                                    Phone</label>
                                 <div class="flex justify-between">
                                     @empty($carpoolDriver)
                                         <span class="text-red-600">No driver assigned</span>
@@ -108,11 +109,13 @@
                                             </form>
                                             <form
                                                 action="{{ route('driver.carpool_requests.update', $carpoolRequest->id) }}"
-                                                method="POST">
+                                                method="POST" x-data>
                                                 @csrf
                                                 @method('PUT')
                                                 <input type="hidden" name="status" value="Declined">
-                                                <button type="submit"
+                                                <button
+                                                    @click.prevent="$dispatch('declineTransportRequest', { redirectUrl: 'driver/carpool_requests', id: {{ $carpoolRequest->id }}, modelClass: 'App\\Models\\CarpoolRequest' })"
+                                                    type="submit"
                                                     class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
                                             </form>
                                         </div>
@@ -125,7 +128,5 @@
             </div>
         </div>
     </div>
-
-
+    @livewire('transport-request-declined-modal')
 </x-app-layout>
-@livewire('trip-cancel-confirmation-modal')

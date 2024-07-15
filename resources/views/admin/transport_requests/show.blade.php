@@ -33,9 +33,11 @@
                     <div class="flex justify-between">
                         <span>
                             @empty($fullName)
-                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}" class="hover:underline">{{ $user->name }}</a>
+                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}"
+                                    class="hover:underline">{{ $user->name }}</a>
                             @else
-                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}" class="hover:underline">{{ $fullName }}</a>
+                                <a href="{{ url('admin/users/' . $transportRequest->user_id) }}"
+                                    class="hover:underline">{{ $fullName }}</a>
                             @endempty
                         </span>
                     </div>
@@ -99,10 +101,12 @@
                                 </form>
                                 <form
                                     action="{{ route('admin.transport_requests.update_status', $transportRequest->id) }}"
-                                    method="POST">
+                                    method="POST" x-data>
                                     @csrf
                                     <input type="hidden" name="status" value="Declined">
-                                    <button type="submit"
+                                    <button
+                                        @click.prevent="$dispatch('declineTransportRequest', { redirectUrl: 'admin/transport_requests', id: {{ $transportRequest->id }}, modelClass: 'App\\Models\\TransportRequest' })"
+                                        type="submit"
                                         class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Decline</button>
                                 </form>
                             </div>
@@ -112,4 +116,5 @@
             </div>
         </div>
     </div>
+    @livewire('transport-request-declined-modal')
 </x-admin-app-layout>

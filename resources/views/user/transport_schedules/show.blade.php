@@ -9,16 +9,18 @@
 
     @php
         $schoolVehicle = $transportSchedule->schoolVehicle;
-        if(empty($schoolVehicle))
+        if (empty($schoolVehicle)) {
             $schoolDriver = null;
-        else
+        } else {
             $schoolDriver = $schoolVehicle->schoolDriver;
+        }
     @endphp
 
     <div class="py-4">
         <div class="max-w-6xl py-10 mx-auto sm:px-6 lg:px-8">
             <!-- Back Button -->
-            <x-button-link href="{{ route('transport_schedules.index') }}" text="Back to Transport Schedules List" arrowType="left"/>
+            <x-button-link href="{{ route('transport_schedules.index') }}" text="Back to Transport Schedules List"
+                arrowType="left" />
 
 
             <div class="container grid px-6 mx-auto md:w-3/5">
@@ -76,14 +78,16 @@
                         </div>
                         <!-- No of People -->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="no_of_people" class="block text-sm font-medium text-gray-700">No of Passengers</label>
+                            <label for="no_of_people" class="block text-sm font-medium text-gray-700">No of
+                                Passengers</label>
                             <div class="flex justify-between">
                                 <span>{{ $transportSchedule->no_of_people }}</span>
                             </div>
                         </div>
                         <!-- Vehicle Registration Number -->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle Registration Number</label>
+                            <label for="registration_number" class="block text-sm font-medium text-gray-700">Vehicle
+                                Registration Number</label>
                             <div class="flex justify-between">
                                 @empty($schoolVehicle)
                                     <span class="text-red-600">No vehicle assigned</span>
@@ -94,7 +98,8 @@
                         </div>
                         <!-- School Driver -->
                         <div class="px-4 py-2 bg-white border-b sm:p-6">
-                            <label for="school_driver" class="block text-sm font-medium text-gray-700">School Driver</label>
+                            <label for="school_driver" class="block text-sm font-medium text-gray-700">School
+                                Driver</label>
                             <div class="flex justify-between">
                                 @empty($schoolDriver)
                                     <span class="text-red-600">No driver assigned</span>
@@ -108,17 +113,29 @@
                             <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
                             <div class="flex justify-between">
                                 <span>{{ $transportSchedule->status }}</span>
-                                @if($transportSchedule->transportRequest && $transportSchedule->status == 'In Progress')
+                                @if ($transportSchedule->transportRequest && $transportSchedule->status == 'In Progress')
                                     <div class="flex items-center">
-                                        <form action="{{ route('transport_schedules.completeTrip', $transportSchedule->id) }}" method="POST">
+                                        <form
+                                            action="{{ route('transport_schedules.completeTrip', $transportSchedule->id) }}"
+                                            method="POST" x-data>
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark as Completed</button>
+                                            <button
+                                                @click.prevent="$dispatch('completeTrip', { redirectUrl: 'transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })"
+                                                type="submit"
+                                                class="px-4 py-2 text-white bg-green-500 rounded hover:bg-green-600">Mark
+                                                as Completed</button>
                                         </form>
-                                        <form action="{{ route('transport_schedules.cancelTrip', $transportSchedule->id) }}" method="POST" x-data>
+                                        <form
+                                            action="{{ route('transport_schedules.cancelTrip', $transportSchedule->id) }}"
+                                            method="POST" x-data>
                                             @csrf
                                             @method('PUT')
-                                            <button @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })" type="submit" class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel Trip</button>
+                                            <button
+                                                @click.prevent="$dispatch('cancelTrip', { redirectUrl: 'transport_schedules', id: {{ $transportSchedule->id }}, modelClass: 'App\\Models\\TransportSchedule' })"
+                                                type="submit"
+                                                class="px-4 py-2 ml-4 text-white bg-red-500 rounded hover:bg-red-600">Cancel
+                                                Trip</button>
                                         </form>
                                     </div>
                                 @endif
@@ -129,5 +146,6 @@
             </div>
         </div>
     </div>
+    @livewire('trip-cancel-confirmation-modal')
+    @livewire('trip-completed-confirmation-modal')
 </x-app-layout>
-@livewire('trip-cancel-confirmation-modal')
