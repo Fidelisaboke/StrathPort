@@ -108,6 +108,12 @@ class TripCompletedConfirmationModal extends Component
                 return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating carpool driver availability status. Trip completed.');
             }
 
+            $model->status = 'Completed';
+
+            if (!$model->save()) {
+                return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error completing trip.');
+            }
+
             $carpoolDriverUser = $carpoolDriver->user;
 
             Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolTripCompletedNotification($model));
