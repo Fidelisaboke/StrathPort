@@ -381,11 +381,22 @@ C:.
 
 The file tree is generated using the command `tree /F /A > treestructure.txt`
 
-## Additional Information
+## Known Issues
 
-### Project Stack
+The following limitations or bugs are present in the project
 
-The following tools, languages, and frameworks were used in developing the web application:
+1. **Carpool Schedules 'Search' feature**
+   Returns all records for users and carpool drivers instead of filtering based on specific user.
+2. **Transport Request Limiting**
+   At the moment, it is limited by school vehicle availability, which is not reliable in handling the potential of many requests
+3. **Admin Monthly Report Generation**
+   The functionality is present in the code, but was isolated and replaced with a link to the view of the report
+4. **High Latency Issues**
+   Some functionalities, especially involving email notifications, take longer than the recommended 500ms response time, which could lead to a poor user experience
+
+## Acknowledgements
+
+We would like to thank the developers of the following tools, languages, and frameworks which streamlined the web application development process:
 
 -   [![Tailwind][tailwind-shield]][tailwind-link]
 -   [![AlpineJS][alpinejs-shield]][alpinejs-link]
@@ -396,19 +407,14 @@ The following tools, languages, and frameworks were used in developing the web a
 
 [tailwind-shield]: https://img.shields.io/badge/tailwindcss-0F172A?style=for-the-badge&logo=tailwindcss
 [tailwind-link]: https://tailwindcss.com/
-
 [laravel-shield]: https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white
 [laravel-link]: https://laravel.com/
-
 [alpinejs-shield]: https://img.shields.io/badge/Alpine.js-663399?style=for-the-badge&logo=alpine.js&logoColor=white
 [alpinejs-link]: https://alpinejs.dev/
-
 [livewire-shield]: https://img.shields.io/badge/livewire-4e56a6?style=for-the-badge&logo=livewire&logoColor=white
 [livewire-link]: https://livewire.laravel.com/
-
 [chartjs-shield]: https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white
 [chartjs-link]: https://www.chartjs.org/
-
 [mysql-shield]: https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white
 [mysql-link]: https://www.mysql.com/
 
