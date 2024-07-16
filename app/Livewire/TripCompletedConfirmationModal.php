@@ -44,40 +44,38 @@ class TripCompletedConfirmationModal extends Component
             return;
         }
 
-        $model->status = 'Completed';
-        if ($model->save()) {
-            if ($model instanceof TransportSchedule) {
-                // Change availability status of the school vehicle if the transport schedule has a school vehicle
-                if ($model->schoolVehicle) {
-                    $schoolVehicle = $model->schoolVehicle;
-                    $schoolVehicle->availability_status = 'Available';
-                    if (!$schoolVehicle->save()) {
-                        return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school vehicle availability status. Trip completed.');
-                    }
+        if ($model instanceof TransportSchedule) {
+            // Check if a vehicle is assigned to the transport schedule
+            if (is_null($model->schoolVehicle)) {
+                return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'No vehicle assigned to the transport schedule.');
+            }
 
-                    // Change availability status of the driver
-                    $schoolDriver = $schoolVehicle->schoolDriver;
-                    $schoolDriver->availability_status = 'Available';
-                    if (!$schoolDriver->save()) {
-                        return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school driver availability status. Trip completed.');
-                    }
+            $model->status = 'Completed';
+
+            if (!$model->save()) {
+                return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error completing trip.');
+            }
+
+            // Change availability status of the school vehicle if the transport schedule has a school vehicle
+            if ($model->schoolVehicle) {
+                $schoolVehicle = $model->schoolVehicle;
+                $schoolVehicle->availability_status = 'Available';
+                if (!$schoolVehicle->save()) {
+                    return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school vehicle availability status. Trip completed.');
                 }
 
-
-                if ($model->transportRequest) {
-                    $user = $model->transportRequest->user;
-                    Notification::send($user, new TripCompletedNotification($model));
-
-                    $adminRole = Role::findByName('admin', 'web');
-                    $admins = $adminRole->users;
-                    Notification::send($admins, new TripCompletedNotification($model));
-
-                    return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Transport Schedule completed successfully.');
+                // Change availability status of the driver
+                $schoolDriver = $schoolVehicle->schoolDriver;
+                $schoolDriver->availability_status = 'Available';
+                if (!$schoolDriver->save()) {
+                    return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating school driver availability status. Trip completed.');
                 }
+            }
 
-                $studentStaffRoles = Role::whereIn('name', ['student', 'staff'])->get();
-                $users = User::role($studentStaffRoles, 'web')->get();
-                Notification::send($users, new TripCompletedNotification($model));
+
+            if ($model->transportRequest) {
+                $user = $model->transportRequest->user;
+                Notification::send($user, new TripCompletedNotification($model));
 
                 $adminRole = Role::findByName('admin', 'web');
                 $admins = $adminRole->users;
@@ -86,29 +84,38 @@ class TripCompletedConfirmationModal extends Component
                 return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Transport Schedule completed successfully.');
             }
 
-            if ($model instanceof CarpoolingDetails) {
-                $requestOwner = $model->carpoolRequest->user;
+            $studentStaffRoles = Role::whereIn('name', ['student', 'staff'])->get();
+            $users = User::role($studentStaffRoles, 'web')->get();
+            Notification::send($users, new TripCompletedNotification($model));
 
-                // Get the user account of the carpool driver
-                $carpoolDriver = $model->carpoolRequest->carpoolDriver;
+            $adminRole = Role::findByName('admin', 'web');
+            $admins = $adminRole->users;
+            Notification::send($admins, new TripCompletedNotification($model));
 
-                // Change availability status of the carpool driver
-                $carpoolDriver->availability_status = 'Available';
+            return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Transport Schedule completed successfully.');
+        }
 
-                if (!$carpoolDriver->save()) {
-                    return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating carpool driver availability status. Trip completed.');
-                }
+        if ($model instanceof CarpoolingDetails) {
+            $requestOwner = $model->carpoolRequest->user;
 
-                $carpoolDriverUser = $carpoolDriver->user;
+            // Get the user account of the carpool driver
+            $carpoolDriver = $model->carpoolRequest->carpoolDriver;
 
-                Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolTripCompletedNotification($model));
+            // Change availability status of the carpool driver
+            $carpoolDriver->availability_status = 'Available';
 
-                return redirect("$this->redirectUrl/{$this->id}")->with('success', 'Carpool Trip completed successfully.');
+            if (!$carpoolDriver->save()) {
+                return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error updating carpool driver availability status. Trip completed.');
             }
 
-            return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Trip completed successfully.');
-        } else {
-            return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error completedg trip.');
+            $carpoolDriverUser = $carpoolDriver->user;
+
+            Notification::send([$requestOwner, $carpoolDriverUser], new CarpoolTripCompletedNotification($model));
+
+            return redirect("$this->redirectUrl/{$this->id}")->with('success', 'Carpool Trip completed successfully.');
         }
+
+        // return redirect("{$this->redirectUrl}/{$this->id}")->with('success', 'Trip completed successfully.');
+        return redirect("{$this->redirectUrl}/{$this->id}")->with('error', 'Error completing trip.');
     }
 }

@@ -52,7 +52,8 @@
                                 <select id="carpool_driver_id" name="carpool_driver_id"
                                     class="block w-full mt-1 rounded-md shadow-sm form-input">
                                     @foreach ($carpoolDrivers as $carpoolDriver)
-                                        <option value="{{ $carpoolDriver->id }}">{{ $carpoolDriver->full_name }}
+                                        <option value="{{ $carpoolDriver->id }}">{{ $carpoolDriver->full_name }} - Vehicle
+                                            Capacity: {{ $carpoolDriver->carpoolVehicle->capacity }}
                                         </option>
                                     @endforeach
                                 </select>

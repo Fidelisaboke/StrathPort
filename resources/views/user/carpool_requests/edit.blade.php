@@ -46,7 +46,8 @@
                                 @foreach ($carpoolDrivers as $carpoolDriver)
                                     <option value="{{ $carpoolDriver->id }}"
                                         @if (old('carpool_driver_id', $carpoolDriver->id) == $carpoolDriver->id) selected @endif>
-                                        {{ $carpoolDriver->full_name }}</option>
+                                        {{ $carpoolDriver->full_name }} - Vehicle
+                                        Capacity: {{ $carpoolDriver->carpoolVehicle->capacity }}</option>
                                 @endforeach
                             </select>
                             @error('carpool_driver_id')
