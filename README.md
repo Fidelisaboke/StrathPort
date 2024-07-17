@@ -17,14 +17,13 @@ This project aims to create a web application for school transport scheduling an
 
 Before installing and setting up this project in your local storage you must have the following:
 
--   **Composer** - An open source dependency management tool for PHP programming language that helps in managing the libraries and dependencies that this project relies on. It can be installed through the [Composer Website](https://getcomposer.org/) or through using the command
-    'composer install'
+-   **Composer** - An open source dependency management tool for PHP programming language that helps in managing the libraries and dependencies that this project relies on. It can be installed through the [Composer Website](https://getcomposer.org/)
 
--   **Apache XAMPP Server** - It is a free and open-source cross-platform web server solution that assists in connection to the database through MariaDB. It can be installed [here](https://www.apachefriends.org/).
+-   **Apache XAMPP Server** - It is a free and open-source cross-platform web server solution that assists in running the application. It can be installed [here](https://www.apachefriends.org/).
 
--   **PHP >=8.2** - It is a general-purpose scripting language mostly used in web development. It can be installed in the [PHP Website](https://www.php.net/).
+-   **PHP Version 8.2+** - It is a general-purpose scripting language mostly used in web development. It can be installed in the [PHP Website](https://www.php.net/). If you've installed XAMPP, there's no need to install PHP separately as XAMPP comes with it.
 
--   **Visual Studio Code** - It is a source-code editor developed by Microsoft for building web, desktop and movile applications. It can be installed [here](https://code.visualstudio.com/).
+-   **Visual Studio Code** - It is a source-code editor developed by Microsoft. It can be installed [here](https://code.visualstudio.com/).
 
 ## Steps for project setup
 
@@ -74,7 +73,7 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 -   To get the `MAIL_PASSWORD`, go to your Google account's 'Manage Password' setting, then in the 'Security' menu, search for 'App password'.
 
--   Afterwards, you run the database migrations to include the database tables that would be needed for the application by using the command
+-   Afterwards, run the database migrations to include the database tables that would be needed for the application
 
 ```
 php artisan migrate
@@ -86,9 +85,9 @@ php artisan migrate
 php artisan key:generate
 ```
 
-## Usage
+## Usage Instructions
 
-## Running the web application
+### Running the web application
 
 -   Compile the Front-end assets
 
