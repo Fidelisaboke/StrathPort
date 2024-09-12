@@ -11,6 +11,17 @@
 
 This project aims to create a web application for school transport scheduling and vehicle allocation at Strathmore University. It includes modules for transport requests, transport schedules, carpool drivers, and admin functions. The goal is to provide reliable transportation and efficient communication within the school. The system will centralize the management of transport and improve daily operations and extracurricular activities.
 
+## Table of Contents
+
+- Setup and Installation
+- Steps for project setup
+- Usage Instructions
+- Project Structure
+- Known Issues
+- Acknowledgements
+- Contact Information
+- License
+
 ## Setup and Installation
 
 ### Installation Requirements
