@@ -1,0 +1,390 @@
+.
+├── app
+│   ├── Actions
+│   │   ├── Fortify
+│   │   │   ├── CreateNewUser.php
+│   │   │   ├── PasswordValidationRules.php
+│   │   │   ├── ResetUserPassword.php
+│   │   │   ├── UpdateUserPassword.php
+│   │   │   └── UpdateUserProfileInformation.php
+│   │   └── Jetstream
+│   │       └── DeleteUser.php
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── Admin
+│   │   │   │   ├── AdminController.php
+│   │   │   │   ├── CarpoolDriverController.php
+│   │   │   │   ├── CarpoolVehicleController.php
+│   │   │   │   ├── Report
+│   │   │   │   │   └── TransportRequestReportController.php
+│   │   │   │   ├── SchoolDriverController.php
+│   │   │   │   ├── SchoolVehicleController.php
+│   │   │   │   ├── StaffController.php
+│   │   │   │   ├── StudentController.php
+│   │   │   │   ├── TransportRequestController.php
+│   │   │   │   ├── TransportScheduleController.php
+│   │   │   │   └── UserController.php
+│   │   │   ├── CarpoolDriver
+│   │   │   │   ├── CarpoolingDetailsController.php
+│   │   │   │   ├── CarpoolRequestController.php
+│   │   │   │   └── CarpoolVehicleController.php
+│   │   │   ├── CarpoolingDetailsController.php
+│   │   │   ├── CarpoolRequestController.php
+│   │   │   ├── Controller.php
+│   │   │   ├── LockScreenController.php
+│   │   │   ├── NotificationController.php
+│   │   │   ├── TransportRequestController.php
+│   │   │   └── TransportScheduleController.php
+│   │   └── Middleware
+│   │       ├── CheckIfActive.php
+│   │       ├── CheckIfAdmin.php
+│   │       └── CheckIfLocked.php
+│   ├── Listeners
+│   │   ├── SendLoginNotification.php
+│   │   └── UserRegisteredNotification.php
+│   ├── Livewire
+│   │   ├── DeleteConfirmationModal.php
+│   │   ├── HomeNavMenu.php
+│   │   ├── LogoutConfirmationModal.php
+│   │   ├── Profile
+│   │   │   ├── UpdateCarpoolDriverInformationForm.php
+│   │   │   └── ...
+│   │   ├── TransportRequestDeclinedModal.php
+│   │   ├── TripCancelConfirmationModal.php
+│   │   └── TripCompletedConfirmationModal.php
+│   ├── Models
+│   │   ├── CarpoolDriver.php
+│   │   ├── CarpoolingDetails.php
+│   │   ├── CarpoolRequest.php
+│   │   ├── CarpoolVehicle.php
+│   │   ├── SchoolDriver.php
+│   │   ├── SchoolVehicle.php
+│   │   ├── Staff.php
+│   │   ├── Student.php
+│   │   ├── TransportRequest.php
+│   │   ├── TransportSchedule.php
+│   │   └── User.php
+│   ├── Notifications
+│   │   ├── AccountActivatedNotification.php
+│   │   └── ...
+│   ├── Providers
+│   │   ├── AppServiceProvider.php
+│   │   ├── FortifyServiceProvider.php
+│   │   └── JetstreamServiceProvider.php
+│   └── View
+│       └── Components
+│           ├── AdminAppLayout.php
+│           ├── AdminDashboard.ph
+│           ├── ...
+│           ├── Tables
+│           │   ├── TableCarpoolDriversEdit.php
+│           │   └── ...
+│           ├── TransportRequestDoughnut.php
+│           ├── TransportRequestsFilter.php
+│           ├── TransportRequestsView.php
+│           ├── TransportSchedulesView.php
+│           ├── TripStatusBar.php
+│           ├── TripStatusFilter.php
+│           ├── UpcomingCarpoolTripsTable.php
+│           ├── UpcomingTripsTable.php
+│           └── UserProfileCard.php
+├── artisan
+├── bootstrap
+│   ├── app.php
+│   ├── cache
+│   └── providers.php
+├── composer.json
+├── composer.lock
+├── config
+│   ├── app.php
+│   ├── auth.php
+│   ├── cache.php
+│   ├── database.php
+│   ├── filesystems.php
+│   ├── fortify.php
+│   ├── jetstream.php
+│   ├── logging.php
+│   ├── mail.php
+│   ├── permission.php
+│   ├── queue.php
+│   ├── sanctum.php
+│   ├── services.php
+│   └── session.php
+├── database
+│   ├── factories
+│   │   └── UserFactory.php
+│   ├── migrations
+│   │   ├── 0001_01_01_000000_create_users_table.php
+│   │   ├── 0001_01_01_000001_create_cache_table.php
+│   │   ├── 0001_01_01_000002_create_jobs_table.php
+│   │   ├── 2024_05_21_114346_add_two_factor_columns_to_users_table.php
+│   │   ├── 2024_05_21_114435_create_personal_access_tokens_table.php
+│   │   ├── 2024_06_12_094828_create_transport_requests_table.php
+│   │   ├── 2024_06_12_100708_create_students_table.php
+│   │   ├── 2024_06_12_100738_create_staff_table.php
+│   │   ├── 2024_06_21_074047_create_school_drivers_table.php
+│   │   ├── 2024_06_21_074111_create_school_vehicles_table.php
+│   │   ├── 2024_06_21_074250_create_carpool_drivers_table.php
+│   │   ├── 2024_06_21_074307_create_carpool_vehicles_table.php
+│   │   ├── 2024_06_21_100224_create_transport_schedules_table.php
+│   │   ├── 2024_06_30_082658_create_carpool_requests_table.php
+│   │   ├── 2024_06_30_083753_create_carpooling_details_table.php
+│   │   ├── 2024_07_02_080143_create_permission_tables.php
+│   │   └── 2024_07_11_191721_create_notifications_table.php
+│   └── seeders
+│       ├── CarpoolDriverSeeder.php
+│       ├── CarpoolingDetailsSeeder.php
+│       ├── CarpoolRequestSeeder.php
+│       ├── CarpoolVehicleSeeder.php
+│       ├── DatabaseSeeder.php
+│       ├── RolePermissionSeeder.php
+│       ├── SchoolDriverSeeder.php
+│       ├── SchoolVehicleSeeder.php
+│       ├── StaffSeeder.php
+│       ├── StudentSeeder.php
+│       ├── TransportRequestSeeder.php
+│       ├── TransportScheduleSeeder.php
+│       └── UserSeeder.php
+├── .editorconfig
+├── .env.example
+├── .gitattributes
+├── .github
+│   └── workflows
+│       └── laravel.yml
+├── .gitignore
+├── LICENSE
+├── package.json
+├── package-lock.json
+├── phpunit.xml
+├── postcss.config.js
+├── public
+│   ├── favicon.ico
+│   ├── images
+│   │   ├── car_placeholder.png
+│   │   └── school_bus_3d.png
+│   ├── index.php
+│   └── robots.txt
+├── README.md
+├── resources
+│   ├── css
+│   │   └── app.css
+│   ├── js
+│   │   ├── app.js
+│   │   ├── bootstrap.js
+│   │   ├── lock-screen.js
+│   │   └── tailwind.config.js
+│   ├── markdown
+│   │   ├── policy.md
+│   │   └── terms.md
+│   └── views
+│       ├── about.blade.php
+│       ├── admin
+│       │   ├── carpool_drivers
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── carpool_vehicles
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── school_drivers
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── school_vehicles
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── transport_requests
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   ├── report.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── transport_schedules
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   └── users
+│       │       ├── create.blade.php
+│       │       ├── edit.blade.php
+│       │       ├── index.blade.php
+│       │       └── show.blade.php
+│       ├── api
+│       │   ├── api-token-manager.blade.php
+│       │   └── index.blade.php
+│       ├── auth
+│       │   ├── confirm-password.blade.php
+│       │   ├── forgot-password.blade.php
+│       │   ├── login.blade.php
+│       │   ├── register.blade.php
+│       │   ├── reset-password.blade.php
+│       │   ├── two-factor-challenge.blade.php
+│       │   └── verify-email.blade.php
+│       ├── components
+│       │   ├── action-message.blade.php
+│       │   ├── action-section.blade.php
+│       │   ├── admin-app-layout.blade.php
+│       │   ├── admin-dashboard.blade.php
+│       │   ├── admin-nav-link.blade.php
+│       │   ├── admin-profile.blade.php
+│       │   ├── admin-section-border.blade.php
+│       │   ├── admin-sidebar.blade.php
+│       │   ├── application-logo.blade.php
+│       │   ├── application-mark.blade.php
+│       │   ├── authentication-card.blade.php
+│       │   ├── authentication-card-logo.blade.php
+│       │   ├── availability-filter.blade.php
+│       │   ├── banner.blade.php
+│       │   ├── button.blade.php
+│       │   ├── button-link.blade.php
+│       │   ├── carpool-driver-dashboard.blade.php
+│       │   ├── carpooling-details-view.blade.php
+│       │   ├── carpool-requests-view.blade.php
+│       │   ├── carpool-trips-status-bar.blade.php
+│       │   ├── carpool-vehicle-card.blade.php
+│       │   ├── carpool-vehicle-index-card.blade.php
+│       │   ├── checkbox.blade.php
+│       │   ├── confirmation-modal.blade.php
+│       │   ├── confirms-password.blade.php
+│       │   ├── danger-button.blade.php
+│       │   ├── decline-form-modal.blade.php
+│       │   ├── dialog-modal.blade.php
+│       │   ├── dropdown.blade.php
+│       │   ├── dropdown-link.blade.php
+│       │   ├── form-section.blade.php
+│       │   ├── input.blade.php
+│       │   ├── input-error.blade.php
+│       │   ├── label.blade.php
+│       │   ├── lock-screen-button.blade.php
+│       │   ├── modal.blade.php
+│       │   ├── nav-link.blade.php
+│       │   ├── notification-button.blade.php
+│       │   ├── responsive-nav-link.blade.php
+│       │   ├── search-field.blade.php
+│       │   ├── secondary-button.blade.php
+│       │   ├── section-border.blade.php
+│       │   ├── section-title.blade.php
+│       │   ├── staff-dashboard.blade.php
+│       │   ├── status-message.blade.php
+│       │   ├── student-dashboard.blade.php
+│       │   ├── svg
+│       │   │   ├── calendar.blade.php
+│       │   │   ├── clock.blade.php
+│       │   │   ├── id-card.blade.php
+│       │   │   ├── location-dot.blade.php
+│       │   │   └── location-dot-fill.blade.php
+│       │   ├── switchable-team.blade.php
+│       │   ├── tables
+│       │   │   ├── table-carpool-drivers-edit.blade.php
+│       │   │   ├── table-carpool-vehicles-edit.blade.php
+│       │   │   ├── table-links.blade.php
+│       │   │   ├── table-school-drivers-edit.blade.php
+│       │   │   ├── table-school-vehicles-edit.blade.php
+│       │   │   ├── table-transport-requests-edit.blade.php
+│       │   │   ├── table-transport-schedules-edit.blade.php
+│       │   │   └── table-users-edit.blade.php
+│       │   ├── table-template.blade.php
+│       │   ├── transport-request-doughnut.blade.php
+│       │   ├── transport-requests-filter.blade.php
+│       │   ├── transport-requests-view.blade.php
+│       │   ├── transport-schedules-view.blade.php
+│       │   ├── trip-status-bar.blade.php
+│       │   ├── trip-status-filter.blade.php
+│       │   ├── upcoming-carpool-trips-table.blade.php
+│       │   ├── upcoming-trips-table.blade.php
+│       │   ├── user-profile-card.blade.php
+│       │   ├── validation-errors.blade.php
+│       │   └── welcome.blade.php
+│       ├── dashboard.blade.php
+│       ├── driver
+│       │   ├── carpooling_details
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── carpool_requests
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   └── carpool_vehicles
+│       │       ├── create.blade.php
+│       │       ├── edit.blade.php
+│       │       └── index.blade.php
+│       ├── emails
+│       │   └── team-invitation.blade.php
+│       ├── home.blade.php
+│       ├── layouts
+│       │   ├── app.blade.php
+│       │   └── guest.blade.php
+│       ├── livewire
+│       │   ├── delete-confirmation-modal.blade.php
+│       │   ├── home-nav-menu.blade.php
+│       │   ├── logout-confirmation-modal.blade.php
+│       │   ├── profile
+│       │   │   ├── update-carpool-driver-information-form.blade.php
+│       │   │   ├── update-staff-information-form.blade.php
+│       │   │   └── update-student-information-form.blade.php
+│       │   ├── transport-request-declined-modal.blade.php
+│       │   ├── trip-cancel-confirmation-modal.blade.php
+│       │   └── trip-completed-confirmation-modal.blade.php
+│       ├── lock.blade.php
+│       ├── navigation-menu.blade.php
+│       ├── policy.blade.php
+│       ├── profile
+│       │   ├── delete-user-form.blade.php
+│       │   ├── logout-other-browser-sessions-form.blade.php
+│       │   ├── show.blade.php
+│       │   ├── two-factor-authentication-form.blade.php
+│       │   ├── update-password-form.blade.php
+│       │   └── update-profile-information-form.blade.php
+│       ├── terms.blade.php
+│       ├── user
+│       │   ├── carpooling_details
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── carpool_requests
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   ├── transport_requests
+│       │   │   ├── create.blade.php
+│       │   │   ├── edit.blade.php
+│       │   │   ├── index.blade.php
+│       │   │   └── show.blade.php
+│       │   └── transport_schedules
+│       │       ├── index.blade.php
+│       │       └── show.blade.php
+│       └── vendor
+│           └── pagination
+│               ├── bootstrap-4.blade.php
+│               ├── tailwind.blade.php
+│               └── ...
+├── routes
+│   ├── api.php
+│   ├── console.php
+│   └── web.php
+├── storage
+│   ├── app
+│   │   └── public
+│   ├── framework
+│   │   ├── cache
+│   │   │   └── data
+│   │   ├── sessions
+│   │   ├── testing
+│   │   └── views
+│   └── logs
+├── tailwind.config.js
+├── tests
+│   ├── Feature
+│   │   ├── ApiTokenPermissionsTest.php
+│   │   ├── UpdatePasswordTest.php
+│   │   └── ...
+│   ├── TestCase.php
+│   └── Unit
+│       └── ExampleTest.php
+├── treestructure.txt
+└── vite.config.js
