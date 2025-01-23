@@ -52,7 +52,7 @@ class CarpoolRequestController extends Controller
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'carpool_driver_id' => 'required|integer',
-            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
+            'departure_date' => 'required|date|before:' . Carbon::now()->addMonths(6) .'|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'departure_time' => 'required',
             'departure_location' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
