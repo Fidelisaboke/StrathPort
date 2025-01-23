@@ -145,7 +145,7 @@ class CarpoolRequestController extends Controller
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
             'carpool_driver_id' => 'required|integer',
-            'departure_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
+            'departure_date' => 'required|date|before:'. Carbon::now()->addMonths(6) .'|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'departure_time' => 'required',
             'departure_location' => 'required|string|max:255',
             'destination' => 'required|string|max:255',
@@ -208,14 +208,17 @@ class CarpoolRequestController extends Controller
     {
         abort_unless(Gate::any(['student', 'staff']), 403, 'Forbidden');
 
-        $search = $request->get('search');
+        $search = $request->input('search');
+
         $carpoolRequests = CarpoolRequest::where('user_id', Auth::id())
-            ->where('title', 'like', '%' . $search . '%')
+        ->where(function($query) use ($search) {
+            $query->where('title', 'like', '%' . $search . '%')
             ->orWhere('description', 'like', '%' . $search . '%')
             ->orWhere('departure_location', 'like', '%' . $search . '%')
-            ->orWhere('destination', 'like', '%' . $search . '%')
-            ->orderByDesc('id')
-            ->paginate(10);
+            ->orWhere('destination', 'like', '%' . $search . '%');
+        })
+        ->orderByDesc('id')
+        ->paginate(10);
         return view('user.carpool_requests.index', compact('carpoolRequests'));
     }
 

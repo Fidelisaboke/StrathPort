@@ -133,7 +133,7 @@ class TransportRequestController extends Controller
         $validator = Validator::make($request->all(), [
             'title' => 'required',
             'description' => 'required',
-            'event_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
+            'event_date' => 'required|date|before:'. Carbon::now()->addMonths(6) .'|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required',
             'no_of_people' => 'required|integer|between:1,200',
@@ -197,14 +197,16 @@ class TransportRequestController extends Controller
 
         $search = $request->input('search');
 
-        // Search for transport requests for the user
+        // Search for transport requests for the specific user
         $transportRequests = TransportRequest::where('user_id', Auth::id())
-            ->where('title', 'LIKE', "%$search%")
-            ->orWhere('description', 'LIKE', "%$search%")
-            ->orWhere('event_date', 'LIKE', "%$search%")
-            ->orWhere('event_time', 'LIKE', "%$search%")
-            ->orWhere('event_location', 'LIKE', "%$search%")
-            ->orWhere('no_of_people', 'LIKE', "%$search%")
+            ->where(function($query) use ($search) {
+            $query->where('title', 'LIKE', "%$search%")
+                ->orWhere('description', 'LIKE', "%$search%")
+                ->orWhere('event_date', 'LIKE', "%$search%")
+                ->orWhere('event_time', 'LIKE', "%$search%")
+                ->orWhere('event_location', 'LIKE', "%$search%")
+                ->orWhere('no_of_people', 'LIKE', "%$search%");
+            })
             ->orderByDesc('id')
             ->paginate(10);
 
