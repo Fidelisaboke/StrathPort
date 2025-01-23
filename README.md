@@ -204,13 +204,11 @@ The file tree is generated using the command `git ls-tree -r --name-only HEAD | 
 
 The following limitations or bugs are present in the project
 
-1. **Carpool Schedules 'Search' feature**
-- Returns all records for users and carpool drivers instead of filtering based on specific user.
-2. **Transport Request Limiting**
+1. **Transport Request Limiting**
 - At the moment, it is limited by school vehicle availability, which is not reliable in handling the potential of many requests
-3. **Admin Monthly Report Generation**
+2. **Admin Monthly Report Generation**
 - The functionality is present in the code, but was isolated and replaced with a link to the view of the report
-4. **High Latency Issues**
+3. **High Latency Issues**
 - Some functionalities, especially involving email notifications, take longer than the recommended 500ms response time, which could lead to a poor user experience
 
 ## Acknowledgements
