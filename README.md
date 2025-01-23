@@ -117,279 +117,88 @@ php artisan serve
 ### Tree Structure
 
 ```
-C:.
-|   .env.example
-|   artisan
-|   composer.json
-|   composer.lock
-|   LICENSE
-|   package-lock.json
-|   package.json
-|   phpunit.xml
-|   postcss.config.js
-|   README.md
-|   tailwind.config.js
-|   treestructure.txt
-|   vite.config.js
-|
-+---.github
-|   \---workflows
-|           laravel.yml
-|
-+---app
-|   +---Actions
-|   |   +---Fortify
-|   |   |       CreateNewUser.php
-|   |   |       ...
-|   |   |
-|   |   \---Jetstream
-|   |           DeleteUser.php
-|   |
-|   +---Http
-|   |   +---Controllers
-|   |   |   |   CarpoolingDetailsController.php
-|   |   |   |   ...
-|   |   |   |
-|   |   |   +---Admin
-|   |   |   |   |   CarpoolDriverController.php
-|   |   |   |   |   ...
-|   |   |   |   |
-|   |   |   |   \---Report
-|   |   |   |           TransportRequestReportController.php
-|   |   |   |
-|   |   |   \---CarpoolDriver
-|   |   |           CarpoolingDetailsController.php
-|   |   |           ...
-|   |   |
-|   |   \---Middleware
-|   |           CheckIfActive.php
-|   |           CheckIfAdmin.php
-|   |           CheckIfLocked.php
-|   |
-|   +---Listeners
-|   |       UserRegisteredNotification.php
-|   |       ...
-|   |
-|   +---Livewire
-|   |   |   DeleteConfirmationModal.php
-|   |   |   ...
-|   |   |
-|   |   \---Profile
-|   |           UpdateCarpoolDriverInformationForm.php
-|   |           ...
-|   |
-|   +---Models
-|   |       CarpoolDriver.php
-|   |       ...
-|   |
-|   +---Notifications
-|   |       AccountActivatedNotification.php
-|   |       CarpoolRequestApprovedNotification.php
-|   |       CarpoolRequestDeclinedNotification.php
-|   |       ...
-|   |
-|   +---Providers
-|   |       AppServiceProvider.php
-|   |       FortifyServiceProvider.php
-|   |       JetstreamServiceProvider.php
-|   |
-|   \---View
-|       \---Components
-|           |
-|           \---Tables
-|
-+---bootstrap
-|   |   app.php
-|   |   providers.php
-|   |
-|   \---cache
-|           .gitignore
-|           packages.php
-|           services.php
-|
-+---config
-|       app.php
-|       ...
-|
-+---database
-|   |   .gitignore
-|   |   database.sqlite
-|   |
-|   +---factories
-|   |       UserFactory.php
-|   |
-|   +---migrations
-|   |       0001_01_01_000000_create_users_table.php
-|   |       ...
-|   |
-|   \---seeders
-|           CarpoolDriverSeeder.php
-|           CarpoolingDetailsSeeder.php
-|           CarpoolRequestSeeder.php
-|           ...
-|
-+---node_modules
-|
-+---public
-|   |   .htaccess
-|   |   favicon.ico
-|   |   index.php
-|   |   robots.txt
-|   |
-|   +---build
-|   |   |   manifest.json
-|   |   |
-|   |   \---assets
-|   |           app-BTmiF04Y.js
-|   |           app-CHKmmfF4.css
-|   |
-|   +---images
-|   |       car_placeholder.png
-|   |       school_bus_3d.png
-|   |
-|   \---storage
-|
-+---resources
-|   +---css
-|   |       app.css
-|   |
-|   +---js
-|   |       app.js
-|   |       bootstrap.js
-|   |       lock-screen.js
-|   |       tailwind.config.js
-|   |
-|   +---markdown
-|   |       policy.md
-|   |       terms.md
-|   |
-|   \---views
-|       |   about.blade.php
-|       |   dashboard.blade.php
-|       |   home.blade.php
-|       |   lock.blade.php
-|       |   ...
-|       |
-|       +---admin
-|       |   +---carpool_drivers
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---carpool_vehicles
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---school_drivers
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---school_vehicles
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---transport_requests
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---transport_schedules
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   \---users
-|       |           create.blade.php
-|       |           ...
-|       |
-|       +---api
-|       |       api-token-manager.blade.php
-|       |       index.blade.php
-|       |
-|       +---auth
-|       |       confirm-password.blade.php
-|       |       ...
-|       |
-|       +---components
-|       |   |
-|       |   +---svg
-|       |   |
-|       |   \---tables
-|       |
-|       +---driver
-|       |   +---carpooling_details
-|       |   |       index.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---carpool_requests
-|       |   |       index.blade.php
-|       |   |       ...
-|       |   |
-|       |   \---carpool_vehicles
-|       |           create.blade.php
-|       |           ...
-|       |
-|       +---emails
-|       |       team-invitation.blade.php
-|       |
-|       +---layouts
-|       |       app.blade.php
-|       |       guest.blade.php
-|       |
-|       +---livewire
-|       |   |   delete-confirmation-modal.blade.php
-|       |   |   home-nav-menu.blade.php
-|       |   |   ...
-|       |   |
-|       |   \---profile
-|       |           update-carpool-driver-information-form.blade.php
-|       |           ...
-|       |
-|       +---profile
-|       |       delete-user-form.blade.php
-|       |       ...
-|       |
-|       +---user
-|       |   +---carpooling_details
-|       |   |       index.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---carpool_requests
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   +---transport_requests
-|       |   |       create.blade.php
-|       |   |       ...
-|       |   |
-|       |   \---transport_schedules
-|       |           index.blade.php
-|       |           ...
-|       |
-|       \---vendor
-|           \---pagination
-|
-+---routes
-|       api.php
-|       console.php
-|       web.php
-|
-+---storage
-|   +---app
-|   |
-|   +---framework
-|   |
-|   \---logs
-|
-+---tests
-|   |   TestCase.php
-|   |
-|   +---Feature
-|   |       ApiTokenPermissionsTest.php
-|   |       ...
-|   |
-|   \---Unit
-|           ExampleTest.php
+.
+├── app
+│   ├── Actions
+│   │   ├── Fortify
+│   │   └── Jetstream
+│   ├── Http
+│   │   ├── Controllers
+│   │   │   ├── Admin
+│   │   │   │   └── Report
+│   │   │   └── CarpoolDriver
+│   │   └── Middleware
+│   ├── Listeners
+│   ├── Livewire
+│   │   └── Profile
+│   ├── Models
+│   ├── Notifications
+│   ├── Providers
+│   └── View
+│       └── Components
+│           └── Tables
+├── bootstrap
+│   └── cache
+├── config
+├── database
+│   ├── factories
+│   ├── migrations
+│   └── seeders
+├── .github
+│   └── workflows
+├── public
+│   └── images
+├── resources
+│   ├── css
+│   ├── js
+│   ├── markdown
+│   └── views
+│       ├── admin
+│       │   ├── carpool_drivers
+│       │   ├── carpool_vehicles
+│       │   ├── school_drivers
+│       │   ├── school_vehicles
+│       │   ├── transport_requests
+│       │   ├── transport_schedules
+│       │   └── users
+│       ├── api
+│       ├── auth
+│       ├── components
+│       │   ├── svg
+│       │   └── tables
+│       ├── driver
+│       │   ├── carpooling_details
+│       │   ├── carpool_requests
+│       │   └── carpool_vehicles
+│       ├── emails
+│       ├── layouts
+│       ├── livewire
+│       │   └── profile
+│       ├── profile
+│       ├── user
+│       │   ├── carpooling_details
+│       │   ├── carpool_requests
+│       │   ├── transport_requests
+│       │   └── transport_schedules
+│       └── vendor
+│           └── pagination
+├── routes
+├── storage
+│   ├── app
+│   │   └── public
+│   ├── framework
+│   │   ├── cache
+│   │   │   └── data
+│   │   ├── sessions
+│   │   ├── testing
+│   │   └── views
+│   └── logs
+└── tests
+    ├── Feature
+    └── Unit
 ```
 
-The file tree is generated using the command `tree /F /A > treestructure.txt`
+The file tree is generated using the command `git ls-tree -r --name-only HEAD | tree --fromfile -d`
 
 ## Known Issues
 
