@@ -40,25 +40,30 @@ Before installing and setting up this project in your local storage you must hav
 
 -   Once you have the specified requirements above, clone the project repository to your desired directory by running the command:
 
-```
+```bash
 git clone https://github.com/Fidelisaboke/StrathPort.git
+```
+
+- Navigate to the project directory:
+```bash
+cd StrathPort
 ```
 
 -   Install Composer dependencies
 
-```
+```bash
 composer install
 ```
 
 -   Install node dependencies
 
-```
+```bash
 npm install
 ```
 
 -   Copy the .env.example file to .env
 
-```
+```bash
 cp .env.example .env
 ```
 
@@ -86,15 +91,22 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 -   Afterwards, run the database migrations to include the database tables that would be needed for the application
 
-```
+```bash
 php artisan migrate
 ```
 
--   Generate an application key
+-   Generate an application key:
 
-```
+```bash
 php artisan key:generate
 ```
+
+-   Create a symbolic link with the storage folder:
+This is important since the image upload features make use of the storage folder
+```bash
+php artisan storage:link
+```
+
 
 ## Usage Instructions
 
@@ -102,13 +114,13 @@ php artisan key:generate
 
 -   Compile the Front-end assets
 
-```
+```bash
 npm run dev
 ```
 
 -   Start the development server
 
-```
+```bash
 php artisan serve
 ```
 
