@@ -13,16 +13,18 @@ This project aims to create a web application for school transport scheduling an
 
 ## Table of Contents
 
-- Setup and Installation
-- Steps for project setup
-- Usage Instructions
-- Project Structure
-- Known Issues
-- Acknowledgements
-- Contact Information
-- License
+1. [Installation and Setup](#installation-and-setup)
+    - [Installation Requirements](#installation-requirements)
+2. [Steps for project setup](#steps-for-project-setup)
+3. [Usage Instructions](#usage-instructions)
+    - [Running the web application](#running-the-web-application)
+4. [Project Structure](#project-structure)
+5. [Known Issues](#known-issues)
+6. [Acknowledgements](#acknowledgements)
+7. [Contact Information](#contact-information)
+8. [License](#license)
 
-## Setup and Installation
+## Installation and Setup
 
 ### Installation Requirements
 
