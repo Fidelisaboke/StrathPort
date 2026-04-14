@@ -4,8 +4,9 @@ FROM dunglas/frankenphp:1.4-php8.4-alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     COMPOSER_ALLOW_SUPERUSER=1 \
-    SERVER_NAME=0.0.0.0:80 \
-    PUBLIC_ROOT=/app/public
+    SERVER_NAME=:8080 \
+    PUBLIC_ROOT=/app/public \
+    LOG_CHANNEL=stderr
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -78,9 +79,10 @@ RUN { \
     echo 'opcache.enable_cli=1'; \
 } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# Copy custom Caddyfile and set permissions
+# Copy custom Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
 
-EXPOSE 80
+# Expose port 8080
+EXPOSE 8080
 
-CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
+# The entrypoint is already set to frankenphp in the base image
