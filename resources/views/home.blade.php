@@ -16,7 +16,7 @@
 <body class="font-montserrat">
     <!-- Navbar -->
     <header>
-        @livewire('home-nav-menu')`
+        @livewire('home-nav-menu')
     </header>
 
     <!-- Headline -->
