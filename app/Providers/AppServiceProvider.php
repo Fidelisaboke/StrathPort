@@ -42,5 +42,17 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('carpool_driver', function($user){
             return $user->hasRole('carpool_driver');
         });
+
+        // PDF / Browsershot configuration for Docker/Production
+        if (env('PUPPETEER_EXECUTABLE_PATH')) {
+            \Spatie\LaravelPdf\Facades\Pdf::default()
+                ->withBrowsershot(function (\Spatie\Browsershot\Browsershot $browsershot) {
+                    $browsershot->setChromePath(env('PUPPETEER_EXECUTABLE_PATH'))
+                        ->addChromiumArguments([
+                            'no-sandbox',
+                            'disable-setuid-sandbox',
+                        ]);
+                });
+        }
     }
 }
