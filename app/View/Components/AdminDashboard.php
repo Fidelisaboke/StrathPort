@@ -40,16 +40,23 @@ class AdminDashboard extends Component
         $this->totalcarpoolVehicles = CarpoolVehicle::count('id');
 
         // Request approval rate
-        $this->requestApprovalRate = number_format((TransportRequest::where('status', 'Approved')->count() / $this->totalTransportRequests) * 100, 2);
+        $total = $this->totalTransportRequests;
+        $this->requestApprovalRate = $total > 0 
+            ? number_format((TransportRequest::where('status', 'Approved')->count() / $total) * 100, 2)
+            : 0;
 
         // Peak request month
-        $this->peakRequestMonth = TransportRequest::selectRaw('EXTRACT(MONTH FROM event_date) as month, count(*) as requests')
+        $peak = TransportRequest::selectRaw('EXTRACT(MONTH FROM event_date) as month, count(*) as requests')
             ->groupBy('month')
             ->orderBy('requests', 'desc')
             ->first();
 
         // Return the month name
-        $this->peakRequestMonth = date('F', mktime(0, 0, 0, $this->peakRequestMonth->month, 10));
+        if ($peak && $peak->month) {
+            $this->peakRequestMonth = date('F', mktime(0, 0, 0, $peak->month, 10));
+        } else {
+            $this->peakRequestMonth = 'N/A';
+        }
     }
 
     /**
