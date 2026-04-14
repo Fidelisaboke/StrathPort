@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1.1-php8.2-alpine
+FROM dunglas/frankenphp:1.4-php8.4-alpine
 
 # Set environment variables for Puppeteer and Laravel
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \

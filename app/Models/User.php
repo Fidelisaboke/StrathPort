@@ -99,11 +99,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Inverse one-to-one relationship between User and Transport Request
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * Inverse one-to-many relationship between User and Transport Request
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function transportRequest(){
-        return $this->hasOne(TransportRequest::class);
+    public function transportRequests(){
+        return $this->hasMany(TransportRequest::class);
     }
 
     /**

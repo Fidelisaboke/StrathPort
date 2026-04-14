@@ -17,7 +17,7 @@ class SchoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $schoolVehicles = SchoolVehicle::paginate(10);
+        $schoolVehicles = SchoolVehicle::with('schoolDriver')->paginate(10);
         return view('admin.school_vehicles.index', compact('schoolVehicles'));
     }
 
@@ -160,15 +160,15 @@ class SchoolVehicleController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $search = $request->get('search');
-        $schoolVehicles = SchoolVehicle::where('id', 'like', '%' . $search . '%')
-            ->orWhere('school_driver_id', 'like', '%' . $search . '%')
-            ->orWhere('make', 'like', '%' . $search . '%')
-            ->orWhere('model', 'like', '%' . $search . '%')
-            ->orWhere('year', 'like', '%' . $search . '%')
-            ->orWhere('number_plate', 'like', '%' . $search . '%')
-            ->orWhere('capacity', 'like', '%' . $search . '%')
-            ->paginate(10);
+        $schoolVehicles = SchoolVehicle::with('schoolDriver')->where(function ($query) use ($search) {
+            $query->where('id', 'like', '%' . $search . '%')
+                ->orWhere('school_driver_id', 'like', '%' . $search . '%')
+                ->orWhere('make', 'like', '%' . $search . '%')
+                ->orWhere('model', 'like', '%' . $search . '%')
+                ->orWhere('year', 'like', '%' . $search . '%')
+                ->orWhere('number_plate', 'like', '%' . $search . '%')
+                ->orWhere('capacity', 'like', '%' . $search . '%');
+        })->paginate(10);
 
         return view('admin.school_vehicles.index', compact('schoolVehicles'));
     }
@@ -183,9 +183,9 @@ class SchoolVehicleController extends Controller
         $status = $request->get('status');
 
         if ($status === 'All') {
-            $schoolVehicles = SchoolVehicle::paginate(10);
+            $schoolVehicles = SchoolVehicle::with('schoolDriver')->paginate(10);
         } else {
-            $schoolVehicles = SchoolVehicle::where('availability_status', $status)->paginate(10);
+            $schoolVehicles = SchoolVehicle::with('schoolDriver')->where('availability_status', $status)->paginate(10);
         }
 
         return view('admin.school_vehicles.index', compact('schoolVehicles'));

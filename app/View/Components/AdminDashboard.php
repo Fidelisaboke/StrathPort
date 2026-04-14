@@ -43,7 +43,7 @@ class AdminDashboard extends Component
         $this->requestApprovalRate = number_format((TransportRequest::where('status', 'Approved')->count() / $this->totalTransportRequests) * 100, 2);
 
         // Peak request month
-        $this->peakRequestMonth = TransportRequest::selectRaw('MONTH(event_date) as month, count(*) as requests')
+        $this->peakRequestMonth = TransportRequest::selectRaw('EXTRACT(MONTH FROM event_date) as month, count(*) as requests')
             ->groupBy('month')
             ->orderBy('requests', 'desc')
             ->first();

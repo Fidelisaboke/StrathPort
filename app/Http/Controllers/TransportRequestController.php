@@ -107,7 +107,7 @@ class TransportRequestController extends Controller
     {
         abort_unless(Gate::allows('student'), 403, 'Forbidden');
 
-        $transportRequest = TransportRequest::find($id);
+        $transportRequest = Auth::user()->transportRequests()->findOrFail($id);
         return view('user.transport_requests.show', compact('transportRequest'));
     }
 
@@ -118,7 +118,7 @@ class TransportRequestController extends Controller
     {
         abort_unless(Gate::allows('student'), 403, 'Forbidden');
 
-        $transportRequest = TransportRequest::find($id);
+        $transportRequest = Auth::user()->transportRequests()->findOrFail($id);
         return view('user.transport_requests.edit', compact('transportRequest'));
     }
 
@@ -166,7 +166,8 @@ class TransportRequestController extends Controller
             $input['no_of_people'] = $request->no_of_people;
 
 
-            $requestUpdated = TransportRequest::find($id)->update($input);
+            $transportRequest = Auth::user()->transportRequests()->findOrFail($id);
+            $requestUpdated = $transportRequest->update($input);
 
             if(!$requestUpdated){
                 return redirect()->back()->with('error', 'Failed to update request');
@@ -184,7 +185,7 @@ class TransportRequestController extends Controller
     {
         abort_unless(Gate::allows('student'), 403, 'Forbidden');
 
-        TransportRequest::find($id)->delete();
+        Auth::user()->transportRequests()->findOrFail($id)->delete();
         return redirect('transport_requests')->with('success', 'Transport Request deleted successfully.');
     }
 
