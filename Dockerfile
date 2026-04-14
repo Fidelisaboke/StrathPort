@@ -4,8 +4,9 @@ FROM dunglas/frankenphp:1.4-php8.4-alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     COMPOSER_ALLOW_SUPERUSER=1 \
-    SERVER_NAME=:80 \
-    PUBLIC_ROOT=/app/public
+    SERVER_NAME=:8080 \
+    PUBLIC_ROOT=/app/public \
+    LOG_CHANNEL=stderr
 
 # Install system dependencies
 RUN apk add --no-cache \
@@ -25,7 +26,8 @@ RUN apk add --no-cache \
     postgresql-dev \
     git \
     unzip \
-    bash
+    bash \
+    libcap
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -40,7 +42,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
 RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && pecl install redis \
     && docker-php-ext-enable redis \
-    && apk del .build-deps
+    && apk del .build-deps \
+    && setcap -r /usr/local/bin/frankenphp \
+    && apk del libcap
 
 # Set working directory
 WORKDIR /app
@@ -75,7 +79,15 @@ RUN { \
     echo 'opcache.enable_cli=1'; \
 } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# Expose port 80
-EXPOSE 80
+# Copy custom Caddyfile
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# The entrypoint is already set to frankenphp in the base image
+# Copy entrypoint script and set permissions
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Expose port 8080
+EXPOSE 8080
+
+# Use the entrypoint script to run migrations and start the server
+CMD ["/usr/local/bin/entrypoint.sh"]

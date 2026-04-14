@@ -30,14 +30,16 @@ class UserSeeder extends Seeder
         foreach ($users as $userData) {
             $password = Str::random(12);
 
-            $user = User::create([
-                'name' => $userData['name'],
-                'email' => $userData['email'],
-                'password' => bcrypt($password),
-                'phone' => '+254712345678',
-                'account_status' => 'active',
-                'email_verified_at' => now(),
-            ]);
+            $user = User::firstOrCreate(
+                ['email' => $userData['email']],
+                [
+                    'name' => $userData['name'],
+                    'password' => bcrypt($password),
+                    'phone' => '+254700000000',
+                    'account_status' => 'active',
+                    'email_verified_at' => now(),
+                ]
+            );
 
             if ($userData['role']) {
                 $user->assignRole($userData['role']);

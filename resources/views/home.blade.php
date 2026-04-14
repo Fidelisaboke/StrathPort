@@ -26,7 +26,7 @@
                 <h1 class="max-w-2xl mb-4 text-4xl font-extrabold leading-none md:text-5xl xl:text-6xl dark:text-white">
                     StrathPort</h1>
                 <p
-                    class="max-w-2xl mb-6 font-light text-gray-800 dark:text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
+                    class="max-w-2xl mb-6 font-light text-gray-800 dark:text-gray-500 lg:mb-8 md:text-lg lg:text-xl">
                     Sign up now to take a step towards a smoother, safer, journey!</p>
                 <a href="{{ route('register') }}"
                     class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white transition ease-in-out delay-150 rounded-lg hover:-translate-y-1 hover:scale-125 bg-fuchsia-700 hover:bg-fuchsia-800 focus:ring-4 focus:ring-pink-300 dark:focus:ring-fuchsia-900">
