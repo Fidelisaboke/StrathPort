@@ -78,6 +78,9 @@ RUN { \
     echo 'opcache.enable_cli=1'; \
 } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+# Copy custom Caddyfile and set permissions
+COPY Caddyfile /etc/caddy/Caddyfile
+
 # Expose port 80
 EXPOSE 80
 
