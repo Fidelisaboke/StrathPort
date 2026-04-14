@@ -4,7 +4,7 @@ FROM dunglas/frankenphp:1.4-php8.4-alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     COMPOSER_ALLOW_SUPERUSER=1 \
-    SERVER_NAME=:8080 \
+    SERVER_NAME=:80 \
     PUBLIC_ROOT=/app/public
 
 # Install system dependencies
@@ -78,7 +78,7 @@ RUN { \
     echo 'opcache.enable_cli=1'; \
 } > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port 80
+EXPOSE 80
 
 # The entrypoint is already set to frankenphp in the base image
