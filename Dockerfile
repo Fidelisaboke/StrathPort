@@ -4,7 +4,7 @@ FROM dunglas/frankenphp:1.4-php8.4-alpine
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
     COMPOSER_ALLOW_SUPERUSER=1 \
-    SERVER_NAME=:80 \
+    SERVER_NAME=0.0.0.0:80 \
     PUBLIC_ROOT=/app/public
 
 # Install system dependencies
@@ -81,7 +81,6 @@ RUN { \
 # Copy custom Caddyfile and set permissions
 COPY Caddyfile /etc/caddy/Caddyfile
 
-# Expose port 80
 EXPOSE 80
 
-# The entrypoint is already set to frankenphp in the base image
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]
