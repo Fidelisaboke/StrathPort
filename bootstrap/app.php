@@ -13,7 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->append(CheckIfLocked::class);
+        $middleware->append([
+            \App\Http\Middleware\SecurityHeaders::class,
+            \App\Http\Middleware\CheckIfActive::class,
+            \App\Http\Middleware\CheckIfLocked::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

@@ -16,9 +16,12 @@ class CheckIfActive
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->account_status !== 'active' && Route::currentRouteName() !== 'dashboard'){
-            // Return to dashboard
-            return redirect()->route('dashboard');
+        if (auth()->check() && auth()->user()->account_status !== 'active') {
+            // Allow access only to dashboard or logout to prevent dead-ends
+            $allowedRoutes = ['dashboard', 'logout'];
+            if (!in_array(Route::currentRouteName(), $allowedRoutes)) {
+                return redirect()->route('dashboard')->with('error', 'Your account is inactive.');
+            }
         }
         return $next($request);
     }

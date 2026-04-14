@@ -10,6 +10,7 @@ use App\Models\TransportSchedule;
 use Spatie\LaravelPdf\Facades\Pdf;
 use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
@@ -26,7 +27,7 @@ class TransportRequestController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        $transportRequests = TransportRequest::orderByDesc('id')->paginate(10);
+        $transportRequests = TransportRequest::with('user')->orderByDesc('id')->paginate(10);
         return view('admin.transport_requests.index', compact('transportRequests'));
     }
 
@@ -52,7 +53,7 @@ class TransportRequestController extends Controller
             'user_id' => 'required|integer',
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
-            'event_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
+            'event_date' => 'required|date|after_or_equal:today',
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
@@ -107,11 +108,10 @@ class TransportRequestController extends Controller
     {
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
-        // Validate the request...
         $validator = Validator::make($request->all(), [
             'title' => 'required|string|max:60',
             'description' => 'required|string|max:255',
-            'event_date' => 'required|date|before:2024-12-31|after_or_equal:' . Carbon::now()->format('Y-m-d'),
+            'event_date' => 'required|date|after_or_equal:' . Carbon::now()->format('Y-m-d'),
             'event_time' => 'required|after:05:00|before:19:00',
             'event_location' => 'required|string|max:255',
             'no_of_people' => 'required|integer|between:1,200',
@@ -122,112 +122,60 @@ class TransportRequestController extends Controller
             return redirect('admin/transport_requests/' . $id . '/edit')
                 ->withErrors($validator->errors())
                 ->withInput();
-        } else {
-            $input = [
-                'title' => $request->title,
-                'description' => $request->description,
-                'event_date' => $request->event_date,
-                'event_time' => $request->event_time,
-                'event_location' => $request->event_location,
-                'no_of_people' => $request->no_of_people,
-                'status' => $request->status,
-            ];
+        }
 
+        return DB::transaction(function () use ($request, $id) {
+            $transportRequest = TransportRequest::findOrFail($id);
+            $input = $request->only(['title', 'description', 'event_date', 'event_time', 'event_location', 'no_of_people', 'status']);
 
-            // Update the corresponding transport schedule if exists
             $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
 
-            if ($request->status == 'Declined' && !empty($transportSchedule)) {
-                // Delete the corresponding transport schedule if exists
-                TransportSchedule::where('transport_request_id', $id)->delete();
+            if ($request->status == 'Declined' && $transportSchedule) {
+                $transportSchedule->delete();
+                $transportRequest->update($input);
 
-                $requestUpdated = TransportRequest::find($id)->update($input);
-
-                if (!$requestUpdated) {
-                    return redirect('admin/transport_requests/' . $id)
-                        ->with('error', 'An error occurred while updating the transport request status!')
-                        ->withInput();
-                }
-
-                $transportRequest = TransportRequest::find($id);
                 $user = $transportRequest->user;
-
-                // Notify the user
                 Notification::send($user, new TransportRequestDeclinedNotification($transportRequest));
-
-                $adminRole = Role::findByName('admin', 'web');
-                $admins = $adminRole->users;
-
-                // Notify all admins
+                $admins = Role::findByName('admin', 'web')->users;
                 Notification::send($admins, new TransportRequestDeclinedNotification($transportRequest));
             }
 
-            // If status changed to pending, delete the corresponding transport schedule
-            if ($request->status == 'Pending' && !empty($transportSchedule)) {
-                TransportSchedule::where('transport_request_id', $id)->delete();
-                return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request updated successfully! The corresponding transport schedule has been deleted.');
+            if ($request->status == 'Pending' && $transportSchedule) {
+                $transportSchedule->delete();
+                $transportRequest->update($input);
             }
 
-            if ($request->status == 'Approved' && empty($transportSchedule)) {
-                // Check if any school vehicle is available
-                $availableVehicles = SchoolVehicle::where('availability_status', 'Available')->count();
-                if ($availableVehicles < 1) {
+            if ($request->status == 'Approved' && !$transportSchedule) {
+                // Atomic check for available vehicles
+                $hasAvailable = SchoolVehicle::where('availability_status', 'Available')->lockForUpdate()->exists();
+                if (!$hasAvailable) {
                     return redirect('admin/transport_requests/' . $id)->with('error', 'No school vehicle is available. Request cannot be approved.');
                 }
 
-                // Create a corresponding transport schedule if not exists
                 $schedule = [
                     'transport_request_id' => $id,
-                    'title' => TransportRequest::find($id)->title,
-                    'description' => TransportRequest::find($id)->description,
-                    'schedule_date' => TransportRequest::find($id)->event_date,
-                    'schedule_time' => TransportRequest::find($id)->event_time,
+                    'title' => $transportRequest->title,
+                    'description' => $transportRequest->description,
+                    'schedule_date' => $transportRequest->event_date,
+                    'schedule_time' => $transportRequest->event_time,
                     'starting_point' => 'Strathmore University',
-                    'destination' => TransportRequest::find($id)->event_location,
+                    'destination' => $transportRequest->event_location,
                 ];
 
                 TransportSchedule::create($schedule);
+                $transportRequest->update($input);
 
-                // Check if transport schedule was created
-                $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
-                if (empty($transportSchedule)) {
-                    return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while creating the transport schedule!');
-                }
-
-                $requestUpdated = TransportRequest::find($id)->update($input);
-
-                if (!$requestUpdated) {
-                    return redirect('admin/transport_requests/' . $id)
-                        ->with('error', 'An error occurred while updating the transport request status!')
-                        ->withInput();
-                }
-
-                $transportRequest = TransportRequest::find($id);
                 $user = $transportRequest->user;
-
-                // Notify the user
                 Notification::send($user, new TransportRequestApprovedNotification($transportRequest));
-
-                $adminRole = Role::findByName('admin', 'web');
-                $admins = $adminRole->users;
-
-                // Notify all admins
+                $admins = Role::findByName('admin', 'web')->users;
                 Notification::send($admins, new TransportRequestApprovedNotification($transportRequest));
 
-                return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request approved successfully! A transport schedule has been created.');
+                return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request approved successfully!');
             }
 
-            $requestUpdated = TransportRequest::find($id)->update($input);
-
-            if (!$requestUpdated) {
-                return redirect('admin/transport_requests/' . $id)
-                    ->with('error', 'An error occurred while updating the transport request status!')
-                    ->withInput();
-            }
-
-            $message = $request->status == 'Declined' ? 'The corresponding transport schedule has been deleted.' : 'Request updated.';
-            return redirect('admin/transport_requests')->with('success', 'Transport request updated successfully! ' . $message);
-        }
+            $transportRequest->update($input);
+            return redirect('admin/transport_requests')->with('success', 'Transport request updated successfully!');
+        });
     }
 
     /**
@@ -250,7 +198,7 @@ class TransportRequestController extends Controller
         abort_unless(Gate::allows('admin'), 403, 'Forbidden');
 
         $search = $request->get('search');
-        $transportRequests = TransportRequest::where(function ($query) use ($search) {
+        $transportRequests = TransportRequest::with('user')->where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%')
                 ->orWhere('event_date', 'like', '%' . $search . '%')
@@ -271,9 +219,9 @@ class TransportRequestController extends Controller
 
         $filter = $request->get('status');
         if ($filter == 'All') {
-            $transportRequests = TransportRequest::orderByDesc('id')->paginate(10);
+            $transportRequests = TransportRequest::with('user')->orderByDesc('id')->paginate(10);
         } else {
-            $transportRequests = TransportRequest::where('status', $filter)->orderByDesc('id')->paginate(10);
+            $transportRequests = TransportRequest::with('user')->where('status', $filter)->orderByDesc('id')->paginate(10);
         }
         return view('admin.transport_requests.index', compact('transportRequests'));
     }
@@ -295,89 +243,60 @@ class TransportRequestController extends Controller
                 ->withInput();
         }
 
-        $input = [
-            'status' => $request->status,
-        ];
-
-        $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
-
-        if ($request->status == 'Declined') {
-            $requestUpdated = TransportRequest::find($id)->update($input);
-
-            if (!$requestUpdated) {
-                return redirect('admin/transport_requests/' . $id)
-                    ->with('error', 'An error occurred while updating the transport request status!');
-            }
-
-            $transportRequest = TransportRequest::find($id);
-            $user = $transportRequest->user;
-
-            // Notify the user
-            Notification::send($user, new TransportRequestDeclinedNotification($transportRequest));
-
-            $adminRole = Role::findByName('admin', 'web');
-            $admins = $adminRole->users;
-
-            // Notify all admins
-            Notification::send($admins, new TransportRequestDeclinedNotification($transportRequest));
-
-            return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status declined successfully.');
-        }
-
-        if ($request->status == 'Approved' && empty($transportSchedule)) {
-            // Check if any school vehicle is available
-            $availableVehicles = SchoolVehicle::where('availability_status', 'Available')->count();
-            if ($availableVehicles < 1) {
-                return redirect('admin/transport_requests/' . $id)->with('error', 'No school vehicle is available. Request cannot be approved.');
-            }
-
-            // Create a corresponding transport schedule if not exists
-            $schedule = [
-                'transport_request_id' => $id,
-                'title' => TransportRequest::find($id)->title,
-                'description' => TransportRequest::find($id)->description,
-                'schedule_date' => TransportRequest::find($id)->event_date,
-                'schedule_time' => TransportRequest::find($id)->event_time,
-                'starting_point' => 'Strathmore University',
-                'destination' => TransportRequest::find($id)->event_location,
-                'no_of_people' => TransportRequest::find($id)->no_of_people,
-            ];
-
-            TransportSchedule::create($schedule);
-
-            // Check if transport schedule was created
+        return DB::transaction(function () use ($request, $id) {
+            $transportRequest = TransportRequest::findOrFail($id);
             $transportSchedule = TransportSchedule::where('transport_request_id', $id)->first();
-            if (empty($transportSchedule)) {
-                return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while creating the transport schedule!');
+            $input = ['status' => $request->status];
+
+            if ($request->status == 'Declined') {
+                if ($transportSchedule) {
+                    $transportSchedule->delete();
+                }
+                $transportRequest->update($input);
+
+                $user = $transportRequest->user;
+                Notification::send($user, new TransportRequestDeclinedNotification($transportRequest));
+                $admins = Role::findByName('admin', 'web')->users;
+                Notification::send($admins, new TransportRequestDeclinedNotification($transportRequest));
+
+                return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status declined successfully.');
             }
 
-            $requestUpdated = TransportRequest::find($id)->update($input);
+            if ($request->status == 'Approved' && !$transportSchedule) {
+                // Atomic check for available vehicles
+                $hasAvailable = SchoolVehicle::where('availability_status', 'Available')->lockForUpdate()->exists();
+                if (!$hasAvailable) {
+                    return redirect('admin/transport_requests/' . $id)->with('error', 'No school vehicle is available. Request cannot be approved.');
+                }
 
-            if (!$requestUpdated) {
-                return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
+                $schedule = [
+                    'transport_request_id' => $id,
+                    'title' => $transportRequest->title,
+                    'description' => $transportRequest->description,
+                    'schedule_date' => $transportRequest->event_date,
+                    'schedule_time' => $transportRequest->event_time,
+                    'starting_point' => 'Strathmore University',
+                    'destination' => $transportRequest->event_location,
+                    'no_of_people' => $transportRequest->no_of_people,
+                ];
+
+                TransportSchedule::create($schedule);
+                $transportRequest->update($input);
+
+                $user = $transportRequest->user;
+                Notification::send($user, new TransportRequestApprovedNotification($transportRequest));
+                $admins = Role::findByName('admin', 'web')->users;
+                Notification::send($admins, new TransportRequestApprovedNotification($transportRequest));
+
+                return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status approved successfully!');
             }
 
-            $transportRequest = TransportRequest::find($id);
-            $user = $transportRequest->user;
+            if ($request->status == 'Pending' && $transportSchedule) {
+                $transportSchedule->delete();
+            }
 
-            // Notify the user
-            Notification::send($user, new TransportRequestApprovedNotification($transportRequest));
-
-            $adminRole = Role::findByName('admin', 'web');
-            $admins = $adminRole->users;
-
-            // Notify all admins
-            Notification::send($admins, new TransportRequestApprovedNotification($transportRequest));
-
-            return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status approved successfully! A transport schedule has been created.');
-        }
-
-        $requestUpdated = TransportRequest::find($id)->update($input);
-
-        if (!$requestUpdated) {
-            return redirect('admin/transport_requests/' . $id)->with('error', 'An error occurred while updating the transport request status!');
-        }
-
-        return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status updated successfully! Request Updated.');
+            $transportRequest->update($input);
+            return redirect('admin/transport_requests/' . $id)->with('success', 'Transport request status updated successfully!');
+        });
     }
 }

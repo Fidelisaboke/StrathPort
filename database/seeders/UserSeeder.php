@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -13,76 +14,38 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        $users = [
+            ['name' => 'Admin', 'email' => 'user1@example.com', 'role' => 'admin'],
+            ['name' => 'Student One', 'email' => 'user2@example.com', 'role' => 'student'],
+            ['name' => 'Staff One', 'email' => 'user3@example.com', 'role' => 'staff'],
+            ['name' => 'Carpool Driver', 'email' => 'user4@example.com', 'role' => 'carpool_driver'],
+            ['name' => 'Carpool Driver Two', 'email' => 'user5@example.com', 'role' => 'carpool_driver'],
+            ['name' => 'User One', 'email' => 'user6@example.com', 'role' => null],
+        ];
 
-        /* Create users and assign the roles*/
+        $this->command->info('--------------------------------------------------');
+        $this->command->info('Seeding Users with Random Passwords:');
+        $this->command->info('--------------------------------------------------');
 
-        // Admin
-        $admin = User::create([
-            'name' => 'Admin',
-            'email' => 'user1@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'account_status' => 'active',
-            'email_verified_at' => time(),
-        ]);
+        foreach ($users as $userData) {
+            $password = Str::random(12);
 
-        $admin->assignRole('admin');
+            $user = User::create([
+                'name' => $userData['name'],
+                'email' => $userData['email'],
+                'password' => bcrypt($password),
+                'phone' => '+254712345678',
+                'account_status' => 'active',
+                'email_verified_at' => now(),
+            ]);
 
-        // Student
-        $student = User::create([
-            'name' => 'Student One',
-            'email' => 'user2@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'account_status' => 'active',
-            'email_verified_at' => time(),
-        ]);
+            if ($userData['role']) {
+                $user->assignRole($userData['role']);
+            }
 
-        $student->assignRole('student');
+            $this->command->info("User: {$userData['email']} | Password: {$password}");
+        }
 
-        // Staff
-        $staff = User::create([
-            'name' => 'Staff One',
-            'email' => 'user3@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'account_status' => 'active',
-            'email_verified_at' => time(),
-        ]);
-
-        $staff->assignRole('staff');
-
-        // Carpool Driver
-        $carpoolDriver = User::create( [
-            'name' => 'Carpool Driver',
-            'email' => 'user4@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'account_status' => 'active',
-            'email_verified_at' => time(),
-        ]);
-
-        $carpoolDriver->assignRole('carpool_driver');
-
-        // Another Carpool Driver
-        $carpoolDriver = User::create( [
-            'name' => 'Carpool Driver Two',
-            'email' => 'user5@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'email_verified_at' => time(),
-        ]);
-
-        $carpoolDriver->assignRole('carpool_driver');
-
-        // User without role
-        User::create([
-            'name' => 'User One',
-            'email' => 'user6@example.com',
-            'password' => bcrypt('Password123*'),
-            'phone' => '+254712345678',
-            'email_verified_at' => time(),
-        ]);
-
+        $this->command->info('--------------------------------------------------');
     }
 }
