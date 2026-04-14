@@ -82,7 +82,12 @@ RUN { \
 # Copy custom Caddyfile
 COPY Caddyfile /etc/caddy/Caddyfile
 
+# Copy entrypoint script and set permissions
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 # Expose port 8080
 EXPOSE 8080
 
-# The entrypoint is already set to frankenphp in the base image
+# Use the entrypoint script to run migrations and start the server
+CMD ["/usr/local/bin/entrypoint.sh"]
