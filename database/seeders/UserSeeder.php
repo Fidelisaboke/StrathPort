@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
         foreach ($users as $userData) {
             $password = Str::random(12);
 
-            $user = User::create([
+            $user = User::firstOrCreate([
                 'name' => $userData['name'],
                 'email' => $userData['email'],
                 'password' => bcrypt($password),
