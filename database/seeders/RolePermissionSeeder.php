@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -14,6 +15,9 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        // Reset cache
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+        
         // Create permissions
         $permissions = [
             'view student dashboard',
@@ -33,7 +37,7 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         /* Create roles and assign permissions */
@@ -74,8 +78,10 @@ class RolePermissionSeeder extends Seeder
         ];
 
         foreach ($rolePermissions as $roleName => $permissions) {
-            $role = Role::create(['name' => $roleName]);
-            $role->givePermissionTo($permissions);
+            $role = Role::firstOrCreate(['name' => $roleName]);
+
+            // Sync permissions
+            $role->syncPermissions($permissions);
         }
 
 
